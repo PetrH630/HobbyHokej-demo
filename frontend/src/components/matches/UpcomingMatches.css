@@ -1,0 +1,148 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: matches/UpcomingMatches.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro administrační část aplikace.
+ *
+ * Cíl je udržet deklarace přehledné a minimalizovat vedlejší dopady na ostatní komponenty.
+ *
+ * Cesta: matches/UpcomingMatches.css
+ * Generováno: 2026-03-04
+ */
+.match-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+}
+
+.match-item {
+    display: flex;
+    align-items: flex-start;
+}
+
+
+.player-name {
+    color: #010e5a;
+}
+
+
+@media (min-width: 768px) {
+    .next-match-frame {
+        position: relative;
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+    .next-match-frame--on {
+        position: relative;
+        display: inline-block;
+        width: fit-content;
+        max-width: 100%;
+        padding: 10px;
+        border-radius: 18px;
+        border: 2px solid rgba(13, 110, 253, 0.45);
+        background: rgba(13, 110, 253, 0.06);
+        box-shadow:
+            0 14px 28px rgba(0, 0, 0, 0.12),
+            0 0 0 6px rgba(13, 110, 253, 0.06);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .next-match-frame--on:hover {
+        transform: translateY(-1px);
+        box-shadow:
+            0 16px 32px rgba(0, 0, 0, 0.14),
+            0 0 0 8px rgba(13, 110, 253, 0.08);
+    }
+}
+
+
+.next-match-badge {
+    position: absolute;
+    top: -12px;
+    left: 14px;
+    z-index: 2;
+
+    padding: 5px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+
+    color: #0d6efd;
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(13, 110, 253, 0.35);
+    backdrop-filter: blur(8px);
+}
+
+
+@media (max-width: 767.98px) {
+    .match-list {
+        justify-content: flex-start;
+
+    }
+
+    .match-item {
+        width: 100%;
+        justify-content: stretch;
+
+    }
+
+    .match-item--next {
+        width: 100%;
+        justify-content: stretch;
+        scroll-margin-top: 90px;
+
+    }
+
+
+    .next-match-frame,
+    .next-match-frame--on {
+        position: relative;
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        border-radius: 16px;
+    }
+
+
+    .next-match-frame--on {
+        padding: 10px;
+        border-radius: 18px;
+        border: 2px solid rgba(13, 110, 253, 0.45);
+        background: rgba(13, 110, 253, 0.06);
+        box-shadow:
+            0 14px 28px rgba(0, 0, 0, 0.12),
+            0 0 0 6px rgba(13, 110, 253, 0.06);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+}
+
+.upcoming-match-highlight {
+    border-radius: 12px;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.55);
+    animation: upcomingMatchPulse 1.6s ease-out;
+}
+
+@keyframes upcomingMatchPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.75);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(13, 110, 253, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.55);
+    }
+}

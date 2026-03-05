@@ -1,0 +1,365 @@
+/* src/components/matchRegistration/MatchRegistrationRinkModal.css */
+/*
+ * Sdílené styly pro modaly v matchRegistration:
+ * - PositionModalView (read-only)
+ * - PlayerPositionModal (selectable)
+ *
+ * Cílem je mít jednotné rozložení pozic (.pmv-position*) a jednotné pills.
+ * Interakce v selectable modalu se povoluje přes .pmv-position--interactive.
+ */
+
+:root {
+    --rink-w: 620;
+    --rink-h: 637;
+
+    --ui-scale-min: 0.72;
+    --ui-scale-max: 1.05;
+}
+
+/* ==============================
+   Modal wrapper (sdílené)
+============================== */
+
+.custom-modal-overlay {
+    background-color: rgba(0, 0, 0, 0.6);
+    overflow-y: auto;
+}
+
+.custom-modal-dialog {
+    --bs-modal-width: min(96vw, 600px);
+
+    width: var(--bs-modal-width);
+    max-width: var(--bs-modal-width) !important;
+    margin: 1rem auto;
+}
+
+.pmv-modal-body {
+    padding: 5px 0 !important;
+    box-sizing: border-box;
+    overflow: auto;
+}
+
+/* používáš v JSX - necháváme definované */
+.border-on-image {
+    /* intentionally empty */
+}
+
+/* ==============================
+   Kluziště – základ
+============================== */
+
+.rink-wrapper {
+    width: 100%;
+    margin: 0;
+    padding: 5px;
+
+    display: flex;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+.rink-scale {
+    width: 100%;
+    display: block;
+    max-height: 800px;
+}
+
+/*
+ * Stage je containing-block pro absolutní pozice.
+ * Koordináty left/top v procentech se vyhodnocují vůči tomuto boxu.
+ */
+.rink-stage {
+    position: relative;
+
+    width: 100%;
+    height: auto;
+    aspect-ratio: var(--rink-w) / var(--rink-h);
+
+    max-width: 100%;
+    overflow: hidden;
+
+    container-type: inline-size;
+    --ui-scale: clamp(var(--ui-scale-min),
+            calc(100cqw / var(--rink-w)),
+            var(--ui-scale-max));
+}
+
+.rink-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    z-index: 0;
+    display: block;
+}
+
+/* ==============================
+   Pozice – jednotný layout (.pmv-position*)
+============================== */
+
+.pmv-position {
+    position: absolute;
+    z-index: 2;
+    text-align: center;
+
+    min-width: calc(160px * var(--ui-scale));
+    max-width: calc(260px * var(--ui-scale));
+
+    transform: none;
+    transform-origin: top left;
+
+    /* default (view modal): žádné klikání */
+    pointer-events: none;
+}
+
+/* selectable modal: povolí klikání na buttony uvnitř */
+.pmv-position--interactive {
+    pointer-events: auto;
+}
+
+.pmv-position--left {
+    transform: translateX(0);
+    transform-origin: top left;
+}
+
+.pmv-position--center {
+    transform: translateX(-50%);
+    transform-origin: top center;
+}
+
+.pmv-position--right {
+    transform: translateX(-100%);
+    transform-origin: top right;
+}
+
+.pmv-position-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: calc(8px * var(--ui-scale));
+}
+
+.pmv-position-title {
+    background: #fffefe;
+    color: #000000;
+    border: solid 1px;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.7rem;
+    line-height: 1.2;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+    margin-bottom: 2px;
+    white-space: nowrap;
+}
+
+.pmv-position-content {
+    display: flex;
+    flex-direction: column;
+    gap: calc(6px * var(--ui-scale));
+    align-items: center;
+}
+
+/* ==============================
+   Pills – vždy pod labelem, bez wrap
+============================== */
+
+.pmv-names {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    max-width: calc(240px * var(--ui-scale));
+}
+
+.pmv-name-pill {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 8px;
+    margin-top: 1px;
+    padding: 1px 6px;
+
+    font-weight: 500;
+    font-size: 0.7rem;
+    line-height: 1.1;
+
+    max-width: calc(220px * var(--ui-scale));
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.10);
+
+    text-transform: none;
+    letter-spacing: 0.3px;
+}
+
+/* info pill */
+.pmv-name-info {
+    background: #f1f3f5;
+    color: #212529;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* stavové barvy */
+.pmv-name-green {
+    background-color: #198754;
+    color: #ffffff;
+}
+
+.pmv-name-red {
+    background-color: #68030c !important;
+    color: #ffffff;
+}
+
+.pmv-name-empty {
+    background: #09b803;
+    color: #f8faf8;
+    border: 1px dashed #070707;
+    font-style: italic;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.pmv-name-reserve {
+    background: #ffc107;
+    color: #000000;
+}
+
+.pmv-name-current {
+    background: #40b4eb !important;
+    color: #080808 !important;
+    border-color: rgba(7, 7, 7, 0.55) !important;
+}
+
+/* Aktuální hráč, který je zároveň náhradník (má vlastní styl) */
+.pmv-name-current-reserve {
+    background: #ffd24d !important;
+    /* odlišné od pmv-name-current */
+    color: #082fe0 !important;
+    font-weight: 700;
+    border-color: rgba(0, 0, 0, 0.55) !important;
+    box-shadow: 0 0 0 2px rgba(255, 193, 7, 0.35);
+}
+
+/* Klikatelné varianty (PlayerPositionModal používá na button) */
+.pmv-name-clickable {
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease,
+        background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.pmv-name-clickable:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.25);
+}
+
+/* ==============================
+   Bench (PositionModalView)
+============================== */
+
+.pmv-bench {
+    margin-top: 14px;
+    padding: 10px 12px 0 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.pmv-bench-title {
+    font-weight: 800;
+    font-size: 0.95rem;
+    text-align: center;
+    margin-bottom: 8px;
+}
+
+.pmv-bench-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.pmv-bench-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    background: rgba(248, 249, 250, 0.95);
+    border: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+/* ==============================
+   Desktop >= 992px
+============================== */
+
+@media (min-width: 992px) {
+    .custom-modal-overlay {
+        overflow-y: auto;
+        padding: 1rem 0;
+    }
+
+    .custom-modal-dialog {
+        margin: 1rem auto;
+        height: auto;
+        max-height: calc(100vh - 2rem);
+        display: block;
+    }
+
+    .custom-modal-dialog .modal-content {
+        max-height: calc(100vh - 2rem);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+    }
+
+    .pmv-modal-body {
+        overflow: auto;
+        flex: 1 1 auto;
+        min-height: 0;
+        padding: 8px 0 !important;
+    }
+
+    .pmv-bench {
+        margin-top: 10px;
+        padding: 8px 12px 0 12px;
+    }
+
+    .pmv-name-pill {
+        font-size: 15px !important;
+    }
+
+    .rink-stage {
+        height: min(calc(100vh - 220px), 680px);
+        width: auto;
+        max-width: 100%;
+        aspect-ratio: var(--rink-w) / var(--rink-h);
+    }
+}
+
+.match-reg-team-icon-dark {
+    font-size: 20px;
+    flex-shrink: 0;    
+    color: rgb(4, 59, 163);
+    
+}
+
+.match-reg-team-icon-light {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* ==============================
+   Extra malé <= 576px
+============================== */
+
+@media (max-width: 576px) {
+    .pmv-name-pill {
+        font-size: 0.8rem;
+        padding: 1px 5px;
+    }
+}

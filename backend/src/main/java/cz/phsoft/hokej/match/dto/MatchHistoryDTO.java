@@ -1,0 +1,223 @@
+package cz.phsoft.hokej.match.dto;
+
+import cz.phsoft.hokej.match.enums.MatchCancelReason;
+import cz.phsoft.hokej.match.enums.MatchMode;
+import cz.phsoft.hokej.match.enums.MatchResult;
+import cz.phsoft.hokej.match.enums.MatchStatus;
+import cz.phsoft.hokej.player.enums.Team;
+
+import java.time.LocalDateTime;
+
+/**
+ * DTO reprezentující historický záznam změny zápasu.
+ *
+ * Objekt obsahuje snapshot stavu zápasu v okamžiku provedené změny
+ * včetně metadat o typu akce a času změny. Používá se pro auditní
+ * a administrativní přehled historie úprav.
+ *
+ * DTO je naplňováno na základě historické entity ukládané do databáze
+ * a slouží výhradně jako přenosový objekt mezi servisní a prezentační vrstvou.
+ */
+public class MatchHistoryDTO {
+
+    private Long id;
+    private String action;
+    private LocalDateTime changedAt;
+    private Long matchId;
+    private LocalDateTime originalTimestamp;
+    private LocalDateTime dateTime;
+    private String location;
+    private String description;
+    private Integer maxPlayers;
+    private Integer price;
+    private MatchStatus matchStatus;
+    private MatchCancelReason cancelReason;
+    private MatchMode matchMode;
+    private Long seasonId;
+    private Long createdByUserId;
+    private Long lastModifiedByUserId;
+
+    /**
+     * Počet branek týmu LIGHT v okamžiku změny.
+     */
+    private Integer scoreLight;
+
+    /**
+     * Počet branek týmu DARK v okamžiku změny.
+     */
+    private Integer scoreDark;
+
+    /**
+     * Vítězný tým v okamžiku změny.
+     *
+     * Hodnota je odvozena ze skóre při mapování DTO.
+     */
+    private Team winner;
+
+    /**
+     * Výsledek zápasu v okamžiku změny.
+     *
+     * Hodnota je odvozena ze skóre při mapování DTO.
+     */
+    private MatchResult result;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getAction() {
+        return action;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
+    public LocalDateTime getChangedAt() {
+        return changedAt;
+    }
+
+    public void setChangedAt(LocalDateTime changedAt) {
+        this.changedAt = changedAt;
+    }
+
+    public Long getMatchId() {
+        return matchId;
+    }
+
+    public void setMatchId(Long matchId) {
+        this.matchId = matchId;
+    }
+
+    public LocalDateTime getOriginalTimestamp() {
+        return originalTimestamp;
+    }
+
+    public void setOriginalTimestamp(LocalDateTime originalTimestamp) {
+        this.originalTimestamp = originalTimestamp;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getMaxPlayers() {
+        return maxPlayers;
+    }
+
+    public void setMaxPlayers(Integer maxPlayers) {
+        this.maxPlayers = maxPlayers;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public MatchStatus getMatchStatus() {
+        return matchStatus;
+    }
+
+    public void setMatchStatus(MatchStatus matchStatus) {
+        this.matchStatus = matchStatus;
+    }
+
+    public MatchCancelReason getCancelReason() {
+        return cancelReason;
+    }
+
+    public void setCancelReason(MatchCancelReason cancelReason) {
+        this.cancelReason = cancelReason;
+    }
+
+    public MatchMode getMatchMode() {
+        return matchMode;
+    }
+
+    public void setMatchMode(MatchMode matchMode) {
+        this.matchMode = matchMode;
+    }
+
+    public Long getSeasonId() {
+        return seasonId;
+    }
+
+    public void setSeasonId(Long seasonId) {
+        this.seasonId = seasonId;
+    }
+
+    public Long getCreatedByUserId() {
+        return createdByUserId;
+    }
+
+    public void setCreatedByUserId(Long createdByUserId) {
+        this.createdByUserId = createdByUserId;
+    }
+
+    public Long getLastModifiedByUserId() {
+        return lastModifiedByUserId;
+    }
+
+    public void setLastModifiedByUserId(Long lastModifiedByUserId) {
+        this.lastModifiedByUserId = lastModifiedByUserId;
+    }
+
+    public Integer getScoreLight() {
+        return scoreLight;
+    }
+
+    public void setScoreLight(Integer scoreLight) {
+        this.scoreLight = scoreLight;
+    }
+
+    public Integer getScoreDark() {
+        return scoreDark;
+    }
+
+    public void setScoreDark(Integer scoreDark) {
+        this.scoreDark = scoreDark;
+    }
+
+    public Team getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Team winner) {
+        this.winner = winner;
+    }
+
+    public MatchResult getResult() {
+        return result;
+    }
+
+    public void setResult(MatchResult result) {
+        this.result = result;
+    }
+}

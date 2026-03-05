@@ -1,0 +1,36 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: matches/MatchInfo.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro administrační část aplikace.
+ *
+ * Cíl je udržet deklarace přehledné a minimalizovat vedlejší dopady na ostatní komponenty.
+ *
+ * Cesta: matches/MatchInfo.css
+ * Generováno: 2026-03-04
+ */
+.match-info-body {
+    padding-left: 0.1rem;
+
+    padding-right: 0.1rem;
+
+}
+
+.match-reg-team-icon-dark {
+    font-size: 20px;
+    flex-shrink: 0;
+    color: rgb(4, 59, 163);
+    margin:0px 0px 10px 2px;
+}
+
+.match-reg-team-icon-light {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin: 0px 0px 10px 0px;
+}

@@ -1,0 +1,79 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: demo/DemoNotificationsModal.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro administrační část aplikace.
+ *
+ * Cíl je udržet deklarace přehledné a minimalizovat vedlejší dopady na ostatní komponenty.
+ *
+ * Cesta: demo/DemoNotificationsModal.css
+ * Generováno: 2026-03-04
+ */
+.demo-modal {
+    border: 2px solid #17c3b2;
+    border-radius: 0.75rem;
+}
+
+.demo-modal-header {
+    background: linear-gradient(135deg, #17c3b2, #0fa3b1);
+    color: white;
+    border-bottom: none;
+}
+
+.demo-modal-header .modal-title {
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.demo-modal .modal-footer {
+    background-color: #f1fffd;
+}
+
+.demo-modal .list-group-item {
+    border-left: 4px solid #17c3b2;
+}
+.demo-modal .modal-body {
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.demo-modal-body {
+    max-height: calc(100vh - 220px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+
+.demo-warning-box {
+    background: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+
+@media (max-width: 576px) {
+    .demo-modal-body {
+        max-height: calc(100vh - 180px);
+    }
+}
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+}
+.modal {
+    position: fixed;
+    inset: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}

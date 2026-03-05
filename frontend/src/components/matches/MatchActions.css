@@ -1,0 +1,52 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: matches/MatchActions.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro administrační část aplikace.
+ *
+ * Cíl je udržet deklarace přehledné a minimalizovat vedlejší dopady na ostatní komponenty.
+ *
+ * Cesta: matches/MatchActions.css
+ * Generováno: 2026-03-04
+ */
+.match-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: stretch;
+
+    justify-content: center;
+    width: 100%;
+}
+
+@media (min-width: 576px) {
+    .match-actions {
+        flex-direction: row;
+
+        align-items: center;
+        justify-content: center;
+
+    }
+}
+
+
+.action-btn {
+    min-width: 140px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.6rem 1rem;
+}
+
+
+@media (max-width: 575.98px) {
+    .action-btn {
+        width: 100%;
+        min-width: 0;
+    }
+}

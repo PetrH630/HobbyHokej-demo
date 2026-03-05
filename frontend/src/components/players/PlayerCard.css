@@ -1,0 +1,170 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: players/PlayerCard.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro komponenty uživatelského rozhraní.
+ *
+ * Cílem je zapouzdřit vizuální chování komponent
+ * a minimalizovat vedlejší dopady na ostatní části aplikace.
+ *
+ * Cesta: players/PlayerCard.css
+ * Generováno: 2026-03-04
+ */
+.player-card {
+    position: relative;
+
+    width: 100%;
+    min-width: 250px;
+    max-width: 250px;
+    flex: 0 0 250px;
+
+    margin-top: 20px;
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: #ffffff;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+
+    transition:
+        transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.player-card--active {
+    border: 3px solid #0d6efd;
+    box-shadow: 0 0 0 4px #0e489e;
+}
+
+.player-card-tooltip {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.65);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+
+    padding: 0 12px;
+    opacity: 0;
+    pointer-events: none;
+
+    transition: opacity 0.2s ease;
+}
+
+.player-card--disabled:hover .player-card-tooltip {
+    opacity: 1;
+}
+
+.active-indicator {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-size: 1.5rem;
+}
+
+/*
+ * Barvy active/inactive se centralizují do globálního stylu (např. styles/icons.css),
+ * aby se nemusela měnit lokální komponentová CSS.
+ *
+ * .active-indicator.active { color: var(--active-indicator-active); }
+ * .active-indicator.inactive { color: var(--active-indicator-inactive); }
+ */
+
+.player-card.clickable {
+    cursor: pointer;
+}
+
+.player-card.clickable:hover {
+    transform: translateY(-4px) scale(1.02);
+}
+
+.player-card.clickable:active {
+    transform: scale(1.01);
+}
+
+.player-card.clickable:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.4);
+}
+
+.player-card--disabled {
+    cursor: not-allowed;
+    opacity: 0.85;
+}
+
+.player-card--disabled:hover,
+.player-card--disabled:active,
+.player-card--disabled:focus-visible {
+    transform: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/*
+ * Barvy statusů se centralizují do globálního stylu (např. styles/icons.css),
+ * aby se používaly jednotně napříč aplikací.
+ *
+ * .player-approved { background-color: var(--player-approved-bg); border-color: var(--player-approved-border); }
+ * .player-pending { background-color: var(--player-pending-bg); border-color: var(--player-pending-border); }
+ * .player-rejected { background-color: var(--player-rejected-bg); border-color: var(--player-rejected-border); }
+ */
+
+.team-icon-wrapper {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 42px;
+}
+
+.team-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    font-size: 42px;
+    line-height: 1;
+    background: transparent;
+}
+
+/*
+ * Barvy ikon se centralizují do globálního stylu (např. styles/icons.css).
+ *
+ * .team-icon.base { color: var(--team-icon-base-dark); }
+ * .team-icon.overlay { color: var(--team-icon-overlay); }
+ * .team-icon-wrapper.team-dark .team-icon.base { color: var(--team-icon-base-dark); }
+ * .team-icon-wrapper.team-light .team-icon.base { color: var(--team-icon-base-light); }
+ */
+
+/* Lokální spacing je v pořádku držet u komponenty (není to "theme") */
+.phone-icon {
+    margin-right: 6px;
+}
+
+/*
+ * Barva phone icon se centralizuje do globálního stylu (např. styles/icons.css).
+ *
+ * .phone-icon { color: var(--phone-icon-color); }
+ */
+
+@media (max-width: 576px) {
+    .player-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        flex: 1 1 100%;
+    }
+}

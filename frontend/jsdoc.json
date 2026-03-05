@@ -1,0 +1,25 @@
+{
+    "source": {
+        "include": [
+            "src"
+        ],
+        "includePattern": ".+\\.(js|jsx|ts|tsx)$",
+        "excludePattern": "(node_modules/|dist/|build/)"
+    },
+    "plugins": [],
+    "opts": {
+        "destination": "docs",
+        "recurse": true,
+        "template": "node_modules/docdash"
+    },
+    "templates": {
+        "default": {
+            "includeDate": false
+        },
+        "docdash": {
+            "static": true,
+            "sort": true,
+            "search": true
+        }
+    }
+}

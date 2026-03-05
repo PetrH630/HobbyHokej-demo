@@ -1,0 +1,10 @@
+.match-reg-team-icon-dark {
+    font-size: 20px;
+    flex-shrink: 0;
+    color: rgb(4, 59, 163);
+}
+
+.match-reg-team-icon-light {
+    font-size: 20px;
+    flex-shrink: 0;
+}

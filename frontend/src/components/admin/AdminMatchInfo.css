@@ -1,0 +1,73 @@
+/* menší horizontální mezery uvnitř karty se sestavou */
+.match-info-body {
+    padding-left: 0.1rem;
+    /* původně 1rem z Bootstrapu */
+    padding-right: 0.1rem;
+    /* klidně si dolaď – třeba 0.75rem, 0.25rem, jak ti sedne */
+}
+
+/* Header část nahoře: info vlevo + akce responsivně */
+.admin-match-info-header {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "left"
+        "actions";
+    row-gap: 0.5rem;
+}
+
+.admin-match-info-left {
+    grid-area: left;
+}
+
+.admin-match-info-actions {
+    grid-area: actions;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.admin-score-editor {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.admin-score-editor input {
+    width: 80px;
+}
+
+.admin-score-sep {
+    font-weight: 700;
+}
+
+.match-reg-team-icon-dark {
+    font-size: 20px;
+    flex-shrink: 0;
+    color: rgb(4, 59, 163);
+}
+
+.match-reg-team-icon-light {
+    font-size: 20px;
+    flex-shrink: 0;
+}
+
+/* Na malých displejích chceme akce pod "Cena / hráč" => už splněno (actions jsou až po left). */
+
+/* Na velkých displejích chceme akce úplně vpravo vedle řádku "Hráči celkem" */
+@media (min-width: 992px) {
+    .admin-match-info-header {
+        grid-template-columns: 1fr auto;
+        grid-template-areas: "left actions";
+        column-gap: 1rem;
+        align-items: start;
+    }
+
+    .admin-match-info-actions {
+        justify-content: flex-end;
+        align-self: start;
+        /* jemné posunutí akcí vizuálně k řádku "Hráči celkem" */
+        margin-top: 0.1rem;
+    }
+}

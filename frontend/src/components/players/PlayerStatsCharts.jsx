@@ -1,0 +1,157 @@
+import React, { useMemo } from "react";
+import {
+    ResponsiveContainer,
+    PieChart,
+    Pie,
+    Cell,
+    Tooltip,
+    Legend,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+} from "recharts";
+
+
+const STATUS_COLORS = {
+    registered: "#29d158",
+    unregistered: "#ffe066",
+    excused: "#27c3f3",
+    substituted: "#ffd43b",
+    reserved: "#0d6efd",
+    noResponse: "#adb5bd",
+    noExcused: "#dc3545",
+};
+
+/**
+ * PlayerStatsCharts
+ *
+ * React komponenta používaná ve frontend aplikaci.
+ *
+ * Props:
+ * @param {Object} props.totals vstupní hodnota komponenty.
+ * @param {boolean} props.loading Příznak, že probíhá načítání dat a UI má zobrazit stav načítání.
+ */
+const PlayerStatsCharts = ({ totals, loading }) => {
+    const safeNum = (v) => (Number.isFinite(Number(v)) ? Number(v) : 0);
+
+    const series = useMemo(() => {
+        const items = [
+            { key: "registered", label: "Byl", value: safeNum(totals?.registered) },
+            { key: "unregistered", label: "Zrušil", value: safeNum(totals?.unregistered) },
+            { key: "excused", label: "Omluvil se", value: safeNum(totals?.excused) },
+            { key: "substituted", label: "Dal možná", value: safeNum(totals?.substituted) },
+            { key: "reserved", label: "Čekal místo", value: safeNum(totals?.reserved) },
+            { key: "noResponse", label: "Nereagoval", value: safeNum(totals?.noResponse) },
+
+
+        ];
+
+
+        return items
+            .filter((i) => i.value > 0)
+            .map((i) => ({
+                ...i,
+                color: STATUS_COLORS[i.key] || "#0d6efd",
+            }));
+    }, [totals]);
+
+    const totalSum = useMemo(
+        () => series.reduce((acc, i) => acc + i.value, 0),
+        [series]
+    );
+
+    const TooltipBox = ({ active, payload }) => {
+        if (!active || !payload || payload.length === 0) return null;
+
+
+        const p = payload[0]?.payload;
+        if (!p) return null;
+
+        const pct = totalSum > 0 ? Math.round((p.value / totalSum) * 100) : 0;
+
+        return (
+            <div className="p-2 bg-white border rounded shadow-sm">
+                <div className="fw-semibold">{p.label}</div>
+                <div className="text-muted small">
+                    {p.value} {totalSum > 0 ? `(${pct}%)` : ""}
+                </div>
+            </div>
+        );
+    };
+
+    if (loading) {
+        return (
+            <div className="row g-3 mb-3">
+                <div className="col-12 col-lg-6">
+                    <div className="card shadow-sm h-100">
+                        <div className="card-header bg-white fw-semibold">
+                            Moje registrace na zápasy
+                        </div>
+                        <div className="card-body text-muted">Načítám graf…</div>
+                    </div>
+                </div>
+
+                <div className="col-12 col-lg-6">
+                    <div className="card shadow-sm h-100">
+                        <div className="card-header bg-white fw-semibold">
+                            Porovnání statusů
+                        </div>
+                        <div className="card-body text-muted">Načítám graf…</div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
+    if (!series || series.length === 0) {
+        return (
+            <div className="alert alert-light border mb-3">
+                Zatím není co vykreslit do grafu (všechny hodnoty jsou 0).
+            </div>
+        );
+    }
+
+    return (
+        <div className="row g-3 mb-3">
+            {/* Donut */}
+            <div className="col-12 col-lg-6">
+                <div className="card shadow-sm h-100">
+                    <div className="card-header bg-white fw-semibold">
+                        Moje registrace na zápasy
+                    </div>
+
+                    <div className="card-body" style={{ height: 320 }}>
+                        <div style={{ width: "100%", height: "100%", minWidth: 0 }}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <PieChart>
+                                    <Pie
+                                        data={series}
+                                        dataKey="value"
+                                        nameKey="label"
+                                        innerRadius="55%"
+                                        outerRadius="80%"
+                                        paddingAngle={2}
+                                    >
+                                        {series.map((s) => (
+                                            <Cell key={s.key} fill={s.color} />
+                                        ))}
+                                    </Pie>
+
+                                    <Tooltip content={<TooltipBox />} />
+                                    <Legend verticalAlign="bottom" height={36} />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            
+        </div>
+    );
+};
+
+export default PlayerStatsCharts;

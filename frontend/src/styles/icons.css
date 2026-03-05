@@ -1,0 +1,216 @@
+/* src/styles/icons.css */
+
+/* Active indicator */
+.active-indicator.active {
+    color: var(--active-indicator-active);
+}
+
+.active-indicator.inactive {
+    color: var(--active-indicator-inactive);
+}
+
+/* Player status cards */
+.player-approved {
+    background-color: var(--player-approved-bg);
+    border-color: var(--player-approved-border);
+}
+
+.player-pending {
+    background-color: var(--player-pending-bg);
+    border-color: var(--player-pending-border);
+}
+
+.player-rejected {
+    background-color: var(--player-rejected-bg);
+    border-color: var(--player-rejected-border);
+}
+
+
+.team-icon-wrapper {
+    /* layout může být v PlayerCard.css, tady nech barvy */
+}
+
+/* Team icons – base/overlay */
+.team-icon.base {
+    color: var(--team-icon-base-dark);
+    /* default */
+}
+
+.team-icon.overlay {
+    color: var(--team-icon-overlay);
+    /* obrys */
+}
+
+.team-icon-wrapper.team-dark .team-icon.base {
+    color: var(--team-icon-base-dark);
+}
+
+.team-icon-wrapper.team-light .team-icon.base {
+    color: var(--team-icon-base-light);
+    /* žlutá výplň */
+}
+/* Phone icon */
+.phone-icon {
+    color: var(--phone-icon-color);
+    margin-right: 6px;
+}
+
+/* Emotion icons */
+
+.icon-happy {
+    color: var(--icon-happy-color);
+}
+
+.icon-sad {
+    color: var(--icon-sad-color);
+}
+
+/* MATCH */
+/* styles/icons.css - doplnění */
+
+/* Match background/border by status */
+.match-registered {
+    background-color: var(--match-registered-bg);
+    border-color: var(--match-registered-border);
+}
+
+.match-unregistered {
+    background-color: var(--match-unregistered-bg);
+    border-color: var(--match-unregistered-border);
+}
+
+.match-excused {
+    background-color: var(--match-excused-bg);
+    border-color: var(--match-excused-border);
+}
+
+.match-reserved {
+    background-color: var(--match-reserved-bg);
+    border-color: var(--match-reserved-border);
+}
+
+.match-no-response {
+    background-color: var(--match-no-response-bg);
+    border-color: var(--match-no-response-border);
+}
+
+.match-no-excused {
+    background-color: var(--match-no-excused-bg);
+    border-color: var(--match-no-excused-border);
+}
+
+/* Player match status icon/text colors */
+.player-match-status--registered .player-match-status-icon {
+    color: var(--pms-registered-icon);
+}
+
+.player-match-status--registered .player-match-status-text {
+    color: var(--pms-registered-text);
+}
+
+.player-match-status--unregistered .player-match-status-icon {
+    color: var(--pms-unregistered-icon);
+}
+
+.player-match-status--unregistered .player-match-status-text {
+    color: var(--pms-unregistered-text);
+}
+
+.player-match-status--excused .player-match-status-icon {
+    color: var(--pms-excused-icon);
+}
+
+.player-match-status--excused .player-match-status-text {
+    color: var(--pms-excused-text);
+}
+
+.player-match-status--reserved .player-match-status-icon {
+    color: var(--pms-reserved-icon);
+}
+
+.player-match-status--reserved .player-match-status-text {
+    color: var(--pms-reserved-text);
+}
+
+.player-match-status--no_response .player-match-status-icon {
+    color: var(--pms-no-response-icon);
+}
+
+.player-match-status--no_response .player-match-status-text {
+    color: var(--pms-no-response-text);
+}
+
+.player-match-status--no_excused .player-match-status-icon {
+    color: var(--pms-no-excused-icon);
+}
+
+.player-match-status--no_excused .player-match-status-text {
+    color: var(--pms-no-excused-text);
+}
+
+/* Match status strong colors */
+.match-card__match-status--canceled strong {
+    color: var(--match-status-canceled-strong);
+}
+
+.match-card__match-status--uncanceled strong {
+    color: var(--match-status-uncanceled-strong);
+}
+
+.match-card__match-status--updated strong {
+    color: var(--match-status-updated-strong);
+}
+
+.match-card__match-status--default strong {
+    color: inherit;
+}
+
+/* Canceled card theme */
+.match-card--canceled {
+    background-color: var(--match-card-canceled-bg);
+    border-color: var(--match-card-canceled-border);
+}
+
+.match-card--canceled::before {
+    background: var(--match-card-canceled-band-bg);
+}
+
+.match-card--canceled::after {
+    color: var(--match-card-canceled-text);
+}
+
+/* Team icons in match card area */
+.match-reg-team-icon-dark {
+    color: var(--match-team-dark-icon);
+}
+
+.match-reg-team-icon-light {
+    color: var(--match-team-light-icon);
+}
+
+/* Outcome icons must win over status coloring */
+.player-match-status .player-match-outcome-icon {
+    color: var(--icon-happy-color);
+    /* default, přepíšeme níž */
+}
+
+/* Konkrétní barvy podle typu outcome */
+.player-match-status .player-match-outcome-icon.icon-happy {
+    color: var(--icon-happy-color);
+}
+
+.player-match-status .player-match-outcome-icon.icon-sad {
+    color: var(--icon-sad-color);
+}
+
+.player-icon--dark {
+    color: var(--match-team-dark-icon);
+}
+
+.player-icon--light {
+    color: var(--match-team-light-icon);
+}
+
+.player-icon--default {
+    color: var(--icon-default-color);
+}

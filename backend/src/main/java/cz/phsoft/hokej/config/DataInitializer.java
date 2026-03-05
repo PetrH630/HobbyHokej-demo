@@ -1,0 +1,632 @@
+package cz.phsoft.hokej.config;
+
+import cz.phsoft.hokej.match.entities.MatchEntity;
+import cz.phsoft.hokej.match.entities.MatchScore;
+import cz.phsoft.hokej.match.enums.MatchMode;
+import cz.phsoft.hokej.match.repositories.MatchRepository;
+import cz.phsoft.hokej.player.entities.PlayerEntity;
+import cz.phsoft.hokej.player.entities.PlayerSettingsEntity;
+import cz.phsoft.hokej.player.enums.PlayerPosition;
+import cz.phsoft.hokej.player.enums.PlayerStatus;
+import cz.phsoft.hokej.player.enums.PlayerType;
+import cz.phsoft.hokej.player.enums.Team;
+import cz.phsoft.hokej.player.repositories.PlayerRepository;
+import cz.phsoft.hokej.player.repositories.PlayerSettingsRepository;
+import cz.phsoft.hokej.player.services.PlayerSettingsService;
+import cz.phsoft.hokej.registration.entities.MatchRegistrationEntity;
+import cz.phsoft.hokej.registration.enums.PlayerMatchStatus;
+import cz.phsoft.hokej.registration.repositories.MatchRegistrationRepository;
+import cz.phsoft.hokej.season.entities.SeasonEntity;
+import cz.phsoft.hokej.season.repositories.SeasonRepository;
+import cz.phsoft.hokej.user.entities.AppUserEntity;
+import cz.phsoft.hokej.user.entities.AppUserSettingsEntity;
+import cz.phsoft.hokej.user.enums.Role;
+import cz.phsoft.hokej.user.repositories.AppUserRepository;
+import cz.phsoft.hokej.user.repositories.AppUserSettingsRepository;
+import cz.phsoft.hokej.user.services.AppUserSettingsService;
+import jakarta.annotation.PostConstruct;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.time.temporal.TemporalAdjusters;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
+
+/**
+ * Komponenta pro inicializaci ukázkových dat v databázi.
+ *
+ * Po startu aplikace se vytváří výchozí administrátor, ukázkoví hráči s uživateli,
+ * výchozí nastavení uživatelů a hráčů, sezóny, zápasy a ukázkové registrace.
+ *
+ * Inicializace se spouští pouze při zapnutí vlastnosti app.seed.enabled=true.
+ * Databázové triggery se v této třídě nevytvářejí, protože se spravují pomocí
+ * Flyway migrací.
+ */
+@Component
+@ConditionalOnProperty(name = "app.seed.enabled", havingValue = "true", matchIfMissing = false)
+public class DataInitializer {
+
+    private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
+
+    private final PlayerRepository playerRepository;
+    private final MatchRepository matchRepository;
+    private final MatchRegistrationRepository matchRegistrationRepository;
+    private final AppUserRepository appUserRepository;
+    private final SeasonRepository seasonRepository;
+    private final AppUserSettingsRepository appUserSettingsRepository;
+    private final PlayerSettingsRepository playerSettingsRepository;
+    private final AppUserSettingsService appUserSettingService;
+    private final PlayerSettingsService playerSettingService;
+    private final JdbcTemplate jdbcTemplate;
+
+    private final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+
+    /**
+     * Vytváří komponentu pro inicializaci dat.
+     *
+     * Všechny závislosti jsou injektovány Spring kontejnerem a používají se
+     * při vytváření ukázkových entit.
+     */
+    public DataInitializer(PlayerRepository playerRepository,
+                           MatchRepository matchRepository,
+                           MatchRegistrationRepository matchRegistrationRepository,
+                           AppUserRepository appUserRepository,
+                           SeasonRepository seasonRepository,
+                           AppUserSettingsRepository appUserSettingsRepository,
+                           PlayerSettingsRepository playerSettingsRepository,
+                           AppUserSettingsService appUserSettingService,
+                           PlayerSettingsService playerSettingService,
+                           JdbcTemplate jdbcTemplate) {
+        this.playerRepository = playerRepository;
+        this.matchRepository = matchRepository;
+        this.matchRegistrationRepository = matchRegistrationRepository;
+        this.appUserRepository = appUserRepository;
+        this.seasonRepository = seasonRepository;
+        this.appUserSettingsRepository = appUserSettingsRepository;
+        this.playerSettingsRepository = playerSettingsRepository;
+        this.appUserSettingService = appUserSettingService;
+        this.playerSettingService = playerSettingService;
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    /**
+     * Spouští inicializaci ukázkových dat po startu aplikace.
+     *
+     * Metody se volají v pořadí tak, aby byly zachovány závislosti mezi entitami.
+     * Triggery se nevytvářejí, protože se spravují pomocí Flyway.
+     */
+    @PostConstruct
+    public void init() {
+        log.info("DataInitializer is enabled. Demo/test data initialization starts.");
+
+        initAdmin();
+        initPlayersAndUsers();
+        initUserSettings();
+        initPlayerSettings();
+        initSeasons();
+        initMatches();
+        initRegistrations();
+
+        log.info("Data initialization completed.");
+    }
+
+    /**
+     * Vytváří výchozího administrátora, pokud ještě neexistuje.
+     *
+     * Timestamp se po uložení upraví přes JdbcTemplate, protože AppUserEntity nastavuje
+     * timestamp při persistenci automaticky.
+     */
+    private void initAdmin() {
+        appUserRepository.findByEmail("admin@example.com").ifPresentOrElse(
+                existing -> log.info("Admin user already exists. Initialization is skipped."),
+                () -> {
+                    AppUserEntity admin = new AppUserEntity();
+                    admin.setName("admin");
+                    admin.setSurname("admin");
+                    admin.setEmail("admin@example.com");
+                    admin.setPassword(encoder.encode("Admin123"));
+                    admin.setRole(Role.ROLE_ADMIN);
+                    admin.setEnabled(true);
+
+                    appUserRepository.save(admin);
+
+                    LocalDateTime fixedTimestamp = LocalDateTime.of(2024, 11, 1, 8, 0);
+                    jdbcTemplate.update(
+                            "UPDATE app_users SET timestamp = ? WHERE id = ?",
+                            fixedTimestamp,
+                            admin.getId()
+                    );
+
+                    log.info("Default admin user has been created (id={}).", admin.getId());
+                }
+        );
+    }
+
+    /**
+     * Vytváří testovací hráče a k nim přiřazené uživatele.
+     *
+     * Pokud již v databázi existují hráči, inicializace se přeskočí.
+     */
+    private void initPlayersAndUsers() {
+        if (playerRepository.count() > 0) {
+            log.info("Players already exist. Player initialization is skipped.");
+            return;
+        }
+
+        String[] names = {
+                "Jan", "Petr", "Jiří", "Josef", "Pavel",
+                "Martin", "Tomáš", "Jaroslav", "Miroslav", "Zdeněk"
+        };
+        String[] surnames = {
+                "Novák", "Svoboda", "Novotný", "Dvořák", "Černý",
+                "Procházka", "Kučera", "Veselý", "Horák", "Němec"
+        };
+
+        for (int i = 0; i < 10; i++) {
+            PlayerEntity player = new PlayerEntity();
+            AppUserEntity user = new AppUserEntity();
+
+            player.setName(names[i]);
+            user.setName(names[i]);
+
+            player.setSurname(surnames[i].toUpperCase());
+            user.setSurname(surnames[i].toUpperCase());
+
+            String email = "player" + (i + 1) + "@example.com";
+            user.setEmail(email);
+            user.setPassword(encoder.encode("Heslo123"));
+
+            switch (i) {
+                case 0, 1, 2 -> player.setType(PlayerType.VIP);
+                case 3, 4, 5, 6 -> player.setType(PlayerType.STANDARD);
+                default -> player.setType(PlayerType.BASIC);
+            }
+
+            player.setPhoneNumber("");
+            player.setTeam(i < 5 ? Team.DARK : Team.LIGHT);
+
+            assignRandomPositions(player);
+            player.setPlayerStatus(i < 10 ? PlayerStatus.APPROVED : PlayerStatus.PENDING);
+
+            user.setRole(i == 0 ? Role.ROLE_MANAGER : Role.ROLE_PLAYER);
+            user.setEnabled(true);
+
+            player.setUser(user);
+
+            LocalDateTime randomTs = randomTimestampForDemoData();
+            player.setTimestamp(randomTs);
+
+            appUserRepository.save(user);
+            playerRepository.save(player);
+
+            jdbcTemplate.update(
+                    "UPDATE app_users SET timestamp = ? WHERE id = ?",
+                    randomTs,
+                    user.getId()
+            );
+        }
+
+        log.info("Players and users have been initialized.");
+    }
+
+    /**
+     * Vytváří výchozí nastavení pro všechny uživatele, kteří je ještě nemají.
+     */
+    private void initUserSettings() {
+        log.info("User settings initialization starts.");
+
+        List<AppUserEntity> users = appUserRepository.findAll();
+        for (AppUserEntity user : users) {
+            boolean hasSettings = appUserSettingsRepository.existsByUser(user);
+            if (hasSettings) {
+                continue;
+            }
+
+            AppUserSettingsEntity settings =
+                    appUserSettingService.createDefaultSettingsForUser(user);
+
+            appUserSettingsRepository.save(settings);
+        }
+
+        log.info("User settings have been initialized.");
+    }
+
+    /**
+     * Vytváří výchozí nastavení pro všechny hráče, kteří je ještě nemají.
+     */
+    private void initPlayerSettings() {
+        log.info("Player settings initialization starts.");
+
+        List<PlayerEntity> players = playerRepository.findAll();
+        for (PlayerEntity player : players) {
+            boolean hasSettings = playerSettingsRepository.existsByPlayer(player);
+            if (hasSettings) {
+                continue;
+            }
+
+            PlayerSettingsEntity settings =
+                    playerSettingService.createDefaultSettingsForPlayer(player);
+
+            playerSettingsRepository.save(settings);
+        }
+
+        log.info("Player settings have been initialized.");
+    }
+
+    /**
+     * Vytváří výchozí sezóny, pokud žádné neexistují.
+     */
+    private void initSeasons() {
+        if (seasonRepository.count() > 0) {
+            log.info("Seasons already exist. Season initialization is skipped.");
+            return;
+        }
+
+        log.info("Season initialization starts.");
+
+        SeasonEntity season2024_2025 = new SeasonEntity();
+        season2024_2025.setName("2024/2025");
+        season2024_2025.setStartDate(LocalDate.of(2024, 11, 1));
+        season2024_2025.setEndDate(LocalDate.of(2025, 3, 31));
+        season2024_2025.setActive(false);
+        season2024_2025.setCreatedByUserId(2L);
+
+        SeasonEntity season2025_2026 = new SeasonEntity();
+        season2025_2026.setName("2025/2026");
+        season2025_2026.setStartDate(LocalDate.of(2025, 11, 1));
+        season2025_2026.setEndDate(LocalDate.of(2026, 5, 31));
+        season2025_2026.setActive(true);
+        season2025_2026.setCreatedByUserId(2L);
+
+        SeasonEntity season2026_2027 = new SeasonEntity();
+        season2026_2027.setName("2026/2027");
+        season2026_2027.setStartDate(LocalDate.of(2026, 11, 1));
+        season2026_2027.setEndDate(LocalDate.of(2027, 5, 31));
+        season2026_2027.setActive(false);
+        season2026_2027.setCreatedByUserId(2L);
+
+        seasonRepository.saveAll(List.of(season2024_2025, season2025_2026, season2026_2027));
+
+        log.info("Seasons have been initialized.");
+    }
+
+    /**
+     * Vytváří zápasy pro první dvě sezóny.
+     *
+     * Zápasy se generují po pátcích v rámci období sezóny.
+     * Pokud již existují zápasy, inicializace se přeskočí.
+     */
+    private void initMatches() {
+        if (matchRepository.count() > 0) {
+            log.info("Matches already exist. Match initialization is skipped.");
+            return;
+        }
+
+        List<SeasonEntity> seasons = seasonRepository.findAll();
+        if (seasons.isEmpty()) {
+            throw new IllegalStateException("Nelze inicializovat zápasy, protože neexistuje žádná sezóna.");
+        }
+
+        log.info("Match initialization starts.");
+
+        for (int j = 0; j < 2 && j < seasons.size(); j++) {
+            SeasonEntity actualSeason = seasons.get(j);
+
+            LocalDate startSeasonDate = actualSeason.getStartDate();
+            LocalDate endSeasonDate = actualSeason.getEndDate();
+
+            LocalDateTime firstMatchDate = startSeasonDate
+                    .with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY))
+                    .atTime(18, 45);
+
+            int fridaysCount = countFridays(startSeasonDate, endSeasonDate);
+
+            for (int i = 0; i < fridaysCount; i++) {
+
+                LocalDateTime matchDateTime = firstMatchDate.plusWeeks(i);
+
+                MatchEntity match = new MatchEntity();
+                match.setDateTime(matchDateTime);
+                match.setLocation("NĚJAKÁ HALA");
+                match.setDescription("");
+                match.setMaxPlayers(MatchMode.THREE_ON_THREE_NO_GOALIE.getPlayersPerTeam() * 2);
+                match.setPrice(2200);
+                match.setMatchStatus(null);
+                match.setCancelReason(null);
+                match.setSeason(actualSeason);
+                match.setCreatedByUserId(2L);
+                match.setMatchMode(MatchMode.THREE_ON_THREE_NO_GOALIE);
+
+                if (matchDateTime.isBefore(LocalDateTime.now())) {
+
+                    int lightGoals = ThreadLocalRandom.current().nextInt(0, 6);
+                    int darkGoals = ThreadLocalRandom.current().nextInt(0, 6);
+
+                    MatchScore score = new MatchScore();
+                    score.setLight(lightGoals);
+                    score.setDark(darkGoals);
+                    match.setScore(score);
+                } else {
+                    match.setScore(null);
+                }
+
+                matchRepository.save(match);
+            }
+        }
+
+        log.info("Matches have been initialized.");
+    }
+
+    /**
+     * Vytváří ukázkové registrace hráčů na zápasy.
+     *
+     * Registrace se vytvářejí pouze pro zápasy v blízké budoucnosti.
+     * Pokud již registrace existují, inicializace se přeskočí.
+     *
+     * Zjednodušená logika pro THREE_ON_THREE_NO_GOALIE:
+     *  - pro každý zápas:
+     *      - DARK: 3× REGISTERED (DEFENSE, WING_LEFT, WING_RIGHT)
+     *      - LIGHT: 3× REGISTERED (DEFENSE, WING_LEFT, WING_RIGHT)
+     *      - z nevybraných hráčů v každém týmu (pokud jsou):
+     *          - 1× EXCUSED
+     *          - 1× SUBSTITUTE
+     *      - ostatní hráči v týmu bez registrace.
+     */
+    private void initRegistrations() {
+        if (matchRegistrationRepository.count() > 0) {
+            log.info("Match registrations already exist. Registration initialization is skipped.");
+            return;
+        }
+
+        LocalDateTime finalDate = LocalDateTime.now().plusWeeks(1);
+
+        List<MatchEntity> matches = matchRepository.findAll().stream()
+                .filter(m -> m.getDateTime().isBefore(finalDate))
+                .toList();
+
+        List<PlayerEntity> players = playerRepository.findAll().stream()
+                .filter(p -> p.getId() != null)
+                .filter(p -> p.getPlayerStatus() == PlayerStatus.APPROVED)
+                .toList();
+
+        if (matches.isEmpty() || players.size() < 6) {
+            log.info("Not enough data for registration initialization. Initialization is skipped.");
+            return;
+        }
+
+        // Rozdělení hráčů podle týmů
+        List<PlayerEntity> darkPlayersAll = players.stream()
+                .filter(p -> p.getTeam() == Team.DARK)
+                .toList();
+        List<PlayerEntity> lightPlayersAll = players.stream()
+                .filter(p -> p.getTeam() == Team.LIGHT)
+                .toList();
+
+        // Potřeba minimálně tří hráčů v každém týmu
+        if (darkPlayersAll.size() < 3 || lightPlayersAll.size() < 3) {
+            log.info("Not enough players per team for simple registration initialization (need at least 3 DARK and 3 LIGHT). Initialization is skipped.");
+            return;
+        }
+
+        // Pevně dané pozice pro REGISTERED hráče v týmu (3 na 3 bez brankáře)
+        PlayerPosition[] positions = new PlayerPosition[]{
+                PlayerPosition.DEFENSE,
+                PlayerPosition.WING_LEFT,
+                PlayerPosition.WING_RIGHT
+        };
+
+        for (MatchEntity match : matches) {
+
+            // DARK tým
+            List<PlayerEntity> darkCopy = new ArrayList<>(darkPlayersAll);
+            Collections.shuffle(darkCopy);
+
+            // První tři hráči jako REGISTERED na pozice DEFENSE, WING_LEFT, WING_RIGHT
+            List<PlayerEntity> darkRegistered = darkCopy.subList(0, Math.min(3, darkCopy.size()));
+
+            for (int i = 0; i < darkRegistered.size(); i++) {
+                PlayerEntity player = darkRegistered.get(i);
+
+                MatchRegistrationEntity reg = new MatchRegistrationEntity();
+                reg.setMatch(match);
+                reg.setPlayer(player);
+                reg.setTeam(Team.DARK);
+                reg.setTimestamp(LocalDateTime.now());
+                reg.setCreatedBy("initializer");
+
+                reg.setStatus(PlayerMatchStatus.REGISTERED);
+                reg.setExcuseReason(null);
+                reg.setExcuseNote(null);
+
+                reg.setPositionInMatch(positions[i]); // DEFENSE, WING_LEFT, WING_RIGHT
+
+                matchRegistrationRepository.save(reg);
+            }
+
+            // Zbylí DARK hráči pro EXCUSED a SUBSTITUTE
+            List<PlayerEntity> darkRemaining = new ArrayList<>(darkCopy.subList(darkRegistered.size(), darkCopy.size()));
+            Collections.shuffle(darkRemaining);
+
+            if (!darkRemaining.isEmpty()) {
+                // Jeden hráč z DARK týmu jako EXCUSED
+                PlayerEntity excusedDark = darkRemaining.get(0);
+
+                MatchRegistrationEntity regExcused = new MatchRegistrationEntity();
+                regExcused.setMatch(match);
+                regExcused.setPlayer(excusedDark);
+                regExcused.setTeam(Team.DARK);
+                regExcused.setTimestamp(LocalDateTime.now());
+                regExcused.setCreatedBy("initializer");
+
+                regExcused.setStatus(PlayerMatchStatus.EXCUSED);
+                regExcused.setExcuseReason(null);
+                regExcused.setExcuseNote(null);
+                regExcused.setPositionInMatch(null);
+
+                matchRegistrationRepository.save(regExcused);
+            }
+
+            if (darkRemaining.size() > 1) {
+                // Jeden hráč z DARK týmu jako SUBSTITUTE
+                PlayerEntity substituteDark = darkRemaining.get(1);
+
+                MatchRegistrationEntity regSubstitute = new MatchRegistrationEntity();
+                regSubstitute.setMatch(match);
+                regSubstitute.setPlayer(substituteDark);
+                regSubstitute.setTeam(Team.DARK);
+                regSubstitute.setTimestamp(LocalDateTime.now());
+                regSubstitute.setCreatedBy("initializer");
+
+                regSubstitute.setStatus(PlayerMatchStatus.SUBSTITUTE);
+                regSubstitute.setExcuseReason(null);
+                regSubstitute.setExcuseNote(null);
+                regSubstitute.setPositionInMatch(null); // čekací listina
+
+                matchRegistrationRepository.save(regSubstitute);
+            }
+
+            // LIGHT tým
+            List<PlayerEntity> lightCopy = new ArrayList<>(lightPlayersAll);
+            Collections.shuffle(lightCopy);
+
+            // První tři hráči jako REGISTERED na pozice DEFENSE, WING_LEFT, WING_RIGHT
+            List<PlayerEntity> lightRegistered = lightCopy.subList(0, Math.min(3, lightCopy.size()));
+
+            for (int i = 0; i < lightRegistered.size(); i++) {
+                PlayerEntity player = lightRegistered.get(i);
+
+                MatchRegistrationEntity reg = new MatchRegistrationEntity();
+                reg.setMatch(match);
+                reg.setPlayer(player);
+                reg.setTeam(Team.LIGHT);
+                reg.setTimestamp(LocalDateTime.now());
+                reg.setCreatedBy("initializer");
+
+                reg.setStatus(PlayerMatchStatus.REGISTERED);
+                reg.setExcuseReason(null);
+                reg.setExcuseNote(null);
+
+                reg.setPositionInMatch(positions[i]); // DEFENSE, WING_LEFT, WING_RIGHT
+
+                matchRegistrationRepository.save(reg);
+            }
+
+            // Zbylí LIGHT hráči pro EXCUSED a SUBSTITUTE
+            List<PlayerEntity> lightRemaining = new ArrayList<>(lightCopy.subList(lightRegistered.size(), lightCopy.size()));
+            Collections.shuffle(lightRemaining);
+
+            if (!lightRemaining.isEmpty()) {
+                // Jeden hráč z LIGHT týmu jako EXCUSED
+                PlayerEntity excusedLight = lightRemaining.get(0);
+
+                MatchRegistrationEntity regExcused = new MatchRegistrationEntity();
+                regExcused.setMatch(match);
+                regExcused.setPlayer(excusedLight);
+                regExcused.setTeam(Team.LIGHT);
+                regExcused.setTimestamp(LocalDateTime.now());
+                regExcused.setCreatedBy("initializer");
+
+                regExcused.setStatus(PlayerMatchStatus.EXCUSED);
+                regExcused.setExcuseReason(null);
+                regExcused.setExcuseNote(null);
+                regExcused.setPositionInMatch(null);
+
+                matchRegistrationRepository.save(regExcused);
+            }
+
+            if (lightRemaining.size() > 1) {
+                // Jeden hráč z LIGHT týmu jako SUBSTITUTE
+                PlayerEntity substituteLight = lightRemaining.get(1);
+
+                MatchRegistrationEntity regSubstitute = new MatchRegistrationEntity();
+                regSubstitute.setMatch(match);
+                regSubstitute.setPlayer(substituteLight);
+                regSubstitute.setTeam(Team.LIGHT);
+                regSubstitute.setTimestamp(LocalDateTime.now());
+                regSubstitute.setCreatedBy("initializer");
+
+                regSubstitute.setStatus(PlayerMatchStatus.SUBSTITUTE);
+                regSubstitute.setExcuseReason(null);
+                regSubstitute.setExcuseNote(null);
+                regSubstitute.setPositionInMatch(null); // čekací listina
+
+                matchRegistrationRepository.save(regSubstitute);
+            }
+        }
+
+        log.info("Match registrations have been initialized.");
+    }
+
+    /**
+     * Spočítá počet pátků v období včetně.
+     *
+     * @param from počáteční datum
+     * @param to   koncové datum
+     * @return počet pátků v období
+     */
+    private int countFridays(LocalDate from, LocalDate to) {
+        if (to.isBefore(from)) {
+            return 0;
+        }
+
+        LocalDate firstFriday = from.with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY));
+        if (firstFriday.isAfter(to)) {
+            return 0;
+        }
+
+        int count = 0;
+        for (LocalDate date = firstFriday; !date.isAfter(to); date = date.plusWeeks(1)) {
+            count++;
+        }
+        return count;
+    }
+
+    /**
+     * Vygeneruje náhodný timestamp v rozsahu určeném pro ukázková data.
+     *
+     * @return náhodný timestamp v UTC
+     */
+    private LocalDateTime randomTimestampForDemoData() {
+        LocalDateTime from = LocalDateTime.of(2024, 11, 1, 0, 0);
+        LocalDateTime to = LocalDateTime.of(2025, 2, 10, 23, 59);
+
+        long fromEpoch = from.toEpochSecond(ZoneOffset.UTC);
+        long toEpoch = to.toEpochSecond(ZoneOffset.UTC);
+
+        long randomEpoch = ThreadLocalRandom.current().nextLong(fromEpoch, toEpoch + 1);
+        return LocalDateTime.ofEpochSecond(randomEpoch, 0, ZoneOffset.UTC);
+    }
+
+    /**
+     * Vygeneruje náhodnou pozici dle ENUM PlayerPosition.
+     *
+     * vynechá GOALIE a ANY
+     */
+    private void assignRandomPositions(PlayerEntity player) {
+
+        List<PlayerPosition> positions = Arrays.stream(PlayerPosition.values())
+                .filter(p -> p != PlayerPosition.GOALIE && p != PlayerPosition.ANY
+                && p!=PlayerPosition.FORWARD)
+                .toList();
+
+        Random random = new Random();
+
+        PlayerPosition primary = positions.get(random.nextInt(positions.size()));
+
+        PlayerPosition secondary;
+        do {
+            secondary = positions.get(random.nextInt(positions.size()));
+        } while (secondary == primary);
+
+        player.setPrimaryPosition(primary);
+        player.setSecondaryPosition(secondary);
+    }
+}

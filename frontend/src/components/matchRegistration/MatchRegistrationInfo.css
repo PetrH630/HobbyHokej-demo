@@ -1,0 +1,136 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: matchRegistration/MatchRegistrationInfo.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro komponenty uživatelského rozhraní.
+ *
+ * Cílem je zapouzdřit vizuální chování komponent
+ * a minimalizovat vedlejší dopady na ostatní části aplikace.
+ *
+ * Cesta: matchRegistration/MatchRegistrationInfo.css
+ * Generováno: 2026-03-04
+ */
+.match-reg-info {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+
+.match-reg-team-col {
+    flex: 1;
+    border: 1px solid #aaa7a7;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+    background: #fafafa;
+
+}
+
+
+.match-reg-team-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+
+}
+
+
+.match-reg-team-icon-dark {
+    font-size: 32px;
+    flex-shrink: 0;
+    color: rgb(4, 59, 163);
+}
+
+.match-reg-team-icon-light {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+
+.match-reg-team-count {
+    font-weight: bold;
+}
+
+
+.match-reg-player-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+
+.match-reg-player-item {
+    display: block;
+    padding: 0;
+    margin: 0;
+}
+
+
+.match-reg-player-empty {
+    color: #888;
+    font-style: italic;
+}
+
+.match-reg-other-col {
+    margin-top: 1px;
+    width: 100%;
+}
+
+
+.match-registered-r {
+    color: #018520;
+}
+
+
+.match-unregistered-r {
+    color: #f17108;
+}
+
+
+.match-excused-r {
+    color: #ffc107;
+}
+
+
+.match-reserved-r {
+color: #0d6efd;
+}
+
+
+.match-no-response-r {
+color: #ffc107;
+}
+
+
+.match-no-excused-r {
+    color: #dc3545;
+}
+
+.match-substituted-r {
+    color: #ffc107;
+}
+
+.match-reg-switch-btn .match-reg-player-name {
+    font-weight: 700;
+    font-size: 1.05rem;
+
+}
+
+@media (max-width: 768px) {
+    .match-reg-info {
+        flex-direction: column;
+    }
+}
+@media (max-width: 576px) {
+    .card {
+        padding: 0.3rem;
+    }
+}

@@ -1,0 +1,35 @@
+/*
+  app.css
+  Root musí být fluidní – žádné max-width zde!
+*/
+
+#root {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+/* karta – lehké vylepšení pro mobil */
+.card {
+  padding: 1.5rem;
+  border-radius: 12px;
+}
+
+/* výraznější inputy v auth kartách */
+.auth-card .form-control {
+  border-width: 2px;
+  padding: 0.75rem 0.9rem;
+}
+
+.auth-card .form-control:focus {
+  border-color: #1B5E20;
+  box-shadow: 0 0 0 0.2rem rgba(27, 94, 32, 0.18);
+}
+
+@media (max-width: 576px) {
+  .card {
+    padding: 1rem;
+  }
+}

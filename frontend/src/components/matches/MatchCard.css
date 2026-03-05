@@ -1,0 +1,372 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: matches/MatchCard.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro administrační část aplikace.
+ *
+ * Cíl je udržet deklarace přehledné a minimalizovat vedlejší dopady na ostatní komponenty.
+ *
+ * Cesta: matches/MatchCard.css
+ * Generováno: 2026-03-04
+ */
+.match-card {
+    position: relative;
+    padding: 16px;
+    border: 2px solid #dee2e6;
+    border-radius: 12px;
+
+    width: 100%;
+    max-width: 100%;
+
+    overflow: hidden;
+
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+@media (min-width: 768px) {
+    .match-card {
+        width: 240px;
+    }
+}
+
+.match-card--condensed {
+    width: 100%;
+    max-width: 100%;
+}
+
+.match-card.clickable {
+    cursor: pointer;
+}
+
+.match-card.clickable:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.match-card--disabled {
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+.match-card--disabled:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+.match-card-tooltip {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0 12px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+}
+
+.match-card-tooltip-inner {
+    text-align: center;
+}
+
+.match-card-tooltip-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+}
+
+.match-card-tooltip-reason {
+    font-size: 1.2rem;
+}
+
+.match-card--disabled:hover .match-card-tooltip,
+.match-card--canceled:hover .match-card-tooltip {
+    opacity: 1;
+}
+
+.match-id {
+    font-size: 1.1rem;
+}
+
+.match-day {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.match-date {
+    font-size: 1.2rem;
+}
+
+.player-icon {
+    font-size: 1.3rem;
+    margin-right: 15px;
+}
+
+.player-price-icon {
+    font-size: 0.9rem;
+    margin-right: 0;
+}
+
+.money-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+}
+
+.player-match-status {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+.player-match-status-icon {
+    font-size: 1.5rem;
+}
+
+.player-match-status-text {
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+.player-match-outcome-icon {
+    font-size: 2.5rem !important;
+}
+
+/*
+ * Barvy pro match status bloky (.match-registered, .match-excused, ...)
+ * se centralizují do globálních stylů (např. styles/icons.css).
+ */
+
+/*
+ * Barvy pro .player-match-status--* (ikona/text) se centralizují do globálních stylů.
+ */
+
+.match-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .match-card--condensed .match-card__body {
+        display: grid;
+        grid-template-columns:
+            110px 150px 100px 100px 180px 130px;
+
+        align-items: center;
+        column-gap: 0.75rem;
+        text-align: left;
+    }
+
+    .match-card--condensed .match-card__body>* {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .match-card--condensed .players-count {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.4rem;
+        text-align: center;
+    }
+
+    .match-card--condensed .status-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .match-card--condensed .player-match-status {
+        flex-direction: column;
+        gap: 0.15rem;
+    }
+
+    .match-card--condensed .player-match-status-icon {
+        font-size: 1.1rem;
+    }
+
+    .match-card--condensed .player-match-status-text {
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    .match-card--condensed p,
+    .match-card--condensed .match-day,
+    .match-card--condensed .match-date {
+        margin-bottom: 0;
+    }
+}
+
+@media (min-width: 992px) {
+    .match-card--condensed .match-card__body {
+        display: grid;
+        grid-template-columns:
+            110px 160px 1fr 100px 180px 130px;
+
+        align-items: center;
+        column-gap: 1rem;
+        text-align: left;
+    }
+
+    .match-card--condensed .match-card__body>* {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .match-card--condensed .players-count {
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .match-card--condensed .status-cell {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .match-card--condensed .player-match-status {
+        flex-direction: row;
+        gap: 0.35rem;
+    }
+
+    .match-card--condensed .player-match-status-icon {
+        font-size: 1.5rem;
+    }
+
+    .match-card--condensed .player-match-status-text {
+        font-size: 1.3rem;
+    }
+
+    .match-card--condensed p,
+    .match-card--condensed .match-day,
+    .match-card--condensed .match-date {
+        margin-bottom: 0;
+    }
+
+    .match-card--condensed .status-cell .player-match-status {
+        max-width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+.players-count__wrap {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.capacity-ring {
+    flex: 0 0 auto;
+}
+
+/*
+ * Barvy pro match-card__match-status--* strong se centralizují do globálních stylů.
+ */
+
+.match-card--canceled {
+    cursor: default;
+    /* background-color + border-color se centralizují do globálních stylů */
+}
+
+.match-card--canceled::before {
+    content: "";
+    position: absolute;
+    bottom: -40%;
+    left: -40%;
+    width: 200%;
+    height: 60px;
+    /* background se centralizuje do globálních stylů */
+    transform: rotate(-45deg);
+    z-index: 5;
+    transition: opacity 0.2s ease;
+}
+
+.match-card--canceled::after {
+    content: "ZRUŠENÝ";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+
+    font-size: 2.4rem;
+    font-weight: 900;
+    /* color se centralizuje do globálních stylů */
+    letter-spacing: 0.2em;
+
+    white-space: nowrap;
+    text-transform: uppercase;
+
+    z-index: 6;
+    pointer-events: none;
+    text-shadow: 0 0 8px rgba(150, 0, 0, 0);
+    transition: opacity 0.2s ease;
+}
+
+.match-card--canceled:hover {
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.match-card--canceled:hover::before,
+.match-card--canceled:hover::after {
+    opacity: 0;
+}
+
+/* Team icon layout (barvy řeší globální styly) */
+.match-reg-team-icon-dark,
+.match-reg-team-icon-light {
+    font-size: 20px;
+    flex-shrink: 0;
+    margin: 0 10px;
+}
+
+.match-days {
+    font-weight: 700;
+}
+
+/* 5+ dní */
+.match-days--ok {
+    color: #198754;
+    /* bootstrap green */
+}
+
+/* 3–4 dny */
+.match-days--warn {
+    color: #fd7e14;
+    /* oranžová */
+}
+
+/* 0–2 dny */
+.match-days--danger {
+    color: #dc3545;
+    /* bootstrap red */
+}
+
+.match-days--default {
+    color: inherit;
+}

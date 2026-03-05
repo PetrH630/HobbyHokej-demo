@@ -1,0 +1,159 @@
+/*
+  index.css
+  Mobile-first globální nastavení aplikace
+*/
+
+/* reset + bezpečné rozměry + prevence dlouhých textů */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* základní rozložení a prevence horizontálního scrollu */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-size: 1rem;
+  line-height: 1.5;
+  background-color: #f8f9fa;
+}
+
+/* na mobilu trochu větší čitelnost */
+@media (max-width: 576px) {
+  html {
+    font-size: 18px;
+  }
+
+  body {
+    line-height: 1.6;
+  }
+}
+
+/* root */
+#root {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* vlastní container pro obsah (pokud nepoužíváš všude Bootstrap container) */
+.app-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+/* hlavní layout */
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  width: 100%;
+}
+
+/* footer */
+footer {
+  background: #222;
+  color: #ffffff;
+  padding: 20px 16px;
+  text-align: center;
+}
+
+/* seznamy */
+ul {
+  list-style-position: inside;
+  padding-left: 1.2em;
+  margin: 0.5em 0;
+  text-align: left;
+}
+
+li {
+  margin-bottom: 0.5em;
+  line-height: 1.5em;
+}
+
+/* slider */
+.slider {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================
+   DIM overlay (NE pro modaly)
+   ========================= */
+
+/*
+  dim-open používáš pro vlastní ztmavení stránky (detail/historie apod.)
+  Bootstrap modaly si backdrop řeší samy – proto NEDĚLÁME modal-open::before.
+*/
+body.dim-open::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1040;
+  pointer-events: none;
+  /* overlay je jen vizuální */
+}
+
+/* tvoje klikací vrstva pro zavření detailu/historie – musí být POD kartou, ale NAD dimem */
+.global-dim-click {
+  position: fixed;
+  inset: 0;
+  z-index: 1044;
+}
+
+/* prvky, které se mají udržet nad dimem */
+.dim-keep {
+  position: relative;
+  z-index: 1050;
+}
+
+/* =========================
+   Bootstrap modal stacking
+   ========================= */
+
+/* Bootstrap 5 default: backdrop 1050, modal 1055
+   jen pro jistotu to zafixujeme (ať ti to nic nerozbije) */
+.modal-backdrop {
+  z-index: 1050;
+}
+
+.modal {
+  z-index: 1055;
+}
+
+/* obrázky a svg */
+img,
+svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* bootstrap tabulky budou scrollovat jen uvnitř */
+.table-responsive {
+  width: 100%;
+}

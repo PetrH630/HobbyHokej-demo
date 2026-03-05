@@ -1,0 +1,28 @@
+/*
+ * Styly pro komponenty uživatelského rozhraní.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: HeaderTop.css
+ * Generováno: 2026-03-04
+ */
+
+.header-top {
+    background-color: #b0d4e6;
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.header-top .header-item {
+    margin: 0;
+}
+
+.user-block-small {
+    font-size: 0.9rem;
+}
+
+@media (max-width: 575.98px) {
+    .header-top {
+        font-size: 0.8rem;
+    }
+}

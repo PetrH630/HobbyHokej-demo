@@ -1,0 +1,114 @@
+# =====================================
+# Build artifacts
+# =====================================
+
+# Maven / Java
+target/
+!/.mvn/wrapper/maven-wrapper.jar
+
+# Spring Boot build
+backend/target/
+backend/*.jar
+backend/*.war
+
+# Node / Vite
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.cache/
+
+# =====================================
+# Logs
+# =====================================
+
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# =====================================
+# IDE / Editor
+# =====================================
+
+# IntelliJ
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# VS Code
+.vscode/
+
+# Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+# =====================================
+# OS files
+# =====================================
+
+.DS_Store
+Thumbs.db
+
+# =====================================
+# Environment / secrets
+# =====================================
+
+.env
+.env.*
+
+backend/.env
+backend/.env*
+
+# Spring Boot local configs
+backend/src/main/resources/application-*.properties
+
+# =====================================
+# Generated documentation
+# =====================================
+
+backend/docs/Javadoc/
+frontend/docs/
+
+# =====================================
+# Coverage / test artifacts
+# =====================================
+
+coverage/
+*.lcov
+
+# =====================================
+# Temporary files
+# =====================================
+
+*.tmp
+*.swp
+
+# =====================================
+# Local scripts and personal files
+# =====================================
+
+*.ps1
+
+vsechnny_soubory.txt
+
+backend/TODO.txt
+backend/Wedos-nasazeni.txt
+backend/VytvoreniDB.txt
+backend/docker-compose.yml
+
+backend/src/main/java/cz/phsoft/hokej/Flow.txt
+backend/docs/ARCHITECTURE-OLD.md

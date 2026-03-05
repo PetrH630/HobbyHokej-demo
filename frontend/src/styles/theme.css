@@ -1,0 +1,87 @@
+/* src/styles/theme.css */
+:root {
+    /* Brand / základ */
+    --color-primary: #0d6efd;
+
+    /* PlayerCard – indicator */
+    --active-indicator-active: #1329a1;
+    --active-indicator-inactive: #a0a5aa;
+
+    /* Player status */
+    --player-approved-bg: #64e98a;
+    --player-approved-border: #3da361;
+
+    --player-pending-bg: #fff4e5;
+    --player-pending-border: #ffd8a8;
+
+    --player-rejected-bg: #fdecea;
+    --player-rejected-border: #f5c2c7;
+
+    /* Team icons (base + overlay) */
+    --team-icon-base-dark: #045ee6;
+    --team-icon-base-light: #e4e70a;
+    --team-icon-overlay: #001833;
+
+    /* Phone icon */
+    --phone-icon-color: var(--color-primary);
+
+    /* emotion icons */
+        --icon-happy-color: #0326ec;
+        /* modrá */
+        --icon-sad-color: #e90d23;
+        /* červená */
+
+    /*MATCH*/
+    /* Match card backgrounds & borders */
+        --match-registered-bg: #29d158;
+        --match-registered-border: #09772f;
+    
+        --match-unregistered-bg: #fff9db;
+        --match-unregistered-border: #ffe066;
+    
+        --match-excused-bg: rgba(39, 195, 243, 0.61);
+        --match-excused-border: #b6d4fe;
+    
+        --match-reserved-bg: #fff4e5;
+        --match-reserved-border: #ffd8a8;
+    
+        --match-no-response-bg: #f8f9fa;
+        --match-no-response-border: #dee2e6;
+    
+        --match-no-excused-bg: #fdecea;
+        --match-no-excused-border: #f5c2c7;
+    
+        /* Player match status icon/text colors */
+        --pms-registered-icon: #018520;
+        --pms-registered-text: #030303;
+    
+        --pms-unregistered-icon: #f17108;
+        --pms-unregistered-text: #030303;
+    
+        --pms-excused-icon: #ffc107;
+        --pms-excused-text: #030303;
+    
+        --pms-reserved-icon: #0d6efd;
+        --pms-reserved-text: #030303;
+    
+        --pms-no-response-icon: #f8f9fa;
+        --pms-no-response-text: #030303;
+    
+        --pms-no-excused-icon: #dc3545;
+        --pms-no-excused-text: #750b16;
+    
+        /* Match status label strong */
+        --match-status-canceled-strong: #c00000;
+        --match-status-uncanceled-strong: #880576;
+        --match-status-updated-strong: #0a2a88;
+    
+        /* Canceled card styling */
+        --match-card-canceled-bg: #f1f3f5;
+        --match-card-canceled-border: #ced4da;
+        --match-card-canceled-band-bg: rgba(200, 0, 0, 0.35);
+        --match-card-canceled-text: rgba(180, 0, 0, 0.6);
+    
+        /* Team icons in match registration area */
+        --match-team-dark-icon: rgb(4, 59, 163);
+        --match-team-light-icon: #ffd500;
+}

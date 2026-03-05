@@ -1,0 +1,48 @@
+/*
+ * Styly pro komponenty administrační části aplikace.
+ *
+ * Soubor obsahuje lokální pravidla stylování a má minimalizovat globální selektory.
+ *
+ * Cesta: matches/PastMatches.css
+ * Generováno: 2026-03-04
+ */
+
+/*
+ * Styly pro administrační část aplikace.
+ *
+ * Cíl je udržet deklarace přehledné a minimalizovat vedlejší dopady na ostatní komponenty.
+ *
+ * Cesta: matches/PastMatches.css
+ * Generováno: 2026-03-04
+ */
+.past-match-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.past-match-item {
+    width: 100%;
+    display: flex;
+}
+
+.past-match-item--highlight {
+    position: relative;
+    border-radius: 12px;
+    box-shadow: 0 0 0 5px rgba(13, 110, 253, 0.55);
+    animation: pastMatchPulse 2s ease-out;
+}
+
+@keyframes pastMatchPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(13, 110, 253, 0.75);
+    }
+
+    70% {
+        box-shadow: 0 0 0 10px rgba(13, 110, 253, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.55);
+    }
+}
