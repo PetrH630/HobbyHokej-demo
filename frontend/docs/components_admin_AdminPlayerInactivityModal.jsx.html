@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/admin/AdminPlayerInactivityModal.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminCancelNoExcuseModal">AdminCancelNoExcuseModal</a></li><li><a href="global.html#AdminHomePage">AdminHomePage</a></li><li><a href="global.html#AdminMatchCard">AdminMatchCard</a></li><li><a href="global.html#AdminMatchDetailInline">AdminMatchDetailInline</a></li><li><a href="global.html#AdminMatchHistory">AdminMatchHistory</a></li><li><a href="global.html#AdminMatchHistoryCard">AdminMatchHistoryCard</a></li><li><a href="global.html#AdminMatchInfo">AdminMatchInfo</a></li><li><a href="global.html#AdminMatchModal">AdminMatchModal</a></li><li><a href="global.html#AdminMatchRegistrationInfo">AdminMatchRegistrationInfo</a></li><li><a href="global.html#AdminMatchesPage">AdminMatchesPage</a></li><li><a href="global.html#AdminMatchesTable">AdminMatchesTable</a></li><li><a href="global.html#AdminNoExcuseModal">AdminNoExcuseModal</a></li><li><a href="global.html#AdminNotificationBell">AdminNotificationBell</a></li><li><a href="global.html#AdminNotificationCard">AdminNotificationCard</a></li><li><a href="global.html#AdminNotificationPage">AdminNotificationPage</a></li><li><a href="global.html#AdminNotificationsList">AdminNotificationsList</a></li><li><a href="global.html#AdminPlayerCard">AdminPlayerCard</a></li><li><a href="global.html#AdminPlayerEditModal">AdminPlayerEditModal</a></li><li><a href="global.html#AdminPlayerHistory">AdminPlayerHistory</a></li><li><a href="global.html#AdminPlayerHistoryCard">AdminPlayerHistoryCard</a></li><li><a href="global.html#AdminPlayerInactivityModal">AdminPlayerInactivityModal</a></li><li><a href="global.html#AdminPlayerRegistrationHistory">AdminPlayerRegistrationHistory</a></li><li><a href="global.html#AdminPlayerRegistrationHistoryModal">AdminPlayerRegistrationHistoryModal</a></li><li><a href="global.html#AdminPlayerRow">AdminPlayerRow</a></li><li><a href="global.html#AdminPlayersInactivityPage">AdminPlayersInactivityPage</a></li><li><a href="global.html#AdminPlayersPage">AdminPlayersPage</a></li><li><a href="global.html#AdminPlayersTable">AdminPlayersTable</a></li><li><a href="global.html#AdminSeasonCard">AdminSeasonCard</a></li><li><a href="global.html#AdminSeasonModal">AdminSeasonModal</a></li><li><a href="global.html#AdminSeasonsPage">AdminSeasonsPage</a></li><li><a href="global.html#AdminSeasonsTable">AdminSeasonsTable</a></li><li><a href="global.html#AdminSpecialNotificationModal">AdminSpecialNotificationModal</a></li><li><a href="global.html#AdminUserCard">AdminUserCard</a></li><li><a href="global.html#AdminUserDetailPage">AdminUserDetailPage</a></li><li><a href="global.html#AdminUserEditModal">AdminUserEditModal</a></li><li><a href="global.html#AdminUsersPage">AdminUsersPage</a></li><li><a href="global.html#AdminUsersTable">AdminUsersTable</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AppModeProvider">AppModeProvider</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#BackButton">BackButton</a></li><li><a href="global.html#CancelMatchModal">CancelMatchModal</a></li><li><a href="global.html#CapacityRing">CapacityRing</a></li><li><a href="global.html#ChangePasswordForm">ChangePasswordForm</a></li><li><a href="global.html#ConfirmActionModal">ConfirmActionModal</a></li><li><a href="global.html#CookieConsentBanner">CookieConsentBanner</a></li><li><a href="global.html#CreatePlayer">CreatePlayer</a></li><li><a href="global.html#CreatePlayerForm">CreatePlayerForm</a></li><li><a href="global.html#CurrentPlayerProvider">CurrentPlayerProvider</a></li><li><a href="global.html#DatePicker">DatePicker</a></li><li><a href="global.html#DateTimePicker">DateTimePicker</a></li><li><a href="global.html#DemoNotificationsModal">DemoNotificationsModal</a></li><li><a href="global.html#ExcuseModal">ExcuseModal</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#ForgottenPasswordRequestPage">ForgottenPasswordRequestPage</a></li><li><a href="global.html#ForgottenPasswordResetPage">ForgottenPasswordResetPage</a></li><li><a href="global.html#HamburgerIcon">HamburgerIcon</a></li><li><a href="global.html#HeaderTop">HeaderTop</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#HomeDecider">HomeDecider</a></li><li><a href="global.html#InfoPage">InfoPage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MATCH_MODE_CONFIG">MATCH_MODE_CONFIG</a></li><li><a href="global.html#MATCH_MODE_OPTIONS">MATCH_MODE_OPTIONS</a></li><li><a href="global.html#MatchActions">MatchActions</a></li><li><a href="global.html#MatchCard">MatchCard</a></li><li><a href="global.html#MatchDetail">MatchDetail</a></li><li><a href="global.html#MatchDetailPage">MatchDetailPage</a></li><li><a href="global.html#MatchForm">MatchForm</a></li><li><a href="global.html#MatchHeader">MatchHeader</a></li><li><a href="global.html#MatchInfo">MatchInfo</a></li><li><a href="global.html#MatchOverview">MatchOverview</a></li><li><a href="global.html#MatchRegistrationHistory">MatchRegistrationHistory</a></li><li><a href="global.html#MatchRegistrationInfo">MatchRegistrationInfo</a></li><li><a href="global.html#MoneyIcon">MoneyIcon</a></li><li><a href="global.html#MyInactivityPage">MyInactivityPage</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NotificationBadgeContext">NotificationBadgeContext</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#NotificationProvider">NotificationProvider</a></li><li><a href="global.html#NotificationsList">NotificationsList</a></li><li><a href="global.html#NotificationsPage">NotificationsPage</a></li><li><a href="global.html#PastMatches">PastMatches</a></li><li><a href="global.html#PhoneIcon">PhoneIcon</a></li><li><a href="global.html#PlayerCard">PlayerCard</a></li><li><a href="global.html#PlayerHomePage">PlayerHomePage</a></li><li><a href="global.html#PlayerInactivityCards">PlayerInactivityCards</a></li><li><a href="global.html#PlayerMatchStatus">PlayerMatchStatus</a></li><li><a href="global.html#PlayerPositionModal">PlayerPositionModal</a></li><li><a href="global.html#PlayerProfileForm">PlayerProfileForm</a></li><li><a href="global.html#PlayerSettings">PlayerSettings</a></li><li><a href="global.html#PlayerStats">PlayerStats</a></li><li><a href="global.html#PlayerStatsCharts">PlayerStatsCharts</a></li><li><a href="global.html#Players">Players</a></li><li><a href="global.html#PlayersPage">PlayersPage</a></li><li><a href="global.html#PositionModalView">PositionModalView</a></li><li><a href="global.html#PublicLandingPage">PublicLandingPage</a></li><li><a href="global.html#PublicLayout">PublicLayout</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#RegisteredIcon">RegisteredIcon</a></li><li><a href="global.html#RequireAuth">RequireAuth</a></li><li><a href="global.html#RoleGuard">RoleGuard</a></li><li><a href="global.html#ScrollToTop">ScrollToTop</a></li><li><a href="global.html#ScrollToTopButton">ScrollToTopButton</a></li><li><a href="global.html#SeasonForm">SeasonForm</a></li><li><a href="global.html#SeasonProvider">SeasonProvider</a></li><li><a href="global.html#SeasonSelect">SeasonSelect</a></li><li><a href="global.html#SettingsPage">SettingsPage</a></li><li><a href="global.html#SharedLayout">SharedLayout</a></li><li><a href="global.html#SuccessModal">SuccessModal</a></li><li><a href="global.html#TeamSelectModal">TeamSelectModal</a></li><li><a href="global.html#UpcomingMatches">UpcomingMatches</a></li><li><a href="global.html#UserProfileForm">UserProfileForm</a></li><li><a href="global.html#UserSettings">UserSettings</a></li><li><a href="global.html#VerifyEmailPage">VerifyEmailPage</a></li><li><a href="global.html#approvePlayerAdmin">approvePlayerAdmin</a></li><li><a href="global.html#autoLineupAdmin">autoLineupAdmin</a></li><li><a href="global.html#autoSelectCurrentPlayer">autoSelectCurrentPlayer</a></li><li><a href="global.html#buildPositionCapacityForMode">buildPositionCapacityForMode</a></li><li><a href="global.html#calculateMaxPlayers">calculateMaxPlayers</a></li><li><a href="global.html#calculatePlayersPerTeam">calculatePlayersPerTeam</a></li><li><a href="global.html#cancelMatchAdmin">cancelMatchAdmin</a></li><li><a href="global.html#cancelNoExcusedAdmin">cancelNoExcusedAdmin</a></li><li><a href="global.html#changeMyRegistrationTeam">changeMyRegistrationTeam</a></li><li><a href="global.html#changePlayerUserAdmin">changePlayerUserAdmin</a></li><li><a href="global.html#changeRegistrationTeamAdmin">changeRegistrationTeamAdmin</a></li><li><a href="global.html#checkAuthentication">checkAuthentication</a></li><li><a href="global.html#checkDuplicateName">checkDuplicateName</a></li><li><a href="global.html#computeTeamPositionAvailability">computeTeamPositionAvailability</a></li><li><a href="global.html#createInactivityAdmin">createInactivityAdmin</a></li><li><a href="global.html#createMatchAdmin">createMatchAdmin</a></li><li><a href="global.html#createPlayer">createPlayer</a></li><li><a href="global.html#createPlayerAdmin">createPlayerAdmin</a></li><li><a href="global.html#createSeasonAdmin">createSeasonAdmin</a></li><li><a href="global.html#deleteInactivityAdmin">deleteInactivityAdmin</a></li><li><a href="global.html#deleteMatchAdmin">deleteMatchAdmin</a></li><li><a href="global.html#deletePlayerAdmin">deletePlayerAdmin</a></li><li><a href="global.html#extractRoles">extractRoles</a></li><li><a href="global.html#fetchAllNotificationsAdmin">fetchAllNotificationsAdmin</a></li><li><a href="global.html#fetchAppMode">fetchAppMode</a></li><li><a href="global.html#fetchCurrentSeasonForUser">fetchCurrentSeasonForUser</a></li><li><a href="global.html#fetchCurrentUser">fetchCurrentUser</a></li><li><a href="global.html#fetchNotificationBadge">fetchNotificationBadge</a></li><li><a href="global.html#fetchNotificationsSinceLastLogin">fetchNotificationsSinceLastLogin</a></li><li><a href="global.html#fetchRecentNotifications">fetchRecentNotifications</a></li><li><a href="global.html#fetchSeasonsForUser">fetchSeasonsForUser</a></li><li><a href="global.html#fetchSpecialNotificationTargets">fetchSpecialNotificationTargets</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#formatDateTime">formatDateTime</a></li><li><a href="global.html#formatPhoneNumber">formatPhoneNumber</a></li><li><a href="global.html#getAllMatchesAdmin">getAllMatchesAdmin</a></li><li><a href="global.html#getAllPlayerInactivityPeriodsAdmin">getAllPlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#getAllPlayersAdmin">getAllPlayersAdmin</a></li><li><a href="global.html#getAllSeasonsAdmin">getAllSeasonsAdmin</a></li><li><a href="global.html#getAvailableMatchesForPlayerAdmin">getAvailableMatchesForPlayerAdmin</a></li><li><a href="global.html#getCurrentPlayer">getCurrentPlayer</a></li><li><a href="global.html#getCurrentPlayerSettings">getCurrentPlayerSettings</a></li><li><a href="global.html#getFirstUpcomingMatch">getFirstUpcomingMatch</a></li><li><a href="global.html#getForgottenPasswordInfo">getForgottenPasswordInfo</a></li><li><a href="global.html#getIcePositionsForMode">getIcePositionsForMode</a></li><li><a href="global.html#getInactivityByPlayerAdmin">getInactivityByPlayerAdmin</a></li><li><a href="global.html#getMatchDetail">getMatchDetail</a></li><li><a href="global.html#getMatchHistoryAdmin">getMatchHistoryAdmin</a></li><li><a href="global.html#getMatchTeamPositionOverview">getMatchTeamPositionOverview</a></li><li><a href="global.html#getMyInactivity">getMyInactivity</a></li><li><a href="global.html#getMyPassedMatchesOverview">getMyPassedMatchesOverview</a></li><li><a href="global.html#getMyPlayerHistory">getMyPlayerHistory</a></li><li><a href="global.html#getMyPlayerStats">getMyPlayerStats</a></li><li><a href="global.html#getMyPlayers">getMyPlayers</a></li><li><a href="global.html#getMyUpcomingMatchesOverview">getMyUpcomingMatchesOverview</a></li><li><a href="global.html#getPastMatchesAdmin">getPastMatchesAdmin</a></li><li><a href="global.html#getPlayerById">getPlayerById</a></li><li><a href="global.html#getPlayerHistoryAdmin">getPlayerHistoryAdmin</a></li><li><a href="global.html#getPlayerPositionLabel">getPlayerPositionLabel</a></li><li><a href="global.html#getPlayerSettings">getPlayerSettings</a></li><li><a href="global.html#getPlayerStatsAdmin">getPlayerStatsAdmin</a></li><li><a href="global.html#getSeasonByIdAdmin">getSeasonByIdAdmin</a></li><li><a href="global.html#getUpcomingMatchesAdmin">getUpcomingMatchesAdmin</a></li><li><a href="global.html#getUserSettings">getUserSettings</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#mapRegistrationToPlayer">mapRegistrationToPlayer</a></li><li><a href="global.html#markAllNotificationsAsRead">markAllNotificationsAsRead</a></li><li><a href="global.html#markNoExcusedAdmin">markNoExcusedAdmin</a></li><li><a href="global.html#markNotificationAsRead">markNotificationAsRead</a></li><li><a href="global.html#matchPassesFilter">matchPassesFilter</a></li><li><a href="global.html#normalizeDate">normalizeDate</a></li><li><a href="global.html#previewNoResponseReminders">previewNoResponseReminders</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#rejectPlayerAdmin">rejectPlayerAdmin</a></li><li><a href="global.html#requestForgottenPassword">requestForgottenPassword</a></li><li><a href="global.html#resetForgottenPassword">resetForgottenPassword</a></li><li><a href="global.html#runMatchReminders">runMatchReminders</a></li><li><a href="global.html#runNoResponseReminders">runNoResponseReminders</a></li><li><a href="global.html#sendSpecialNotification">sendSpecialNotification</a></li><li><a href="global.html#setCurrentPlayer">setCurrentPlayer</a></li><li><a href="global.html#setCurrentSeasonForUser">setCurrentSeasonForUser</a></li><li><a href="global.html#smoothScrollTo">smoothScrollTo</a></li><li><a href="global.html#statusTextMap">statusTextMap</a></li><li><a href="global.html#transformMatchDetail">transformMatchDetail</a></li><li><a href="global.html#unCancelMatchAdmin">unCancelMatchAdmin</a></li><li><a href="global.html#updateCurrentPlayerSettings">updateCurrentPlayerSettings</a></li><li><a href="global.html#updateInactivityAdmin">updateInactivityAdmin</a></li><li><a href="global.html#updateMatchAdmin">updateMatchAdmin</a></li><li><a href="global.html#updateMatchScoreAdmin">updateMatchScoreAdmin</a></li><li><a href="global.html#updateMyCurrentPlayer">updateMyCurrentPlayer</a></li><li><a href="global.html#updatePlayerAdmin">updatePlayerAdmin</a></li><li><a href="global.html#updatePlayerSettings">updatePlayerSettings</a></li><li><a href="global.html#updateSeasonAdmin">updateSeasonAdmin</a></li><li><a href="global.html#updateUserSettings">updateUserSettings</a></li><li><a href="global.html#upsertMyRegistration">upsertMyRegistration</a></li><li><a href="global.html#useAllMatchesAdmin">useAllMatchesAdmin</a></li><li><a href="global.html#useAllPlayersAdmin">useAllPlayersAdmin</a></li><li><a href="global.html#useAllPlayersAdminWithUsers">useAllPlayersAdminWithUsers</a></li><li><a href="global.html#useAllSeasonsAdmin">useAllSeasonsAdmin</a></li><li><a href="global.html#useAllUsersAdmin">useAllUsersAdmin</a></li><li><a href="global.html#useBootstrapTooltip">useBootstrapTooltip</a></li><li><a href="global.html#useDemoMode">useDemoMode</a></li><li><a href="global.html#useDemoNotifications">useDemoNotifications</a></li><li><a href="global.html#useGlobalDim">useGlobalDim</a></li><li><a href="global.html#useGlobalModal">useGlobalModal</a></li><li><a href="global.html#useMatchAdminActions">useMatchAdminActions</a></li><li><a href="global.html#useMatchHistoryAdmin">useMatchHistoryAdmin</a></li><li><a href="global.html#useMatchTeamPositionOverview">useMatchTeamPositionOverview</a></li><li><a href="global.html#useMyMatchRegistrationHistory">useMyMatchRegistrationHistory</a></li><li><a href="global.html#useMyPassedMatches">useMyPassedMatches</a></li><li><a href="global.html#useMyPlayerStats">useMyPlayerStats</a></li><li><a href="global.html#useMyUpcomingMatches">useMyUpcomingMatches</a></li><li><a href="global.html#useNotificationBadge">useNotificationBadge</a></li><li><a href="global.html#useNotifications">useNotifications</a></li><li><a href="global.html#usePlayerHistoryAdmin">usePlayerHistoryAdmin</a></li><li><a href="global.html#usePlayerInactivityPeriodsAdmin">usePlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#usePlayerRegistrationHistoryAdmin">usePlayerRegistrationHistoryAdmin</a></li><li><a href="global.html#usePlayerSettings">usePlayerSettings</a></li><li><a href="global.html#usePlayerStatsAdmin">usePlayerStatsAdmin</a></li><li><a href="global.html#usePlayers">usePlayers</a></li><li><a href="global.html#useSpecialNotificationTargets">useSpecialNotificationTargets</a></li><li><a href="global.html#useUserProfile">useUserProfile</a></li><li><a href="global.html#useUserSettings">useUserSettings</a></li><li><a href="global.html#validateMatch">validateMatch</a></li><li><a href="global.html#validatePlayerProfile">validatePlayerProfile</a></li><li><a href="global.html#validateSeason">validateSeason</a></li><li><a href="global.html#verifyEmail">verifyEmail</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/admin/AdminPlayerInactivityModal.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// src/components/admin/AdminPlayerInactivityModal.jsx
+import { useEffect, useMemo, useRef, useState } from "react";
+import {
+    getInactivityByPlayerAdmin,
+    createInactivityAdmin,
+    updateInactivityAdmin,
+    deleteInactivityAdmin,
+} from "../../api/playerInactivityApi";
+import { useNotification } from "../../context/NotificationContext";
+import { useGlobalModal } from "../../hooks/useGlobalModal";
+import DatePicker from "../forms/DatePicker";
+
+const toLocalDateValue = (value) => {
+    if (!value) return "";
+    const s = String(value);
+    return s.slice(0, 10);
+};
+
+const parseLocalDate = (val) => {
+    if (!val) return null;
+    const s = String(val).trim();
+    const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+    if (!m) return null;
+    const y = Number(m[1]);
+    const mo = Number(m[2]) - 1;
+    const d = Number(m[3]);
+    const date = new Date(y, mo, d, 0, 0, 0, 0);
+    return Number.isNaN(date.getTime()) ? null : date;
+};
+
+const toBackendStartOfDay = (dateStr) => (dateStr ? `${dateStr}T00:00:00` : null);
+const toBackendEndOfDay = (dateStr) => (dateStr ? `${dateStr}T23:59:59` : null);
+
+/**
+ * AdminPlayerInactivityModal
+ *
+ * Bootstrap modal komponenta pro práci s modálním dialogem v aplikaci.
+ *
+ * Umožňuje zavření stiskem klávesy Escape.
+ * Při otevření blokuje scroll pozadí pomocí useGlobalModal.
+ *
+ * Props:
+ * @param {PlayerDTO} props.player Data hráče používaná pro zobrazení nebo administraci.
+ * @param {Function} props.onClose callback pro předání akce do nadřazené vrstvy.
+ * @param {Object} props.onSaved vstupní hodnota komponenty.
+ */
+
+const AdminPlayerInactivityModal = ({ player, onClose, onSaved }) => {
+    useGlobalModal(true);
+
+    const { showNotification } = useNotification();
+
+    const [periods, setPeriods] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+    const [error, setError] = useState(null);
+
+    const [editing, setEditing] = useState(null);
+    const [formValues, setFormValues] = useState({
+        inactiveFrom: "",
+        inactiveTo: "",
+        inactivityReason: "",
+    });
+
+    const [touched, setTouched] = useState({
+        inactiveFrom: false,
+        inactiveTo: false,
+        inactivityReason: false,
+    });
+
+    const [fieldErrors, setFieldErrors] = useState({
+        inactiveFrom: "",
+        inactiveTo: "",
+        inactivityReason: "",
+    });
+
+   
+    const formRef = useRef(null);
+
+    useEffect(() => {
+        if (!player?.id) return;
+
+        const load = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                const data = await getInactivityByPlayerAdmin(player.id);
+                setPeriods(data || []);
+            } catch (err) {
+                console.error(err);
+                setError(
+                    err?.response?.data?.message ||
+                    "Nepodařilo se načíst období neaktivity hráče."
+                );
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        load();
+    }, [player?.id]);
+
+    const resetValidation = () => {
+        setTouched({
+            inactiveFrom: false,
+            inactiveTo: false,
+            inactivityReason: false,
+        });
+        setFieldErrors({
+            inactiveFrom: "",
+            inactiveTo: "",
+            inactivityReason: "",
+        });
+    };
+
+    const startCreate = () => {
+        setEditing(null);
+        setFormValues({
+            inactiveFrom: "",
+            inactiveTo: "",
+            inactivityReason: "",
+        });
+        resetValidation(); 
+    };
+
+    const startEdit = (period) => {
+        setEditing(period);
+        setFormValues({
+            inactiveFrom: toLocalDateValue(period.inactiveFrom),
+            inactiveTo: toLocalDateValue(period.inactiveTo),
+            inactivityReason: period.inactivityReason || "",
+        });
+        resetValidation();
+
+        setTimeout(() => {
+            formRef.current?.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }, 100);
+    };
+
+    const handleTextChange = (e) => {
+        const { name, value } = e.target;
+        setFormValues((prev) => ({ ...prev, [name]: value }));
+        setFieldErrors((prev) => ({ ...prev, [name]: "" }));
+    };
+
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        setTouched((prev) => ({ ...prev, [name]: true }));
+    };
+
+    const handleDateChange = (name) => (valueString) => {
+        setFormValues((prev) => ({ ...prev, [name]: valueString }));
+        setFieldErrors((prev) => ({ ...prev, [name]: "" }));
+    };
+
+    
+/**
+ * Prověří povinná pole a vrátí textovou chybu nebo null pro validní stav.
+ */
+
+const validate = useMemo(() => {
+        return (values, allPeriods, editingPeriod) => {
+            const nextErrors = {
+                inactiveFrom: "",
+                inactiveTo: "",
+                inactivityReason: "",
+            };
+
+            const from = String(values.inactiveFrom ?? "").trim();
+            const to = String(values.inactiveTo ?? "").trim();
+            const reason = String(values.inactivityReason ?? "").trim();
+
+            if (!from) nextErrors.inactiveFrom = "Vyplňte začátek neaktivity.";
+            if (!to) nextErrors.inactiveTo = "Vyplňte konec neaktivity.";
+            if (!reason) nextErrors.inactivityReason = "Důvod neaktivity je povinný.";
+
+            const fromDate = parseLocalDate(from);
+            const toDate = parseLocalDate(to);
+
+            if (from &amp;&amp; !fromDate) nextErrors.inactiveFrom = "Neplatný formát data.";
+            if (to &amp;&amp; !toDate) nextErrors.inactiveTo = "Neplatný formát data.";
+
+            if (fromDate &amp;&amp; toDate &amp;&amp; fromDate > toDate) {
+                nextErrors.inactiveTo = "Konec musí být stejný den nebo po začátku.";
+            }
+
+            if (reason &amp;&amp; reason.length > 255) {
+                nextErrors.inactivityReason = "Maximální délka je 255 znaků.";
+            }
+
+            if (fromDate &amp;&amp; toDate &amp;&amp; !nextErrors.inactiveFrom &amp;&amp; !nextErrors.inactiveTo) {
+                const overlaps = (aFrom, aTo, bFrom, bTo) => aFrom &lt;= bTo &amp;&amp; bFrom &lt;= aTo;
+
+                const hasOverlap = (allPeriods || []).some((p) => {
+                    if (editingPeriod &amp;&amp; p.id === editingPeriod.id) return false;
+
+                    const pFrom = parseLocalDate(toLocalDateValue(p.inactiveFrom));
+                    const pTo = parseLocalDate(toLocalDateValue(p.inactiveTo));
+                    if (!pFrom || !pTo) return false;
+
+                    return overlaps(fromDate, toDate, pFrom, pTo);
+                });
+
+                if (hasOverlap) {
+                    nextErrors.inactiveFrom = "Období se překrývá s existujícím záznamem.";
+                    nextErrors.inactiveTo = "Období se překrývá s existujícím záznamem.";
+                }
+            }
+
+            return nextErrors;
+        };
+    }, []);
+
+    const hasAnyError = (errs) => Object.values(errs).some((v) => !!v);
+
+    
+/**
+ * Zpracuje odeslání formuláře a zavolá příslušný callback nadřazené komponenty.
+ */
+
+const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setTouched({
+            inactiveFrom: true,
+            inactiveTo: true,
+            inactivityReason: true,
+        });
+
+        const errs = validate(formValues, periods, editing);
+        setFieldErrors(errs);
+
+        if (hasAnyError(errs)) {
+            showNotification("Zkontrolujte prosím vyplněná pole.", "warning");
+            return;
+        }
+
+        try {
+            setSaving(true);
+            setError(null);
+
+            const payload = {
+                playerId: player.id,
+                inactiveFrom: toBackendStartOfDay(formValues.inactiveFrom),
+                inactiveTo: toBackendEndOfDay(formValues.inactiveTo),
+                inactivityReason: formValues.inactivityReason.trim(),
+            };
+
+            let result;
+            if (editing) {
+                result = await updateInactivityAdmin(editing.id, payload);
+                showNotification("Období neaktivity bylo upraveno.", "success");
+            } else {
+                result = await createInactivityAdmin(payload);
+                showNotification("Období neaktivity bylo vytvořeno.", "success");
+            }
+
+            setPeriods((prev) =>
+                editing
+                    ? prev.map((p) => (p.id === result.id ? result : p))
+                    : [...prev, result]
+            );
+
+            startCreate();
+            onSaved &amp;&amp; onSaved();
+        } catch (err) {
+            console.error(err);
+            setError(err?.response?.data?.message || "Uložení období neaktivity se nezdařilo.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleDelete = async (id) => {
+        if (!window.confirm("Opravdu chceš smazat toto období neaktivity?")) return;
+
+        try {
+            setSaving(true);
+            setError(null);
+            await deleteInactivityAdmin(id);
+            showNotification("Období neaktivity bylo smazáno.", "success");
+
+            setPeriods((prev) => prev.filter((p) => p.id !== id));
+            onSaved &amp;&amp; onSaved();
+        } catch (err) {
+            console.error(err);
+            setError(err?.response?.data?.message || "Smazání období neaktivity se nezdařilo.");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    
+/**
+ * Naformátuje datum do čitelné podoby pro administraci.
+ */
+
+const formatDate = (dt) => {
+        const v = toLocalDateValue(dt);
+        const d = parseLocalDate(v);
+        return d ? d.toLocaleDateString("cs-CZ") : v;
+    };
+
+    const inputClass = (name) => {
+        const base = "form-control";
+        if (!touched[name]) return base;
+        return fieldErrors[name] ? `${base} is-invalid` : base;
+    };
+
+    const sortedPeriods = useMemo(() => {
+        const list = [...(periods || [])];
+        list.sort((a, b) => new Date(b.inactiveFrom) - new Date(a.inactiveFrom));
+        return list;
+    }, [periods]);
+
+    return (
+        &lt;div className="modal d-block" tabIndex="-1">
+            &lt;div className="modal-dialog modal-lg">
+                &lt;div className="modal-content">
+                    &lt;div className="modal-header">
+                        &lt;h5 className="modal-title">
+                            Neaktivita hráče – {player.name} {player.surname}
+                        &lt;/h5>
+                        &lt;button type="button" className="btn-close" onClick={onClose} disabled={saving} />
+                    &lt;/div>
+
+                    &lt;div className="modal-body">
+                        {loading &amp;&amp; &lt;p>Načítám období neaktivity…&lt;/p>}
+                        {error &amp;&amp; &lt;div className="alert alert-danger">{error}&lt;/div>}
+
+                        {!loading &amp;&amp; (
+                            &lt;>
+                                &lt;h6 className="mb-2">
+                                    {editing ? "Upravit období neaktivity" : "Přidat nové období neaktivity"}
+                                &lt;/h6>
+
+                                &lt;form
+                                    ref={formRef}
+                                    className="row g-3 mb-4"
+                                    onSubmit={handleSubmit}
+                                    noValidate
+                                >
+                                    &lt;div className="col-md-6">
+                                        &lt;label className="form-label" htmlFor="inactiveFrom">Začátek&lt;/label>
+                                        &lt;DatePicker
+                                            id="inactiveFrom"
+                                            name="inactiveFrom"
+                                            value={formValues.inactiveFrom}
+                                            onChange={handleDateChange("inactiveFrom")}
+                                            onBlur={handleBlur}
+                                            disabled={saving}
+                                            className={inputClass("inactiveFrom")}
+                                            required
+                                        />
+                                        {touched.inactiveFrom &amp;&amp; fieldErrors.inactiveFrom &amp;&amp; (
+                                            &lt;div className="invalid-feedback d-block">{fieldErrors.inactiveFrom}&lt;/div>
+                                        )}
+                                    &lt;/div>
+
+                                    &lt;div className="col-md-6">
+                                        &lt;label className="form-label" htmlFor="inactiveTo">Konec&lt;/label>
+                                        &lt;DatePicker
+                                            id="inactiveTo"
+                                            name="inactiveTo"
+                                            value={formValues.inactiveTo}
+                                            onChange={handleDateChange("inactiveTo")}
+                                            onBlur={handleBlur}
+                                            disabled={saving}
+                                            className={inputClass("inactiveTo")}
+                                            required
+                                        />
+                                        {touched.inactiveTo &amp;&amp; fieldErrors.inactiveTo &amp;&amp; (
+                                            &lt;div className="invalid-feedback d-block">{fieldErrors.inactiveTo}&lt;/div>
+                                        )}
+                                    &lt;/div>
+
+                                    &lt;div className="col-12">
+                                        &lt;label className="form-label">Důvod neaktivity&lt;/label>
+                                        &lt;input
+                                            type="text"
+                                            name="inactivityReason"
+                                            className={inputClass("inactivityReason")}
+                                            value={formValues.inactivityReason}
+                                            onChange={handleTextChange}
+                                            onBlur={handleBlur}
+                                            disabled={saving}
+                                            maxLength={255}
+                                        />
+                                        {touched.inactivityReason &amp;&amp; fieldErrors.inactivityReason &amp;&amp; (
+                                            &lt;div className="invalid-feedback d-block">{fieldErrors.inactivityReason}&lt;/div>
+                                        )}
+                                        {!fieldErrors.inactivityReason &amp;&amp; (
+                                            &lt;div className="form-text">Maximálně 255 znaků.&lt;/div>
+                                        )}
+                                    &lt;/div>
+
+                                    &lt;div className="col-12 d-flex gap-2">
+                                        &lt;button type="submit" className="btn btn-primary" disabled={saving}>
+                                            {saving ? "Ukládám…" : editing ? "Uložit změny" : "Přidat období"}
+                                        &lt;/button>
+
+                                        {editing &amp;&amp; (
+                                            &lt;button type="button" className="btn btn-secondary" onClick={startCreate} disabled={saving}>
+                                                Zrušit úpravu
+                                            &lt;/button>
+                                        )}
+                                    &lt;/div>
+                                &lt;/form>
+
+                                &lt;hr />
+
+                                &lt;h6>Existující období&lt;/h6>
+                                {periods.length === 0 &amp;&amp; (
+                                    &lt;p className="text-muted">Hráč nemá žádná období neaktivity.&lt;/p>
+                                )}
+
+                                {periods.length > 0 &amp;&amp; (
+                                    &lt;div className="d-flex flex-column gap-3">
+                                        {sortedPeriods.map((p) => (
+                                            &lt;div key={p.id} className="card shadow-sm">
+                                                &lt;div className="card-body">
+                                                    &lt;div className="d-flex flex-column flex-md-row justify-content-between align-items-start gap-2">
+                                                        &lt;div>
+                                                            &lt;div className="mb-1">
+                                                                &lt;span className="fw-semibold">Od:&lt;/span>{" "}
+                                                                {formatDate(p.inactiveFrom)}
+                                                            &lt;/div>
+                                                            &lt;div className="mb-1">
+                                                                &lt;span className="fw-semibold">Do:&lt;/span>{" "}
+                                                                {formatDate(p.inactiveTo)}
+                                                            &lt;/div>
+                                                            &lt;div className="mb-1">
+                                                                &lt;span className="fw-semibold">Důvod:&lt;/span>{" "}
+                                                                {p.inactivityReason || (
+                                                                    &lt;span className="text-muted">neuveden&lt;/span>
+                                                                )}
+                                                            &lt;/div>
+                                                        &lt;/div>
+
+                                                        &lt;div className="d-flex flex-column flex-sm-row gap-2 ms-md-auto">
+                                                            &lt;button
+                                                                type="button"
+                                                                className="btn btn-sm btn-outline-primary"
+                                                                onClick={() => startEdit(p)}
+                                                                disabled={saving}
+                                                            >
+                                                                Upravit
+                                                            &lt;/button>
+                                                            &lt;button
+                                                                type="button"
+                                                                className="btn btn-sm btn-outline-danger"
+                                                                onClick={() => handleDelete(p.id)}
+                                                                disabled={saving}
+                                                            >
+                                                                Smazat
+                                                            &lt;/button>
+                                                        &lt;/div>
+                                                    &lt;/div>
+                                                &lt;/div>
+                                            &lt;/div>
+                                        ))}
+                                    &lt;/div>
+                                )}
+                            &lt;/>
+                        )}
+                    &lt;/div>
+
+                    &lt;div className="modal-footer">
+                        &lt;button type="button" className="btn btn-secondary" onClick={onClose} disabled={saving}>
+                            Zavřít
+                        &lt;/button>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+        &lt;/div>
+    );
+};
+
+export default AdminPlayerInactivityModal;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

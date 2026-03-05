@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/InfoPage.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminCancelNoExcuseModal">AdminCancelNoExcuseModal</a></li><li><a href="global.html#AdminHomePage">AdminHomePage</a></li><li><a href="global.html#AdminMatchCard">AdminMatchCard</a></li><li><a href="global.html#AdminMatchDetailInline">AdminMatchDetailInline</a></li><li><a href="global.html#AdminMatchHistory">AdminMatchHistory</a></li><li><a href="global.html#AdminMatchHistoryCard">AdminMatchHistoryCard</a></li><li><a href="global.html#AdminMatchInfo">AdminMatchInfo</a></li><li><a href="global.html#AdminMatchModal">AdminMatchModal</a></li><li><a href="global.html#AdminMatchRegistrationInfo">AdminMatchRegistrationInfo</a></li><li><a href="global.html#AdminMatchesPage">AdminMatchesPage</a></li><li><a href="global.html#AdminMatchesTable">AdminMatchesTable</a></li><li><a href="global.html#AdminNoExcuseModal">AdminNoExcuseModal</a></li><li><a href="global.html#AdminNotificationBell">AdminNotificationBell</a></li><li><a href="global.html#AdminNotificationCard">AdminNotificationCard</a></li><li><a href="global.html#AdminNotificationPage">AdminNotificationPage</a></li><li><a href="global.html#AdminNotificationsList">AdminNotificationsList</a></li><li><a href="global.html#AdminPlayerCard">AdminPlayerCard</a></li><li><a href="global.html#AdminPlayerEditModal">AdminPlayerEditModal</a></li><li><a href="global.html#AdminPlayerHistory">AdminPlayerHistory</a></li><li><a href="global.html#AdminPlayerHistoryCard">AdminPlayerHistoryCard</a></li><li><a href="global.html#AdminPlayerInactivityModal">AdminPlayerInactivityModal</a></li><li><a href="global.html#AdminPlayerRegistrationHistory">AdminPlayerRegistrationHistory</a></li><li><a href="global.html#AdminPlayerRegistrationHistoryModal">AdminPlayerRegistrationHistoryModal</a></li><li><a href="global.html#AdminPlayerRow">AdminPlayerRow</a></li><li><a href="global.html#AdminPlayersInactivityPage">AdminPlayersInactivityPage</a></li><li><a href="global.html#AdminPlayersPage">AdminPlayersPage</a></li><li><a href="global.html#AdminPlayersTable">AdminPlayersTable</a></li><li><a href="global.html#AdminSeasonCard">AdminSeasonCard</a></li><li><a href="global.html#AdminSeasonModal">AdminSeasonModal</a></li><li><a href="global.html#AdminSeasonsPage">AdminSeasonsPage</a></li><li><a href="global.html#AdminSeasonsTable">AdminSeasonsTable</a></li><li><a href="global.html#AdminSpecialNotificationModal">AdminSpecialNotificationModal</a></li><li><a href="global.html#AdminUserCard">AdminUserCard</a></li><li><a href="global.html#AdminUserDetailPage">AdminUserDetailPage</a></li><li><a href="global.html#AdminUserEditModal">AdminUserEditModal</a></li><li><a href="global.html#AdminUsersPage">AdminUsersPage</a></li><li><a href="global.html#AdminUsersTable">AdminUsersTable</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AppModeProvider">AppModeProvider</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#BackButton">BackButton</a></li><li><a href="global.html#CancelMatchModal">CancelMatchModal</a></li><li><a href="global.html#CapacityRing">CapacityRing</a></li><li><a href="global.html#ChangePasswordForm">ChangePasswordForm</a></li><li><a href="global.html#ConfirmActionModal">ConfirmActionModal</a></li><li><a href="global.html#CookieConsentBanner">CookieConsentBanner</a></li><li><a href="global.html#CreatePlayer">CreatePlayer</a></li><li><a href="global.html#CreatePlayerForm">CreatePlayerForm</a></li><li><a href="global.html#CurrentPlayerProvider">CurrentPlayerProvider</a></li><li><a href="global.html#DatePicker">DatePicker</a></li><li><a href="global.html#DateTimePicker">DateTimePicker</a></li><li><a href="global.html#DemoNotificationsModal">DemoNotificationsModal</a></li><li><a href="global.html#ExcuseModal">ExcuseModal</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#ForgottenPasswordRequestPage">ForgottenPasswordRequestPage</a></li><li><a href="global.html#ForgottenPasswordResetPage">ForgottenPasswordResetPage</a></li><li><a href="global.html#HamburgerIcon">HamburgerIcon</a></li><li><a href="global.html#HeaderTop">HeaderTop</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#HomeDecider">HomeDecider</a></li><li><a href="global.html#InfoPage">InfoPage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MATCH_MODE_CONFIG">MATCH_MODE_CONFIG</a></li><li><a href="global.html#MATCH_MODE_OPTIONS">MATCH_MODE_OPTIONS</a></li><li><a href="global.html#MatchActions">MatchActions</a></li><li><a href="global.html#MatchCard">MatchCard</a></li><li><a href="global.html#MatchDetail">MatchDetail</a></li><li><a href="global.html#MatchDetailPage">MatchDetailPage</a></li><li><a href="global.html#MatchForm">MatchForm</a></li><li><a href="global.html#MatchHeader">MatchHeader</a></li><li><a href="global.html#MatchInfo">MatchInfo</a></li><li><a href="global.html#MatchOverview">MatchOverview</a></li><li><a href="global.html#MatchRegistrationHistory">MatchRegistrationHistory</a></li><li><a href="global.html#MatchRegistrationInfo">MatchRegistrationInfo</a></li><li><a href="global.html#MoneyIcon">MoneyIcon</a></li><li><a href="global.html#MyInactivityPage">MyInactivityPage</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NotificationBadgeContext">NotificationBadgeContext</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#NotificationProvider">NotificationProvider</a></li><li><a href="global.html#NotificationsList">NotificationsList</a></li><li><a href="global.html#NotificationsPage">NotificationsPage</a></li><li><a href="global.html#PastMatches">PastMatches</a></li><li><a href="global.html#PhoneIcon">PhoneIcon</a></li><li><a href="global.html#PlayerCard">PlayerCard</a></li><li><a href="global.html#PlayerHomePage">PlayerHomePage</a></li><li><a href="global.html#PlayerInactivityCards">PlayerInactivityCards</a></li><li><a href="global.html#PlayerMatchStatus">PlayerMatchStatus</a></li><li><a href="global.html#PlayerPositionModal">PlayerPositionModal</a></li><li><a href="global.html#PlayerProfileForm">PlayerProfileForm</a></li><li><a href="global.html#PlayerSettings">PlayerSettings</a></li><li><a href="global.html#PlayerStats">PlayerStats</a></li><li><a href="global.html#PlayerStatsCharts">PlayerStatsCharts</a></li><li><a href="global.html#Players">Players</a></li><li><a href="global.html#PlayersPage">PlayersPage</a></li><li><a href="global.html#PositionModalView">PositionModalView</a></li><li><a href="global.html#PublicLandingPage">PublicLandingPage</a></li><li><a href="global.html#PublicLayout">PublicLayout</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#RegisteredIcon">RegisteredIcon</a></li><li><a href="global.html#RequireAuth">RequireAuth</a></li><li><a href="global.html#RoleGuard">RoleGuard</a></li><li><a href="global.html#ScrollToTop">ScrollToTop</a></li><li><a href="global.html#ScrollToTopButton">ScrollToTopButton</a></li><li><a href="global.html#SeasonForm">SeasonForm</a></li><li><a href="global.html#SeasonProvider">SeasonProvider</a></li><li><a href="global.html#SeasonSelect">SeasonSelect</a></li><li><a href="global.html#SettingsPage">SettingsPage</a></li><li><a href="global.html#SharedLayout">SharedLayout</a></li><li><a href="global.html#SuccessModal">SuccessModal</a></li><li><a href="global.html#TeamSelectModal">TeamSelectModal</a></li><li><a href="global.html#UpcomingMatches">UpcomingMatches</a></li><li><a href="global.html#UserProfileForm">UserProfileForm</a></li><li><a href="global.html#UserSettings">UserSettings</a></li><li><a href="global.html#VerifyEmailPage">VerifyEmailPage</a></li><li><a href="global.html#approvePlayerAdmin">approvePlayerAdmin</a></li><li><a href="global.html#autoLineupAdmin">autoLineupAdmin</a></li><li><a href="global.html#autoSelectCurrentPlayer">autoSelectCurrentPlayer</a></li><li><a href="global.html#buildPositionCapacityForMode">buildPositionCapacityForMode</a></li><li><a href="global.html#calculateMaxPlayers">calculateMaxPlayers</a></li><li><a href="global.html#calculatePlayersPerTeam">calculatePlayersPerTeam</a></li><li><a href="global.html#cancelMatchAdmin">cancelMatchAdmin</a></li><li><a href="global.html#cancelNoExcusedAdmin">cancelNoExcusedAdmin</a></li><li><a href="global.html#changeMyRegistrationTeam">changeMyRegistrationTeam</a></li><li><a href="global.html#changePlayerUserAdmin">changePlayerUserAdmin</a></li><li><a href="global.html#changeRegistrationTeamAdmin">changeRegistrationTeamAdmin</a></li><li><a href="global.html#checkAuthentication">checkAuthentication</a></li><li><a href="global.html#checkDuplicateName">checkDuplicateName</a></li><li><a href="global.html#computeTeamPositionAvailability">computeTeamPositionAvailability</a></li><li><a href="global.html#createInactivityAdmin">createInactivityAdmin</a></li><li><a href="global.html#createMatchAdmin">createMatchAdmin</a></li><li><a href="global.html#createPlayer">createPlayer</a></li><li><a href="global.html#createPlayerAdmin">createPlayerAdmin</a></li><li><a href="global.html#createSeasonAdmin">createSeasonAdmin</a></li><li><a href="global.html#deleteInactivityAdmin">deleteInactivityAdmin</a></li><li><a href="global.html#deleteMatchAdmin">deleteMatchAdmin</a></li><li><a href="global.html#deletePlayerAdmin">deletePlayerAdmin</a></li><li><a href="global.html#extractRoles">extractRoles</a></li><li><a href="global.html#fetchAllNotificationsAdmin">fetchAllNotificationsAdmin</a></li><li><a href="global.html#fetchAppMode">fetchAppMode</a></li><li><a href="global.html#fetchCurrentSeasonForUser">fetchCurrentSeasonForUser</a></li><li><a href="global.html#fetchCurrentUser">fetchCurrentUser</a></li><li><a href="global.html#fetchNotificationBadge">fetchNotificationBadge</a></li><li><a href="global.html#fetchNotificationsSinceLastLogin">fetchNotificationsSinceLastLogin</a></li><li><a href="global.html#fetchRecentNotifications">fetchRecentNotifications</a></li><li><a href="global.html#fetchSeasonsForUser">fetchSeasonsForUser</a></li><li><a href="global.html#fetchSpecialNotificationTargets">fetchSpecialNotificationTargets</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#formatDateTime">formatDateTime</a></li><li><a href="global.html#formatPhoneNumber">formatPhoneNumber</a></li><li><a href="global.html#getAllMatchesAdmin">getAllMatchesAdmin</a></li><li><a href="global.html#getAllPlayerInactivityPeriodsAdmin">getAllPlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#getAllPlayersAdmin">getAllPlayersAdmin</a></li><li><a href="global.html#getAllSeasonsAdmin">getAllSeasonsAdmin</a></li><li><a href="global.html#getAvailableMatchesForPlayerAdmin">getAvailableMatchesForPlayerAdmin</a></li><li><a href="global.html#getCurrentPlayer">getCurrentPlayer</a></li><li><a href="global.html#getCurrentPlayerSettings">getCurrentPlayerSettings</a></li><li><a href="global.html#getFirstUpcomingMatch">getFirstUpcomingMatch</a></li><li><a href="global.html#getForgottenPasswordInfo">getForgottenPasswordInfo</a></li><li><a href="global.html#getIcePositionsForMode">getIcePositionsForMode</a></li><li><a href="global.html#getInactivityByPlayerAdmin">getInactivityByPlayerAdmin</a></li><li><a href="global.html#getMatchDetail">getMatchDetail</a></li><li><a href="global.html#getMatchHistoryAdmin">getMatchHistoryAdmin</a></li><li><a href="global.html#getMatchTeamPositionOverview">getMatchTeamPositionOverview</a></li><li><a href="global.html#getMyInactivity">getMyInactivity</a></li><li><a href="global.html#getMyPassedMatchesOverview">getMyPassedMatchesOverview</a></li><li><a href="global.html#getMyPlayerHistory">getMyPlayerHistory</a></li><li><a href="global.html#getMyPlayerStats">getMyPlayerStats</a></li><li><a href="global.html#getMyPlayers">getMyPlayers</a></li><li><a href="global.html#getMyUpcomingMatchesOverview">getMyUpcomingMatchesOverview</a></li><li><a href="global.html#getPastMatchesAdmin">getPastMatchesAdmin</a></li><li><a href="global.html#getPlayerById">getPlayerById</a></li><li><a href="global.html#getPlayerHistoryAdmin">getPlayerHistoryAdmin</a></li><li><a href="global.html#getPlayerPositionLabel">getPlayerPositionLabel</a></li><li><a href="global.html#getPlayerSettings">getPlayerSettings</a></li><li><a href="global.html#getPlayerStatsAdmin">getPlayerStatsAdmin</a></li><li><a href="global.html#getSeasonByIdAdmin">getSeasonByIdAdmin</a></li><li><a href="global.html#getUpcomingMatchesAdmin">getUpcomingMatchesAdmin</a></li><li><a href="global.html#getUserSettings">getUserSettings</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#mapRegistrationToPlayer">mapRegistrationToPlayer</a></li><li><a href="global.html#markAllNotificationsAsRead">markAllNotificationsAsRead</a></li><li><a href="global.html#markNoExcusedAdmin">markNoExcusedAdmin</a></li><li><a href="global.html#markNotificationAsRead">markNotificationAsRead</a></li><li><a href="global.html#matchPassesFilter">matchPassesFilter</a></li><li><a href="global.html#normalizeDate">normalizeDate</a></li><li><a href="global.html#previewNoResponseReminders">previewNoResponseReminders</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#rejectPlayerAdmin">rejectPlayerAdmin</a></li><li><a href="global.html#requestForgottenPassword">requestForgottenPassword</a></li><li><a href="global.html#resetForgottenPassword">resetForgottenPassword</a></li><li><a href="global.html#runMatchReminders">runMatchReminders</a></li><li><a href="global.html#runNoResponseReminders">runNoResponseReminders</a></li><li><a href="global.html#sendSpecialNotification">sendSpecialNotification</a></li><li><a href="global.html#setCurrentPlayer">setCurrentPlayer</a></li><li><a href="global.html#setCurrentSeasonForUser">setCurrentSeasonForUser</a></li><li><a href="global.html#smoothScrollTo">smoothScrollTo</a></li><li><a href="global.html#statusTextMap">statusTextMap</a></li><li><a href="global.html#transformMatchDetail">transformMatchDetail</a></li><li><a href="global.html#unCancelMatchAdmin">unCancelMatchAdmin</a></li><li><a href="global.html#updateCurrentPlayerSettings">updateCurrentPlayerSettings</a></li><li><a href="global.html#updateInactivityAdmin">updateInactivityAdmin</a></li><li><a href="global.html#updateMatchAdmin">updateMatchAdmin</a></li><li><a href="global.html#updateMatchScoreAdmin">updateMatchScoreAdmin</a></li><li><a href="global.html#updateMyCurrentPlayer">updateMyCurrentPlayer</a></li><li><a href="global.html#updatePlayerAdmin">updatePlayerAdmin</a></li><li><a href="global.html#updatePlayerSettings">updatePlayerSettings</a></li><li><a href="global.html#updateSeasonAdmin">updateSeasonAdmin</a></li><li><a href="global.html#updateUserSettings">updateUserSettings</a></li><li><a href="global.html#upsertMyRegistration">upsertMyRegistration</a></li><li><a href="global.html#useAllMatchesAdmin">useAllMatchesAdmin</a></li><li><a href="global.html#useAllPlayersAdmin">useAllPlayersAdmin</a></li><li><a href="global.html#useAllPlayersAdminWithUsers">useAllPlayersAdminWithUsers</a></li><li><a href="global.html#useAllSeasonsAdmin">useAllSeasonsAdmin</a></li><li><a href="global.html#useAllUsersAdmin">useAllUsersAdmin</a></li><li><a href="global.html#useBootstrapTooltip">useBootstrapTooltip</a></li><li><a href="global.html#useDemoMode">useDemoMode</a></li><li><a href="global.html#useDemoNotifications">useDemoNotifications</a></li><li><a href="global.html#useGlobalDim">useGlobalDim</a></li><li><a href="global.html#useGlobalModal">useGlobalModal</a></li><li><a href="global.html#useMatchAdminActions">useMatchAdminActions</a></li><li><a href="global.html#useMatchHistoryAdmin">useMatchHistoryAdmin</a></li><li><a href="global.html#useMatchTeamPositionOverview">useMatchTeamPositionOverview</a></li><li><a href="global.html#useMyMatchRegistrationHistory">useMyMatchRegistrationHistory</a></li><li><a href="global.html#useMyPassedMatches">useMyPassedMatches</a></li><li><a href="global.html#useMyPlayerStats">useMyPlayerStats</a></li><li><a href="global.html#useMyUpcomingMatches">useMyUpcomingMatches</a></li><li><a href="global.html#useNotificationBadge">useNotificationBadge</a></li><li><a href="global.html#useNotifications">useNotifications</a></li><li><a href="global.html#usePlayerHistoryAdmin">usePlayerHistoryAdmin</a></li><li><a href="global.html#usePlayerInactivityPeriodsAdmin">usePlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#usePlayerRegistrationHistoryAdmin">usePlayerRegistrationHistoryAdmin</a></li><li><a href="global.html#usePlayerSettings">usePlayerSettings</a></li><li><a href="global.html#usePlayerStatsAdmin">usePlayerStatsAdmin</a></li><li><a href="global.html#usePlayers">usePlayers</a></li><li><a href="global.html#useSpecialNotificationTargets">useSpecialNotificationTargets</a></li><li><a href="global.html#useUserProfile">useUserProfile</a></li><li><a href="global.html#useUserSettings">useUserSettings</a></li><li><a href="global.html#validateMatch">validateMatch</a></li><li><a href="global.html#validatePlayerProfile">validatePlayerProfile</a></li><li><a href="global.html#validateSeason">validateSeason</a></li><li><a href="global.html#verifyEmail">verifyEmail</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/InfoPage.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// src/pages/InfoPage.jsx
+import { Link } from "react-router-dom";
+import { useMemo } from "react";
+import { useAuth } from "../hooks/useAuth";
+
+/**
+ * Informační stránka pro uživatele aplikace.
+ *
+ * Vysvětluje:
+ * - k čemu aplikace slouží,
+ * - jaké jsou role,
+ * - jak fungují zápasy a registrace,
+ * - jak fungují notifikace,
+ * - typické scénáře pro hráče / rodiče / manažera / admina.
+ */
+const InfoPage = () => {
+    const { user } = useAuth();
+
+    const rolesLabel = useMemo(() => {
+        const roles =
+            user?.roles &amp;&amp; Array.isArray(user.roles)
+                ? user.roles
+                : user?.role
+                    ? [user.role]
+                    : [];
+        if (!roles.length) return "Nerozpoznaná role (kontaktuj správce)";
+        return roles.join(", ");
+    }, [user]);
+
+    return (
+        &lt;div className="container py-4">
+            {/* Header */}
+            &lt;div className="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-4">
+                &lt;div>
+                    &lt;h1 className="h3 mb-1">Informace o aplikaci&lt;/h1>
+                    &lt;p className="text-muted mb-0">
+                        Tato stránka ti pomůže pochopit, jak aplikace HobbyHokej funguje
+                        a co z toho máš jako uživatel.
+                    &lt;/p>
+                &lt;/div>
+
+                &lt;div className="text-muted small text-md-end">
+                    {user &amp;&amp; (
+                        &lt;>
+                            Přihlášen:{" "}
+                            &lt;span className="fw-semibold">
+                                {user.email || user.username || "uživatel"}
+                            &lt;/span>
+                            &lt;br />
+                            Role:{" "}
+                            &lt;span className="fw-semibold">{rolesLabel}&lt;/span>
+                        &lt;/>
+                    )}
+                &lt;/div>
+            &lt;/div>
+
+            {/* Co je aplikace */}
+            &lt;div className="row g-3 mb-4">
+                &lt;div className="col-12 col-lg-7">
+                    &lt;div className="card h-100 shadow-sm">
+                        &lt;div className="card-body">
+                            &lt;h2 className="h5 mb-3">Co je HobbyHokej?&lt;/h2>
+                            &lt;p className="mb-2">
+                                HobbyHokej je aplikace pro organizaci
+                                amatérského hokeje (a podobných sportů). Cílem
+                                je:
+                            &lt;/p>
+                            &lt;ul className="mb-2">
+                                &lt;li>usnadnit přihlašování na zápasy,&lt;/li>
+                                &lt;li>mít přehled o aktuálním počtu hráčů přihlášených k zápasů&lt;/li>
+                                &lt;li>mít přehled o hráčích a jejich roli,&lt;/li>
+                                &lt;li>řešit omluvy a absence přehledně,&lt;/li>
+                                &lt;li>
+                                    posílat notifikace při změnách termínů,
+                                    zrušení zápasů apod.
+                                &lt;/li>
+                            &lt;/ul>
+                            &lt;p className="mb-0">
+                                Aplikace má více typů uživatelů - hráče,
+                                (rodiče), manažery a administrátory. Každý vidí a
+                                může dělat jen to, co odpovídá jeho roli.
+                            &lt;/p>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+
+                {/* Základní orientace / rychlé odkazy */}
+                &lt;div className="col-12 col-lg-5">
+                    &lt;div className="card h-100 shadow-sm">
+                        &lt;div className="card-body">
+                            &lt;h2 className="h5 mb-3">Kde co najdu?&lt;/h2>
+                            &lt;ul className="list-unstyled small mb-3">
+                                &lt;li className="mb-1">
+                                    &lt;span className="fw-semibold">Zápasy:&lt;/span>{" "}
+                                    přehled zápasů, přihlášení / odhlášení, detaily
+                                    –{" "}
+                                    &lt;Link to="/app/matches">
+                                        /app/matches
+                                    &lt;/Link>
+                                &lt;/li>
+                                &lt;li className="mb-1">
+                                    &lt;span className="fw-semibold">
+                                        Moji hráči:
+                                    &lt;/span>{" "}
+                                    přepínání mezi hráči (např. dítě/rodič),
+                                    správa profilu –{" "}
+                                    &lt;Link to="/app/players">
+                                        /app/players
+                                    &lt;/Link>
+                                &lt;/li>
+                                &lt;li className="mb-1">
+                                    &lt;span className="fw-semibold">
+                                        Moje absence:
+                                    &lt;/span>{" "}
+                                    nahlášení, že nebudeš nějaké období hrát –{" "}
+                                    &lt;Link to="/app/my-inactivity">
+                                        /app/my-inactivity
+                                    &lt;/Link>
+                                &lt;/li>
+                                &lt;li className="mb-1">
+                                    &lt;span className="fw-semibold">
+                                        Nastavení:
+                                    &lt;/span>{" "}
+                                    email/SMS upozornění, jazyk, časové pásmo –
+                                    &lt;Link to="/app/settings">
+                                        {" "}
+                                        /app/settings
+                                    &lt;/Link>
+                                &lt;/li>
+                                &lt;li className="mb-1">
+                                    &lt;span className="fw-semibold">
+                                        Správa (pro manažery/adminy):
+                                    &lt;/span>{" "}
+                                    sezóny, zápasy, hráči, uživatelé –{" "}
+                                    &lt;Link to="/app/admin">
+                                        /app/admin
+                                    &lt;/Link>
+                                &lt;/li>
+                            &lt;/ul>
+
+                            &lt;p className="text-muted mb-0">
+                                Tip: Kdykoli se ztratíš, klikni na{" "}
+                                &lt;span className="fw-semibold">Přehled&lt;/span>{" "}
+                                v menu – tam se vždy vrátíš na úvodní stránku
+                                pro hráče.
+                            &lt;/p>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+
+            {/* Role v systému */}
+            &lt;div className="card shadow-sm mb-4">
+                &lt;div className="card-body">
+                    &lt;h2 className="h5 mb-3">Role v systému&lt;/h2>
+                    &lt;div className="row g-3">
+                        &lt;div className="col-12 col-md-6 col-xl-3">
+                            &lt;h3 className="h6">Hráč&lt;/h3>
+                            &lt;ul className="small mb-2">
+                                &lt;li>Vidí své zápasy a přihlášky.&lt;/li>
+                                &lt;li>Může se přihlásit / odhlásit na zápas.&lt;/li>
+                                &lt;li>Vidí svoje statistiky (účast apod.).&lt;/li>
+                                &lt;li>Delší absenci zadává pouze Admin/Manažer.&lt;/li>
+                            &lt;/ul>
+                        &lt;/div>
+                        &lt;div className="col-12 col-md-6 col-xl-3">
+                            &lt;h3 className="h6">Rodič / zástupce&lt;/h3>
+                            &lt;ul className="small mb-2">
+                                &lt;li>
+                                    Má účet v systému, ale přepíná mezi „svými“
+                                    hráči (např. děti).
+                                &lt;/li>
+                                &lt;li>
+                                    Přihlašuje/odhlašuje hráče na zápasy za ně.
+                                &lt;/li>
+                                &lt;li>Řeší omluvy.&lt;/li>
+                            &lt;/ul>
+                        &lt;/div>
+                        &lt;div className="col-12 col-md-6 col-xl-3">
+                            &lt;h3 className="h6">Manažer&lt;/h3>
+                            &lt;ul className="small mb-2">
+                                &lt;li>Plánuje zápasy (čas, místo, kapacita).&lt;/li>
+                                &lt;li>Schvaluje hráče a jejich status.&lt;/li>
+                                &lt;li>
+                                    Kontroluje přihlášky a řeší náhradníky /
+                                    čekací listina je řešena automaticky systémem dle data přihlášení k zápasu.
+                                &lt;/li>
+                                &lt;li>
+                                    Vidí přehled notifikací a změn v systému.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/div>
+                        &lt;div className="col-12 col-md-6 col-xl-3">
+                            &lt;h3 className="h6">Admin&lt;/h3>
+                            &lt;ul className="small mb-2">
+                                &lt;li>Spravuje uživatele a jejich role.&lt;/li>
+                                &lt;li>Spravuje sezóny a globální nastavení.&lt;/li>
+                                &lt;li>Dohlíží na notifikace a logy.&lt;/li>
+                            &lt;/ul>
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+
+            {/* Typické scénáře */}
+            &lt;div className="card shadow-sm mb-4">
+                &lt;div className="card-body">
+                    &lt;h2 className="h5 mb-3">Typické scénáře (jak na to)&lt;/h2>
+
+                    &lt;h3 className="h6 mb-2">Jsem hráč / rodič&lt;/h3>
+                    &lt;ol className="small mb-3">
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Chci se přihlásit na zápas
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Otevři{" "}
+                                    &lt;Link to="/app/matches">
+                                        Zápasy
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>
+                                    Najdi konkrétní zápas a klikni na něj{" "}
+                                    &lt;span className="fw-semibold">
+                                        a na další stránce se přihlas pomocí tlačítka
+                                    &lt;/span>{" "}
+                                    (text je různý podle statutu aktuálně přihlášeného hráče a dostatečně vystihuje volbu pro přihlášení k zápasu).
+                                &lt;/li>
+                                &lt;li>
+                                    Pokud je zápas plný, můžeš se dostat na
+                                    čekací listinu / náhradníka.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Potřebuji se ze zápasu odhlásit
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Opět{" "}
+                                    &lt;Link to="/app/matches">
+                                        Zápasy
+                                    &lt;/Link>{" "}
+                                    → vyber konkrétní zápas.
+                                &lt;/li>
+                                &lt;li>
+                                    Klikni na{" "}
+                                    &lt;span className="fw-semibold">
+                                        příslušné tlačítko
+                                    &lt;/span>{" "}
+                                    (text je různý podle statutu aktuálně přihlášeného hráče a dostatečně vystihuje volbu pro odhlášení ze zápasu).
+                                &lt;/li>
+                                &lt;li>
+                                    Pokud je někdo na čekací listině jako náhradník, bude automaticky
+                                    zařazen do sestavy.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Vím, že teď delší dobu hrát nebudu (zranění,
+                                dovolená… kontaktuj managera a on doplní tvou neaktivitu do systému)
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    To potom uvidíš když otevřeš {" "}
+                                    &lt;Link to="/app/my-inactivity">
+                                        Mimo
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>
+                                    Zde bude zadáno období, kdy nebudeš k dispozici.
+                                &lt;/li>
+                                &lt;li>
+                                    Manažer uvidí tvoji absenci a nebudeš se moci přihlásit k zápasu, 
+                                    a v daném období se s tebou nebude počítat.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Chci si upravit notifikace (email/SMS)
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Otevři{" "}
+                                    &lt;Link to="/app/settings">
+                                        Nastavení
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>
+                                    Uprav, jaké typy upozornění chceš dostávat
+                                    (např. změna data/času zápasu, zrušení zápasu, tvojé registrace na zápas...).
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+                    &lt;/ol>
+
+                    &lt;h3 className="h6 mb-2">Jsem manažer&lt;/h3>
+                    &lt;ol className="small mb-3">
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Chci vytvořit nový zápas (kliknu na Správa)
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Otevři{" "}
+                                    &lt;Link to="/app/admin/matches">
+                                        Admin &amp;rarr; Zápasy
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>
+                                    Vytvořit nový zápas (datum, čas, místo, popis (volitelné)
+                                    maximální počet hráčů, cena (za pronájem haly)).
+                                &lt;/li>
+                                &lt;li>
+                                    Po uložení dostanou hráči notifikaci podle
+                                    svého nastavení.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Potřebuji změnit čas nebo místo zápasu
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Najdi zápas v{" "}
+                                    &lt;Link to="/app/admin/matches">
+                                        Admin &amp;rarr; Zápasy
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>Uprav čas/místo a ulož změny.&lt;/li>
+                                &lt;li>
+                                    Systém automaticky pošle notifikace
+                                    přihlášeným hráčům.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Chci schválit nového hráče
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Otevři{" "}
+                                    &lt;Link to="/app/admin/players">
+                                        Admin &amp;rarr; Hráči
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>
+                                    Najdi hráče ve stavu „čeká na schválení“ a
+                                    změň jeho status na „aktivní“.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+                    &lt;/ol>
+
+                    &lt;h3 className="h6 mb-2">Jsem admin&lt;/h3>
+                    &lt;ol className="small mb-0">
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Chci vytvořit nového uživatele nebo nastavit
+                                role
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Otevři{" "}
+                                    &lt;Link to="/app/admin/users">
+                                        Admin &amp;rarr; Uživatelé
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>
+                                    Přidej nového uživatele nebo uprav role
+                                    existujícímu (PLAYER, MANAGER, ADMIN…).
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+
+                        &lt;li className="mb-2">
+                            &lt;span className="fw-semibold">
+                                Chci zkontrolovat notifikace v systému
+                            &lt;/span>
+                            &lt;ul className="mb-1">
+                                &lt;li>
+                                    Otevři{" "}
+                                    &lt;Link to="/app/admin/notifications">
+                                        Admin &amp;rarr; Notifikace
+                                    &lt;/Link>
+                                    .
+                                &lt;/li>
+                                &lt;li>
+                                    Zde vidíš, jaké notifikace byly
+                                    odesílány/ukládány a kterým uživatelům.
+                                &lt;/li>
+                            &lt;/ul>
+                        &lt;/li>
+                    &lt;/ol>
+                &lt;/div>
+            &lt;/div>
+
+            {/* Shrnutí / podpora */}
+            &lt;div className="text-muted small">
+                Pokud ti v aplikaci něco nefunguje nebo něčemu nerozumíš,
+                obrať se na svého manažera nebo administrátora.
+                V budoucnu se sem mohou přidat i odkazy na návody, FAQ a
+                kontaktní informace.
+            &lt;/div>
+        &lt;/div>
+    );
+};
+
+export default InfoPage;</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

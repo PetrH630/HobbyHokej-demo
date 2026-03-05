@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/notifications/AdminSpecialNotificationModal.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminCancelNoExcuseModal">AdminCancelNoExcuseModal</a></li><li><a href="global.html#AdminHomePage">AdminHomePage</a></li><li><a href="global.html#AdminMatchCard">AdminMatchCard</a></li><li><a href="global.html#AdminMatchDetailInline">AdminMatchDetailInline</a></li><li><a href="global.html#AdminMatchHistory">AdminMatchHistory</a></li><li><a href="global.html#AdminMatchHistoryCard">AdminMatchHistoryCard</a></li><li><a href="global.html#AdminMatchInfo">AdminMatchInfo</a></li><li><a href="global.html#AdminMatchModal">AdminMatchModal</a></li><li><a href="global.html#AdminMatchRegistrationInfo">AdminMatchRegistrationInfo</a></li><li><a href="global.html#AdminMatchesPage">AdminMatchesPage</a></li><li><a href="global.html#AdminMatchesTable">AdminMatchesTable</a></li><li><a href="global.html#AdminNoExcuseModal">AdminNoExcuseModal</a></li><li><a href="global.html#AdminNotificationBell">AdminNotificationBell</a></li><li><a href="global.html#AdminNotificationCard">AdminNotificationCard</a></li><li><a href="global.html#AdminNotificationPage">AdminNotificationPage</a></li><li><a href="global.html#AdminNotificationsList">AdminNotificationsList</a></li><li><a href="global.html#AdminPlayerCard">AdminPlayerCard</a></li><li><a href="global.html#AdminPlayerEditModal">AdminPlayerEditModal</a></li><li><a href="global.html#AdminPlayerHistory">AdminPlayerHistory</a></li><li><a href="global.html#AdminPlayerHistoryCard">AdminPlayerHistoryCard</a></li><li><a href="global.html#AdminPlayerInactivityModal">AdminPlayerInactivityModal</a></li><li><a href="global.html#AdminPlayerRegistrationHistory">AdminPlayerRegistrationHistory</a></li><li><a href="global.html#AdminPlayerRegistrationHistoryModal">AdminPlayerRegistrationHistoryModal</a></li><li><a href="global.html#AdminPlayerRow">AdminPlayerRow</a></li><li><a href="global.html#AdminPlayersInactivityPage">AdminPlayersInactivityPage</a></li><li><a href="global.html#AdminPlayersPage">AdminPlayersPage</a></li><li><a href="global.html#AdminPlayersTable">AdminPlayersTable</a></li><li><a href="global.html#AdminSeasonCard">AdminSeasonCard</a></li><li><a href="global.html#AdminSeasonModal">AdminSeasonModal</a></li><li><a href="global.html#AdminSeasonsPage">AdminSeasonsPage</a></li><li><a href="global.html#AdminSeasonsTable">AdminSeasonsTable</a></li><li><a href="global.html#AdminSpecialNotificationModal">AdminSpecialNotificationModal</a></li><li><a href="global.html#AdminUserCard">AdminUserCard</a></li><li><a href="global.html#AdminUserDetailPage">AdminUserDetailPage</a></li><li><a href="global.html#AdminUserEditModal">AdminUserEditModal</a></li><li><a href="global.html#AdminUsersPage">AdminUsersPage</a></li><li><a href="global.html#AdminUsersTable">AdminUsersTable</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AppModeProvider">AppModeProvider</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#BackButton">BackButton</a></li><li><a href="global.html#CancelMatchModal">CancelMatchModal</a></li><li><a href="global.html#CapacityRing">CapacityRing</a></li><li><a href="global.html#ChangePasswordForm">ChangePasswordForm</a></li><li><a href="global.html#ConfirmActionModal">ConfirmActionModal</a></li><li><a href="global.html#CookieConsentBanner">CookieConsentBanner</a></li><li><a href="global.html#CreatePlayer">CreatePlayer</a></li><li><a href="global.html#CreatePlayerForm">CreatePlayerForm</a></li><li><a href="global.html#CurrentPlayerProvider">CurrentPlayerProvider</a></li><li><a href="global.html#DatePicker">DatePicker</a></li><li><a href="global.html#DateTimePicker">DateTimePicker</a></li><li><a href="global.html#DemoNotificationsModal">DemoNotificationsModal</a></li><li><a href="global.html#ExcuseModal">ExcuseModal</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#ForgottenPasswordRequestPage">ForgottenPasswordRequestPage</a></li><li><a href="global.html#ForgottenPasswordResetPage">ForgottenPasswordResetPage</a></li><li><a href="global.html#HamburgerIcon">HamburgerIcon</a></li><li><a href="global.html#HeaderTop">HeaderTop</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#HomeDecider">HomeDecider</a></li><li><a href="global.html#InfoPage">InfoPage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MATCH_MODE_CONFIG">MATCH_MODE_CONFIG</a></li><li><a href="global.html#MATCH_MODE_OPTIONS">MATCH_MODE_OPTIONS</a></li><li><a href="global.html#MatchActions">MatchActions</a></li><li><a href="global.html#MatchCard">MatchCard</a></li><li><a href="global.html#MatchDetail">MatchDetail</a></li><li><a href="global.html#MatchDetailPage">MatchDetailPage</a></li><li><a href="global.html#MatchForm">MatchForm</a></li><li><a href="global.html#MatchHeader">MatchHeader</a></li><li><a href="global.html#MatchInfo">MatchInfo</a></li><li><a href="global.html#MatchOverview">MatchOverview</a></li><li><a href="global.html#MatchRegistrationHistory">MatchRegistrationHistory</a></li><li><a href="global.html#MatchRegistrationInfo">MatchRegistrationInfo</a></li><li><a href="global.html#MoneyIcon">MoneyIcon</a></li><li><a href="global.html#MyInactivityPage">MyInactivityPage</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NotificationBadgeContext">NotificationBadgeContext</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#NotificationProvider">NotificationProvider</a></li><li><a href="global.html#NotificationsList">NotificationsList</a></li><li><a href="global.html#NotificationsPage">NotificationsPage</a></li><li><a href="global.html#PastMatches">PastMatches</a></li><li><a href="global.html#PhoneIcon">PhoneIcon</a></li><li><a href="global.html#PlayerCard">PlayerCard</a></li><li><a href="global.html#PlayerHomePage">PlayerHomePage</a></li><li><a href="global.html#PlayerInactivityCards">PlayerInactivityCards</a></li><li><a href="global.html#PlayerMatchStatus">PlayerMatchStatus</a></li><li><a href="global.html#PlayerPositionModal">PlayerPositionModal</a></li><li><a href="global.html#PlayerProfileForm">PlayerProfileForm</a></li><li><a href="global.html#PlayerSettings">PlayerSettings</a></li><li><a href="global.html#PlayerStats">PlayerStats</a></li><li><a href="global.html#PlayerStatsCharts">PlayerStatsCharts</a></li><li><a href="global.html#Players">Players</a></li><li><a href="global.html#PlayersPage">PlayersPage</a></li><li><a href="global.html#PositionModalView">PositionModalView</a></li><li><a href="global.html#PublicLandingPage">PublicLandingPage</a></li><li><a href="global.html#PublicLayout">PublicLayout</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#RegisteredIcon">RegisteredIcon</a></li><li><a href="global.html#RequireAuth">RequireAuth</a></li><li><a href="global.html#RoleGuard">RoleGuard</a></li><li><a href="global.html#ScrollToTop">ScrollToTop</a></li><li><a href="global.html#ScrollToTopButton">ScrollToTopButton</a></li><li><a href="global.html#SeasonForm">SeasonForm</a></li><li><a href="global.html#SeasonProvider">SeasonProvider</a></li><li><a href="global.html#SeasonSelect">SeasonSelect</a></li><li><a href="global.html#SettingsPage">SettingsPage</a></li><li><a href="global.html#SharedLayout">SharedLayout</a></li><li><a href="global.html#SuccessModal">SuccessModal</a></li><li><a href="global.html#TeamSelectModal">TeamSelectModal</a></li><li><a href="global.html#UpcomingMatches">UpcomingMatches</a></li><li><a href="global.html#UserProfileForm">UserProfileForm</a></li><li><a href="global.html#UserSettings">UserSettings</a></li><li><a href="global.html#VerifyEmailPage">VerifyEmailPage</a></li><li><a href="global.html#approvePlayerAdmin">approvePlayerAdmin</a></li><li><a href="global.html#autoLineupAdmin">autoLineupAdmin</a></li><li><a href="global.html#autoSelectCurrentPlayer">autoSelectCurrentPlayer</a></li><li><a href="global.html#buildPositionCapacityForMode">buildPositionCapacityForMode</a></li><li><a href="global.html#calculateMaxPlayers">calculateMaxPlayers</a></li><li><a href="global.html#calculatePlayersPerTeam">calculatePlayersPerTeam</a></li><li><a href="global.html#cancelMatchAdmin">cancelMatchAdmin</a></li><li><a href="global.html#cancelNoExcusedAdmin">cancelNoExcusedAdmin</a></li><li><a href="global.html#changeMyRegistrationTeam">changeMyRegistrationTeam</a></li><li><a href="global.html#changePlayerUserAdmin">changePlayerUserAdmin</a></li><li><a href="global.html#changeRegistrationTeamAdmin">changeRegistrationTeamAdmin</a></li><li><a href="global.html#checkAuthentication">checkAuthentication</a></li><li><a href="global.html#checkDuplicateName">checkDuplicateName</a></li><li><a href="global.html#computeTeamPositionAvailability">computeTeamPositionAvailability</a></li><li><a href="global.html#createInactivityAdmin">createInactivityAdmin</a></li><li><a href="global.html#createMatchAdmin">createMatchAdmin</a></li><li><a href="global.html#createPlayer">createPlayer</a></li><li><a href="global.html#createPlayerAdmin">createPlayerAdmin</a></li><li><a href="global.html#createSeasonAdmin">createSeasonAdmin</a></li><li><a href="global.html#deleteInactivityAdmin">deleteInactivityAdmin</a></li><li><a href="global.html#deleteMatchAdmin">deleteMatchAdmin</a></li><li><a href="global.html#deletePlayerAdmin">deletePlayerAdmin</a></li><li><a href="global.html#extractRoles">extractRoles</a></li><li><a href="global.html#fetchAllNotificationsAdmin">fetchAllNotificationsAdmin</a></li><li><a href="global.html#fetchAppMode">fetchAppMode</a></li><li><a href="global.html#fetchCurrentSeasonForUser">fetchCurrentSeasonForUser</a></li><li><a href="global.html#fetchCurrentUser">fetchCurrentUser</a></li><li><a href="global.html#fetchNotificationBadge">fetchNotificationBadge</a></li><li><a href="global.html#fetchNotificationsSinceLastLogin">fetchNotificationsSinceLastLogin</a></li><li><a href="global.html#fetchRecentNotifications">fetchRecentNotifications</a></li><li><a href="global.html#fetchSeasonsForUser">fetchSeasonsForUser</a></li><li><a href="global.html#fetchSpecialNotificationTargets">fetchSpecialNotificationTargets</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#formatDateTime">formatDateTime</a></li><li><a href="global.html#formatPhoneNumber">formatPhoneNumber</a></li><li><a href="global.html#getAllMatchesAdmin">getAllMatchesAdmin</a></li><li><a href="global.html#getAllPlayerInactivityPeriodsAdmin">getAllPlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#getAllPlayersAdmin">getAllPlayersAdmin</a></li><li><a href="global.html#getAllSeasonsAdmin">getAllSeasonsAdmin</a></li><li><a href="global.html#getAvailableMatchesForPlayerAdmin">getAvailableMatchesForPlayerAdmin</a></li><li><a href="global.html#getCurrentPlayer">getCurrentPlayer</a></li><li><a href="global.html#getCurrentPlayerSettings">getCurrentPlayerSettings</a></li><li><a href="global.html#getFirstUpcomingMatch">getFirstUpcomingMatch</a></li><li><a href="global.html#getForgottenPasswordInfo">getForgottenPasswordInfo</a></li><li><a href="global.html#getIcePositionsForMode">getIcePositionsForMode</a></li><li><a href="global.html#getInactivityByPlayerAdmin">getInactivityByPlayerAdmin</a></li><li><a href="global.html#getMatchDetail">getMatchDetail</a></li><li><a href="global.html#getMatchHistoryAdmin">getMatchHistoryAdmin</a></li><li><a href="global.html#getMatchTeamPositionOverview">getMatchTeamPositionOverview</a></li><li><a href="global.html#getMyInactivity">getMyInactivity</a></li><li><a href="global.html#getMyPassedMatchesOverview">getMyPassedMatchesOverview</a></li><li><a href="global.html#getMyPlayerHistory">getMyPlayerHistory</a></li><li><a href="global.html#getMyPlayerStats">getMyPlayerStats</a></li><li><a href="global.html#getMyPlayers">getMyPlayers</a></li><li><a href="global.html#getMyUpcomingMatchesOverview">getMyUpcomingMatchesOverview</a></li><li><a href="global.html#getPastMatchesAdmin">getPastMatchesAdmin</a></li><li><a href="global.html#getPlayerById">getPlayerById</a></li><li><a href="global.html#getPlayerHistoryAdmin">getPlayerHistoryAdmin</a></li><li><a href="global.html#getPlayerPositionLabel">getPlayerPositionLabel</a></li><li><a href="global.html#getPlayerSettings">getPlayerSettings</a></li><li><a href="global.html#getPlayerStatsAdmin">getPlayerStatsAdmin</a></li><li><a href="global.html#getSeasonByIdAdmin">getSeasonByIdAdmin</a></li><li><a href="global.html#getUpcomingMatchesAdmin">getUpcomingMatchesAdmin</a></li><li><a href="global.html#getUserSettings">getUserSettings</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#mapRegistrationToPlayer">mapRegistrationToPlayer</a></li><li><a href="global.html#markAllNotificationsAsRead">markAllNotificationsAsRead</a></li><li><a href="global.html#markNoExcusedAdmin">markNoExcusedAdmin</a></li><li><a href="global.html#markNotificationAsRead">markNotificationAsRead</a></li><li><a href="global.html#matchPassesFilter">matchPassesFilter</a></li><li><a href="global.html#normalizeDate">normalizeDate</a></li><li><a href="global.html#previewNoResponseReminders">previewNoResponseReminders</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#rejectPlayerAdmin">rejectPlayerAdmin</a></li><li><a href="global.html#requestForgottenPassword">requestForgottenPassword</a></li><li><a href="global.html#resetForgottenPassword">resetForgottenPassword</a></li><li><a href="global.html#runMatchReminders">runMatchReminders</a></li><li><a href="global.html#runNoResponseReminders">runNoResponseReminders</a></li><li><a href="global.html#sendSpecialNotification">sendSpecialNotification</a></li><li><a href="global.html#setCurrentPlayer">setCurrentPlayer</a></li><li><a href="global.html#setCurrentSeasonForUser">setCurrentSeasonForUser</a></li><li><a href="global.html#smoothScrollTo">smoothScrollTo</a></li><li><a href="global.html#statusTextMap">statusTextMap</a></li><li><a href="global.html#transformMatchDetail">transformMatchDetail</a></li><li><a href="global.html#unCancelMatchAdmin">unCancelMatchAdmin</a></li><li><a href="global.html#updateCurrentPlayerSettings">updateCurrentPlayerSettings</a></li><li><a href="global.html#updateInactivityAdmin">updateInactivityAdmin</a></li><li><a href="global.html#updateMatchAdmin">updateMatchAdmin</a></li><li><a href="global.html#updateMatchScoreAdmin">updateMatchScoreAdmin</a></li><li><a href="global.html#updateMyCurrentPlayer">updateMyCurrentPlayer</a></li><li><a href="global.html#updatePlayerAdmin">updatePlayerAdmin</a></li><li><a href="global.html#updatePlayerSettings">updatePlayerSettings</a></li><li><a href="global.html#updateSeasonAdmin">updateSeasonAdmin</a></li><li><a href="global.html#updateUserSettings">updateUserSettings</a></li><li><a href="global.html#upsertMyRegistration">upsertMyRegistration</a></li><li><a href="global.html#useAllMatchesAdmin">useAllMatchesAdmin</a></li><li><a href="global.html#useAllPlayersAdmin">useAllPlayersAdmin</a></li><li><a href="global.html#useAllPlayersAdminWithUsers">useAllPlayersAdminWithUsers</a></li><li><a href="global.html#useAllSeasonsAdmin">useAllSeasonsAdmin</a></li><li><a href="global.html#useAllUsersAdmin">useAllUsersAdmin</a></li><li><a href="global.html#useBootstrapTooltip">useBootstrapTooltip</a></li><li><a href="global.html#useDemoMode">useDemoMode</a></li><li><a href="global.html#useDemoNotifications">useDemoNotifications</a></li><li><a href="global.html#useGlobalDim">useGlobalDim</a></li><li><a href="global.html#useGlobalModal">useGlobalModal</a></li><li><a href="global.html#useMatchAdminActions">useMatchAdminActions</a></li><li><a href="global.html#useMatchHistoryAdmin">useMatchHistoryAdmin</a></li><li><a href="global.html#useMatchTeamPositionOverview">useMatchTeamPositionOverview</a></li><li><a href="global.html#useMyMatchRegistrationHistory">useMyMatchRegistrationHistory</a></li><li><a href="global.html#useMyPassedMatches">useMyPassedMatches</a></li><li><a href="global.html#useMyPlayerStats">useMyPlayerStats</a></li><li><a href="global.html#useMyUpcomingMatches">useMyUpcomingMatches</a></li><li><a href="global.html#useNotificationBadge">useNotificationBadge</a></li><li><a href="global.html#useNotifications">useNotifications</a></li><li><a href="global.html#usePlayerHistoryAdmin">usePlayerHistoryAdmin</a></li><li><a href="global.html#usePlayerInactivityPeriodsAdmin">usePlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#usePlayerRegistrationHistoryAdmin">usePlayerRegistrationHistoryAdmin</a></li><li><a href="global.html#usePlayerSettings">usePlayerSettings</a></li><li><a href="global.html#usePlayerStatsAdmin">usePlayerStatsAdmin</a></li><li><a href="global.html#usePlayers">usePlayers</a></li><li><a href="global.html#useSpecialNotificationTargets">useSpecialNotificationTargets</a></li><li><a href="global.html#useUserProfile">useUserProfile</a></li><li><a href="global.html#useUserSettings">useUserSettings</a></li><li><a href="global.html#validateMatch">validateMatch</a></li><li><a href="global.html#validatePlayerProfile">validatePlayerProfile</a></li><li><a href="global.html#validateSeason">validateSeason</a></li><li><a href="global.html#verifyEmail">verifyEmail</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/notifications/AdminSpecialNotificationModal.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { useEffect, useMemo, useState } from "react";
+import { useSpecialNotificationTargets } from "../../hooks/useSpecialNotificationTargets";
+import { sendSpecialNotification } from "../../api/notificationsApi";
+
+/**
+ * AdminSpecialNotificationModal
+ *
+ * Bootstrap modal komponenta pro práci s modálním dialogem v aplikaci.
+ *
+ * Umožňuje zavření stiskem klávesy Escape.
+ *
+ * Props:
+ * @param {boolean} props.show určuje, zda je dialog otevřený.
+ * @param {Function} props.onClose callback pro předání akce do nadřazené vrstvy.
+ * @param {Object} props.onSent vstupní hodnota komponenty.
+ */
+const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
+    const { targets, loading, error, reload } = useSpecialNotificationTargets(show);
+
+    const [selectedKeys, setSelectedKeys] = useState(new Set());
+
+    const [title, setTitle] = useState("");
+    const [message, setMessage] = useState("");
+    const [sendEmail, setSendEmail] = useState(true);
+    const [sendSms, setSendSms] = useState(false);
+
+    const [submitError, setSubmitError] = useState(null);
+    const [submitSuccess, setSubmitSuccess] = useState(null);
+    const [submitting, setSubmitting] = useState(false);
+
+    const [demoPreview, setDemoPreview] = useState(null);
+
+
+    const [sent, setSent] = useState(false);
+
+
+    const makeKey = (target) =>
+        `${target.userId ?? "null"}-${target.playerId ?? "null"}`;
+
+
+    useEffect(() => {
+        if (!show) {
+
+            setSelectedKeys(new Set());
+            setTitle("");
+            setMessage("");
+            setSendEmail(true);
+            setSendSms(false);
+            setSubmitError(null);
+            setSubmitSuccess(null);
+            setDemoPreview(null);
+            setSent(false);
+        } else {
+
+            setSubmitError(null);
+            setSubmitSuccess(null);
+            setDemoPreview(null);
+            setSent(false);
+        }
+    }, [show]);
+
+
+    const selectedTargets = useMemo(
+        () => targets.filter((t) => selectedKeys.has(makeKey(t))),
+        [targets, selectedKeys]
+    );
+
+    const allSelected =
+        targets.length > 0 &amp;&amp;
+        targets.every((t) => selectedKeys.has(makeKey(t)));
+
+    const hasSelection = selectedTargets.length > 0;
+
+    const isValidForm =
+        title.trim().length > 0 &amp;&amp;
+        message.trim().length > 0 &amp;&amp;
+        hasSelection &amp;&amp;
+        !submitting &amp;&amp;
+        !sent;
+
+    
+    const handleToggleOne = (target) => {
+        const key = makeKey(target);
+        setSelectedKeys((prev) => {
+            const next = new Set(prev);
+            if (next.has(key)) {
+                next.delete(key);
+            } else {
+                next.add(key);
+            }
+            return next;
+        });
+    };
+
+    
+    const handleToggleAll = () => {
+        if (allSelected) {
+
+            setSelectedKeys(new Set());
+        } else {
+
+            const all = new Set(targets.map((t) => makeKey(t)));
+            setSelectedKeys(all);
+        }
+    };
+
+    
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        setSubmitError(null);
+        setSubmitSuccess(null);
+        setDemoPreview(null);
+
+        if (!hasSelection) {
+            setSubmitError("Vyber prosím alespoň jednoho příjemce.");
+            return;
+        }
+
+        if (!title.trim() || !message.trim()) {
+            setSubmitError("Vyplň prosím nadpis i text zprávy.");
+            return;
+        }
+
+        const payload = {
+            title: title.trim(),
+            message: message.trim(),
+            sendEmail,
+            sendSms,
+            targets: selectedTargets.map((t) => ({
+                userId: t.userId,
+                playerId: t.playerId,
+            })),
+        };
+
+        setSubmitting(true);
+        try {
+            const demoResult = await sendSpecialNotification(payload);
+
+            if (demoResult) {
+
+                setDemoPreview(demoResult);
+                setSubmitSuccess(
+                    "Zpráva byla odeslána (DEMO režim – e-maily a SMS se fyzicky neodeslaly)."
+                );
+            } else {
+
+                setSubmitSuccess("Zpráva byla odeslána vybraným příjemcům.");
+            }
+
+            setSent(true);
+
+            if (typeof onSent === "function") {
+                onSent(payload, demoResult ?? null);
+            }
+        } catch (err) {
+            console.error("Chyba při odesílání speciální zprávy:", err);
+            const message =
+                err?.response?.data?.message ||
+                err?.message ||
+                "Nepodařilo se odeslat speciální zprávu.";
+            setSubmitError(message);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
+    
+    const handleCloseClick = () => {
+        if (submitting) {
+            return;
+        }
+        onClose &amp;&amp; onClose();
+    };
+
+    if (!show) {
+        return null;
+    }
+
+
+    const emailPreview =
+        demoPreview &amp;&amp;
+            Array.isArray(demoPreview.emails) &amp;&amp;
+            demoPreview.emails.length > 0
+            ? demoPreview.emails[0]
+            : null;
+
+    return (
+        &lt;>
+            &lt;div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                role="dialog"
+                aria-modal="true"
+            >
+                &lt;div className="modal-dialog modal-xl modal-dialog-scrollable" role="document">
+                    &lt;div className="modal-content">
+                        &lt;div className="modal-header">
+                            &lt;h5 className="modal-title">
+                                Odeslat speciální zprávu
+                            &lt;/h5>
+                            &lt;button
+                                type="button"
+                                className="btn-close"
+                                aria-label="Close"
+                                onClick={handleCloseClick}
+                                disabled={submitting}
+                            />
+                        &lt;/div>
+
+                        &lt;div className="modal-body">
+                            {/* Chyby z načítání cílů */}
+                            {error &amp;&amp; (
+                                &lt;div className="alert alert-danger">
+                                    {error}
+                                    &lt;button
+                                        type="button"
+                                        className="btn btn-sm btn-outline-light ms-2"
+                                        onClick={reload}
+                                    >
+                                        Zkusit znovu načíst příjemce
+                                    &lt;/button>
+                                &lt;/div>
+                            )}
+
+                            {/* Chyba při odeslání */}
+                            {submitError &amp;&amp; (
+                                &lt;div className="alert alert-danger">
+                                    {submitError}
+                                &lt;/div>
+                            )}
+
+                            {submitSuccess &amp;&amp; (
+                                &lt;div className="alert alert-success">
+                                    {submitSuccess}
+                                &lt;/div>
+                            )}
+
+                            &lt;div className="row">
+                                {/* Seznam příjemců */}
+                                &lt;div className="col-12 col-lg-6 mb-3">
+                                    &lt;div className="d-flex justify-content-between align-items-center mb-2">
+                                        &lt;h6 className="mb-0">Příjemci&lt;/h6>
+                                        &lt;div className="form-check">
+                                            &lt;input
+                                                className="form-check-input"
+                                                type="checkbox"
+                                                id="special-select-all"
+                                                checked={allSelected}
+                                                onChange={handleToggleAll}
+                                                disabled={loading || targets.length === 0 || sent}
+                                            />
+                                            &lt;label
+                                                className="form-check-label"
+                                                htmlFor="special-select-all"
+                                            >
+                                                Vybrat vše
+                                            &lt;/label>
+                                        &lt;/div>
+                                    &lt;/div>
+
+                                    {loading &amp;&amp; (
+                                        &lt;p>Načítám seznam příjemců…&lt;/p>
+                                    )}
+
+                                    {!loading &amp;&amp; targets.length === 0 &amp;&amp; (
+                                        &lt;p className="text-muted">
+                                            Není k dispozici žádný možný příjemce.
+                                        &lt;/p>
+                                    )}
+
+                                    {!loading &amp;&amp; targets.length > 0 &amp;&amp; (
+                                        &lt;div
+                                            className="border rounded p-2"
+                                            style={{ maxHeight: "300px", overflowY: "auto" }}
+                                        >
+                                            {targets.map((target) => {
+                                                const key = makeKey(target);
+                                                const checked = selectedKeys.has(key);
+                                                return (
+                                                    &lt;div
+                                                        key={key}
+                                                        className="form-check d-flex align-items-center py-1"
+                                                    >
+                                                        &lt;input
+                                                            className="form-check-input me-2"
+                                                            type="checkbox"
+                                                            id={`special-target-${key}`}
+                                                            checked={checked}
+                                                            onChange={() =>
+                                                                handleToggleOne(target)
+                                                            }
+                                                            disabled={submitting || sent}
+                                                        />
+                                                        &lt;label
+                                                            className="form-check-label d-flex flex-column flex-sm-row w-100"
+                                                            htmlFor={`special-target-${key}`}
+                                                        >
+                                                            &lt;span className="me-2">
+                                                                {target.displayName}
+                                                            &lt;/span>
+                                                            &lt;span className="badge bg-secondary ms-sm-auto mt-1 mt-sm-0">
+                                                                {target.type === "PLAYER"
+                                                                    ? "Hráč"
+                                                                    : "Uživatel"}
+                                                            &lt;/span>
+                                                        &lt;/label>
+                                                    &lt;/div>
+                                                );
+                                            })}
+                                        &lt;/div>
+                                    )}
+
+                                    &lt;div className="mt-2 small text-muted">
+                                        Vybráno příjemců: {selectedTargets.length}
+                                    &lt;/div>
+                                &lt;/div>
+
+                                {/* Formulář zprávy */}
+                                &lt;div className="col-12 col-lg-6 mb-3">
+                                    &lt;form onSubmit={handleSubmit}>
+                                        &lt;div className="mb-3">
+                                            &lt;label
+                                                htmlFor="special-title"
+                                                className="form-label"
+                                            >
+                                                Nadpis zprávy
+                                            &lt;/label>
+                                            &lt;input
+                                                type="text"
+                                                id="special-title"
+                                                className="form-control"
+                                                value={title}
+                                                onChange={(e) =>
+                                                    setTitle(e.target.value)
+                                                }
+                                                disabled={submitting || sent}
+                                                maxLength={200}
+                                                placeholder="Např. Změna času tréninku"
+                                            />
+                                        &lt;/div>
+
+                                        &lt;div className="mb-3">
+                                            &lt;label
+                                                htmlFor="special-message"
+                                                className="form-label"
+                                            >
+                                                Text zprávy
+                                            &lt;/label>
+                                            &lt;textarea
+                                                id="special-message"
+                                                className="form-control"
+                                                rows={6}
+                                                value={message}
+                                                onChange={(e) =>
+                                                    setMessage(e.target.value)
+                                                }
+                                                disabled={submitting || sent}
+                                                placeholder="Sem napiš text, který se zobrazí jako in-app notifikace, v e-mailu i v SMS (podle zvolených kanálů)."
+                                            />
+                                        &lt;/div>
+
+                                        &lt;div className="mb-3">
+                                            &lt;div className="form-check">
+                                                &lt;input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="special-send-email"
+                                                    checked={sendEmail}
+                                                    onChange={(e) =>
+                                                        setSendEmail(
+                                                            e.target.checked
+                                                        )
+                                                    }
+                                                    disabled={submitting || sent}
+                                                />
+                                                &lt;label
+                                                    className="form-check-label"
+                                                    htmlFor="special-send-email"
+                                                >
+                                                    Odeslat také e-mailem
+                                                &lt;/label>
+                                            &lt;/div>
+                                            &lt;div className="form-check">
+                                                &lt;input
+                                                    className="form-check-input"
+                                                    type="checkbox"
+                                                    id="special-send-sms"
+                                                    checked={sendSms}
+                                                    onChange={(e) =>
+                                                        setSendSms(
+                                                            e.target.checked
+                                                        )
+                                                    }
+                                                    disabled={submitting || sent}
+                                                />
+                                                &lt;label
+                                                    className="form-check-label"
+                                                    htmlFor="special-send-sms"
+                                                >
+                                                    Odeslat také SMS
+                                                &lt;/label>
+                                            &lt;/div>
+                                            &lt;div className="form-text">
+                                                In-app notifikace se vždy uloží,
+                                                bez ohledu na volbu e-mailu / SMS.
+                                            &lt;/div>
+                                        &lt;/div>
+
+                                        &lt;div className="d-flex justify-content-end gap-2">
+                                            &lt;button
+                                                type="button"
+                                                className="btn btn-outline-secondary"
+                                                onClick={handleCloseClick}
+                                                disabled={submitting}
+                                            >
+                                                Zavřít
+                                            &lt;/button>
+                                            &lt;button
+                                                type="submit"
+                                                className="btn btn-primary"
+                                                disabled={!isValidForm}
+                                            >
+                                                {submitting
+                                                    ? "Odesílám…"
+                                                    : sent
+                                                        ? "Zpráva odeslána"
+                                                        : "Odeslat zprávu"}
+                                            &lt;/button>
+                                        &lt;/div>
+                                    &lt;/form>
+                                &lt;/div>
+                            &lt;/div>
+
+                            {demoPreview &amp;&amp; (
+                                &lt;div className="mt-3">
+                                    &lt;h6>Zpráva byla odeslána (DEMO náhled)&lt;/h6>
+
+                                    {emailPreview &amp;&amp; (
+                                        &lt;>
+                                            &lt;div className="small text-muted mb-2">
+                                                Ukázka e-mailu tak, jak ho uvidí příjemci.
+                                            &lt;/div>
+                                            &lt;div className="border rounded bg-light p-2 mb-3">
+                                                {emailPreview.subject &amp;&amp; (
+                                                    &lt;div className="fw-semibold mb-2">
+                                                        {emailPreview.subject}
+                                                    &lt;/div>
+                                                )}
+                                                {/* pokud je obsah HTML, vykreslíme ho jako HTML */}
+                                                {emailPreview.html ? (
+                                                    &lt;div
+                                                        className="bg-white p-2 rounded"
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: emailPreview.body,
+                                                        }}
+                                                    />
+                                                ) : (
+                                                    &lt;pre className="bg-white p-2 rounded mb-0">
+                                                        {emailPreview.body}
+                                                    &lt;/pre>
+                                                )}
+                                            &lt;/div>
+                                        &lt;/>
+                                    )}
+
+                                    {selectedTargets.length > 0 &amp;&amp; (
+                                        &lt;div>
+                                            &lt;div className="fw-semibold mb-1">
+                                                Příjemci:
+                                            &lt;/div>
+                                            &lt;ul className="small mb-0">
+                                                {selectedTargets.map((t) => (
+                                                    &lt;li key={makeKey(t)}>
+                                                        {t.displayName}
+                                                    &lt;/li>
+                                                ))}
+                                            &lt;/ul>
+                                        &lt;/div>
+                                    )}
+                                &lt;/div>
+                            )}
+                        &lt;/div>
+                    &lt;/div>
+                &lt;/div>
+            &lt;/div>
+
+            &lt;div
+                className="modal-backdrop fade show"
+                onClick={handleCloseClick}
+            />
+        &lt;/>
+    );
+};
+
+export default AdminSpecialNotificationModal;</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

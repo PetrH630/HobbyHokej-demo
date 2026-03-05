@@ -80,8 +80,6 @@ backend/src/main/resources/application-*.properties
 # Generated documentation
 # =====================================
 
-backend/docs/Javadoc/
-frontend/docs/
 
 # =====================================
 # Coverage / test artifacts

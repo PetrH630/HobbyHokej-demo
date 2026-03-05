@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>pages/AdminMatchesPage.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminCancelNoExcuseModal">AdminCancelNoExcuseModal</a></li><li><a href="global.html#AdminHomePage">AdminHomePage</a></li><li><a href="global.html#AdminMatchCard">AdminMatchCard</a></li><li><a href="global.html#AdminMatchDetailInline">AdminMatchDetailInline</a></li><li><a href="global.html#AdminMatchHistory">AdminMatchHistory</a></li><li><a href="global.html#AdminMatchHistoryCard">AdminMatchHistoryCard</a></li><li><a href="global.html#AdminMatchInfo">AdminMatchInfo</a></li><li><a href="global.html#AdminMatchModal">AdminMatchModal</a></li><li><a href="global.html#AdminMatchRegistrationInfo">AdminMatchRegistrationInfo</a></li><li><a href="global.html#AdminMatchesPage">AdminMatchesPage</a></li><li><a href="global.html#AdminMatchesTable">AdminMatchesTable</a></li><li><a href="global.html#AdminNoExcuseModal">AdminNoExcuseModal</a></li><li><a href="global.html#AdminNotificationBell">AdminNotificationBell</a></li><li><a href="global.html#AdminNotificationCard">AdminNotificationCard</a></li><li><a href="global.html#AdminNotificationPage">AdminNotificationPage</a></li><li><a href="global.html#AdminNotificationsList">AdminNotificationsList</a></li><li><a href="global.html#AdminPlayerCard">AdminPlayerCard</a></li><li><a href="global.html#AdminPlayerEditModal">AdminPlayerEditModal</a></li><li><a href="global.html#AdminPlayerHistory">AdminPlayerHistory</a></li><li><a href="global.html#AdminPlayerHistoryCard">AdminPlayerHistoryCard</a></li><li><a href="global.html#AdminPlayerInactivityModal">AdminPlayerInactivityModal</a></li><li><a href="global.html#AdminPlayerRegistrationHistory">AdminPlayerRegistrationHistory</a></li><li><a href="global.html#AdminPlayerRegistrationHistoryModal">AdminPlayerRegistrationHistoryModal</a></li><li><a href="global.html#AdminPlayerRow">AdminPlayerRow</a></li><li><a href="global.html#AdminPlayersInactivityPage">AdminPlayersInactivityPage</a></li><li><a href="global.html#AdminPlayersPage">AdminPlayersPage</a></li><li><a href="global.html#AdminPlayersTable">AdminPlayersTable</a></li><li><a href="global.html#AdminSeasonCard">AdminSeasonCard</a></li><li><a href="global.html#AdminSeasonModal">AdminSeasonModal</a></li><li><a href="global.html#AdminSeasonsPage">AdminSeasonsPage</a></li><li><a href="global.html#AdminSeasonsTable">AdminSeasonsTable</a></li><li><a href="global.html#AdminSpecialNotificationModal">AdminSpecialNotificationModal</a></li><li><a href="global.html#AdminUserCard">AdminUserCard</a></li><li><a href="global.html#AdminUserDetailPage">AdminUserDetailPage</a></li><li><a href="global.html#AdminUserEditModal">AdminUserEditModal</a></li><li><a href="global.html#AdminUsersPage">AdminUsersPage</a></li><li><a href="global.html#AdminUsersTable">AdminUsersTable</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AppModeProvider">AppModeProvider</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#BackButton">BackButton</a></li><li><a href="global.html#CancelMatchModal">CancelMatchModal</a></li><li><a href="global.html#CapacityRing">CapacityRing</a></li><li><a href="global.html#ChangePasswordForm">ChangePasswordForm</a></li><li><a href="global.html#ConfirmActionModal">ConfirmActionModal</a></li><li><a href="global.html#CookieConsentBanner">CookieConsentBanner</a></li><li><a href="global.html#CreatePlayer">CreatePlayer</a></li><li><a href="global.html#CreatePlayerForm">CreatePlayerForm</a></li><li><a href="global.html#CurrentPlayerProvider">CurrentPlayerProvider</a></li><li><a href="global.html#DatePicker">DatePicker</a></li><li><a href="global.html#DateTimePicker">DateTimePicker</a></li><li><a href="global.html#DemoNotificationsModal">DemoNotificationsModal</a></li><li><a href="global.html#ExcuseModal">ExcuseModal</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#ForgottenPasswordRequestPage">ForgottenPasswordRequestPage</a></li><li><a href="global.html#ForgottenPasswordResetPage">ForgottenPasswordResetPage</a></li><li><a href="global.html#HamburgerIcon">HamburgerIcon</a></li><li><a href="global.html#HeaderTop">HeaderTop</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#HomeDecider">HomeDecider</a></li><li><a href="global.html#InfoPage">InfoPage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MATCH_MODE_CONFIG">MATCH_MODE_CONFIG</a></li><li><a href="global.html#MATCH_MODE_OPTIONS">MATCH_MODE_OPTIONS</a></li><li><a href="global.html#MatchActions">MatchActions</a></li><li><a href="global.html#MatchCard">MatchCard</a></li><li><a href="global.html#MatchDetail">MatchDetail</a></li><li><a href="global.html#MatchDetailPage">MatchDetailPage</a></li><li><a href="global.html#MatchForm">MatchForm</a></li><li><a href="global.html#MatchHeader">MatchHeader</a></li><li><a href="global.html#MatchInfo">MatchInfo</a></li><li><a href="global.html#MatchOverview">MatchOverview</a></li><li><a href="global.html#MatchRegistrationHistory">MatchRegistrationHistory</a></li><li><a href="global.html#MatchRegistrationInfo">MatchRegistrationInfo</a></li><li><a href="global.html#MoneyIcon">MoneyIcon</a></li><li><a href="global.html#MyInactivityPage">MyInactivityPage</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NotificationBadgeContext">NotificationBadgeContext</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#NotificationProvider">NotificationProvider</a></li><li><a href="global.html#NotificationsList">NotificationsList</a></li><li><a href="global.html#NotificationsPage">NotificationsPage</a></li><li><a href="global.html#PastMatches">PastMatches</a></li><li><a href="global.html#PhoneIcon">PhoneIcon</a></li><li><a href="global.html#PlayerCard">PlayerCard</a></li><li><a href="global.html#PlayerHomePage">PlayerHomePage</a></li><li><a href="global.html#PlayerInactivityCards">PlayerInactivityCards</a></li><li><a href="global.html#PlayerMatchStatus">PlayerMatchStatus</a></li><li><a href="global.html#PlayerPositionModal">PlayerPositionModal</a></li><li><a href="global.html#PlayerProfileForm">PlayerProfileForm</a></li><li><a href="global.html#PlayerSettings">PlayerSettings</a></li><li><a href="global.html#PlayerStats">PlayerStats</a></li><li><a href="global.html#PlayerStatsCharts">PlayerStatsCharts</a></li><li><a href="global.html#Players">Players</a></li><li><a href="global.html#PlayersPage">PlayersPage</a></li><li><a href="global.html#PositionModalView">PositionModalView</a></li><li><a href="global.html#PublicLandingPage">PublicLandingPage</a></li><li><a href="global.html#PublicLayout">PublicLayout</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#RegisteredIcon">RegisteredIcon</a></li><li><a href="global.html#RequireAuth">RequireAuth</a></li><li><a href="global.html#RoleGuard">RoleGuard</a></li><li><a href="global.html#ScrollToTop">ScrollToTop</a></li><li><a href="global.html#ScrollToTopButton">ScrollToTopButton</a></li><li><a href="global.html#SeasonForm">SeasonForm</a></li><li><a href="global.html#SeasonProvider">SeasonProvider</a></li><li><a href="global.html#SeasonSelect">SeasonSelect</a></li><li><a href="global.html#SettingsPage">SettingsPage</a></li><li><a href="global.html#SharedLayout">SharedLayout</a></li><li><a href="global.html#SuccessModal">SuccessModal</a></li><li><a href="global.html#TeamSelectModal">TeamSelectModal</a></li><li><a href="global.html#UpcomingMatches">UpcomingMatches</a></li><li><a href="global.html#UserProfileForm">UserProfileForm</a></li><li><a href="global.html#UserSettings">UserSettings</a></li><li><a href="global.html#VerifyEmailPage">VerifyEmailPage</a></li><li><a href="global.html#approvePlayerAdmin">approvePlayerAdmin</a></li><li><a href="global.html#autoLineupAdmin">autoLineupAdmin</a></li><li><a href="global.html#autoSelectCurrentPlayer">autoSelectCurrentPlayer</a></li><li><a href="global.html#buildPositionCapacityForMode">buildPositionCapacityForMode</a></li><li><a href="global.html#calculateMaxPlayers">calculateMaxPlayers</a></li><li><a href="global.html#calculatePlayersPerTeam">calculatePlayersPerTeam</a></li><li><a href="global.html#cancelMatchAdmin">cancelMatchAdmin</a></li><li><a href="global.html#cancelNoExcusedAdmin">cancelNoExcusedAdmin</a></li><li><a href="global.html#changeMyRegistrationTeam">changeMyRegistrationTeam</a></li><li><a href="global.html#changePlayerUserAdmin">changePlayerUserAdmin</a></li><li><a href="global.html#changeRegistrationTeamAdmin">changeRegistrationTeamAdmin</a></li><li><a href="global.html#checkAuthentication">checkAuthentication</a></li><li><a href="global.html#checkDuplicateName">checkDuplicateName</a></li><li><a href="global.html#computeTeamPositionAvailability">computeTeamPositionAvailability</a></li><li><a href="global.html#createInactivityAdmin">createInactivityAdmin</a></li><li><a href="global.html#createMatchAdmin">createMatchAdmin</a></li><li><a href="global.html#createPlayer">createPlayer</a></li><li><a href="global.html#createPlayerAdmin">createPlayerAdmin</a></li><li><a href="global.html#createSeasonAdmin">createSeasonAdmin</a></li><li><a href="global.html#deleteInactivityAdmin">deleteInactivityAdmin</a></li><li><a href="global.html#deleteMatchAdmin">deleteMatchAdmin</a></li><li><a href="global.html#deletePlayerAdmin">deletePlayerAdmin</a></li><li><a href="global.html#extractRoles">extractRoles</a></li><li><a href="global.html#fetchAllNotificationsAdmin">fetchAllNotificationsAdmin</a></li><li><a href="global.html#fetchAppMode">fetchAppMode</a></li><li><a href="global.html#fetchCurrentSeasonForUser">fetchCurrentSeasonForUser</a></li><li><a href="global.html#fetchCurrentUser">fetchCurrentUser</a></li><li><a href="global.html#fetchNotificationBadge">fetchNotificationBadge</a></li><li><a href="global.html#fetchNotificationsSinceLastLogin">fetchNotificationsSinceLastLogin</a></li><li><a href="global.html#fetchRecentNotifications">fetchRecentNotifications</a></li><li><a href="global.html#fetchSeasonsForUser">fetchSeasonsForUser</a></li><li><a href="global.html#fetchSpecialNotificationTargets">fetchSpecialNotificationTargets</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#formatDateTime">formatDateTime</a></li><li><a href="global.html#formatPhoneNumber">formatPhoneNumber</a></li><li><a href="global.html#getAllMatchesAdmin">getAllMatchesAdmin</a></li><li><a href="global.html#getAllPlayerInactivityPeriodsAdmin">getAllPlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#getAllPlayersAdmin">getAllPlayersAdmin</a></li><li><a href="global.html#getAllSeasonsAdmin">getAllSeasonsAdmin</a></li><li><a href="global.html#getAvailableMatchesForPlayerAdmin">getAvailableMatchesForPlayerAdmin</a></li><li><a href="global.html#getCurrentPlayer">getCurrentPlayer</a></li><li><a href="global.html#getCurrentPlayerSettings">getCurrentPlayerSettings</a></li><li><a href="global.html#getFirstUpcomingMatch">getFirstUpcomingMatch</a></li><li><a href="global.html#getForgottenPasswordInfo">getForgottenPasswordInfo</a></li><li><a href="global.html#getIcePositionsForMode">getIcePositionsForMode</a></li><li><a href="global.html#getInactivityByPlayerAdmin">getInactivityByPlayerAdmin</a></li><li><a href="global.html#getMatchDetail">getMatchDetail</a></li><li><a href="global.html#getMatchHistoryAdmin">getMatchHistoryAdmin</a></li><li><a href="global.html#getMatchTeamPositionOverview">getMatchTeamPositionOverview</a></li><li><a href="global.html#getMyInactivity">getMyInactivity</a></li><li><a href="global.html#getMyPassedMatchesOverview">getMyPassedMatchesOverview</a></li><li><a href="global.html#getMyPlayerHistory">getMyPlayerHistory</a></li><li><a href="global.html#getMyPlayerStats">getMyPlayerStats</a></li><li><a href="global.html#getMyPlayers">getMyPlayers</a></li><li><a href="global.html#getMyUpcomingMatchesOverview">getMyUpcomingMatchesOverview</a></li><li><a href="global.html#getPastMatchesAdmin">getPastMatchesAdmin</a></li><li><a href="global.html#getPlayerById">getPlayerById</a></li><li><a href="global.html#getPlayerHistoryAdmin">getPlayerHistoryAdmin</a></li><li><a href="global.html#getPlayerPositionLabel">getPlayerPositionLabel</a></li><li><a href="global.html#getPlayerSettings">getPlayerSettings</a></li><li><a href="global.html#getPlayerStatsAdmin">getPlayerStatsAdmin</a></li><li><a href="global.html#getSeasonByIdAdmin">getSeasonByIdAdmin</a></li><li><a href="global.html#getUpcomingMatchesAdmin">getUpcomingMatchesAdmin</a></li><li><a href="global.html#getUserSettings">getUserSettings</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#mapRegistrationToPlayer">mapRegistrationToPlayer</a></li><li><a href="global.html#markAllNotificationsAsRead">markAllNotificationsAsRead</a></li><li><a href="global.html#markNoExcusedAdmin">markNoExcusedAdmin</a></li><li><a href="global.html#markNotificationAsRead">markNotificationAsRead</a></li><li><a href="global.html#matchPassesFilter">matchPassesFilter</a></li><li><a href="global.html#normalizeDate">normalizeDate</a></li><li><a href="global.html#previewNoResponseReminders">previewNoResponseReminders</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#rejectPlayerAdmin">rejectPlayerAdmin</a></li><li><a href="global.html#requestForgottenPassword">requestForgottenPassword</a></li><li><a href="global.html#resetForgottenPassword">resetForgottenPassword</a></li><li><a href="global.html#runMatchReminders">runMatchReminders</a></li><li><a href="global.html#runNoResponseReminders">runNoResponseReminders</a></li><li><a href="global.html#sendSpecialNotification">sendSpecialNotification</a></li><li><a href="global.html#setCurrentPlayer">setCurrentPlayer</a></li><li><a href="global.html#setCurrentSeasonForUser">setCurrentSeasonForUser</a></li><li><a href="global.html#smoothScrollTo">smoothScrollTo</a></li><li><a href="global.html#statusTextMap">statusTextMap</a></li><li><a href="global.html#transformMatchDetail">transformMatchDetail</a></li><li><a href="global.html#unCancelMatchAdmin">unCancelMatchAdmin</a></li><li><a href="global.html#updateCurrentPlayerSettings">updateCurrentPlayerSettings</a></li><li><a href="global.html#updateInactivityAdmin">updateInactivityAdmin</a></li><li><a href="global.html#updateMatchAdmin">updateMatchAdmin</a></li><li><a href="global.html#updateMatchScoreAdmin">updateMatchScoreAdmin</a></li><li><a href="global.html#updateMyCurrentPlayer">updateMyCurrentPlayer</a></li><li><a href="global.html#updatePlayerAdmin">updatePlayerAdmin</a></li><li><a href="global.html#updatePlayerSettings">updatePlayerSettings</a></li><li><a href="global.html#updateSeasonAdmin">updateSeasonAdmin</a></li><li><a href="global.html#updateUserSettings">updateUserSettings</a></li><li><a href="global.html#upsertMyRegistration">upsertMyRegistration</a></li><li><a href="global.html#useAllMatchesAdmin">useAllMatchesAdmin</a></li><li><a href="global.html#useAllPlayersAdmin">useAllPlayersAdmin</a></li><li><a href="global.html#useAllPlayersAdminWithUsers">useAllPlayersAdminWithUsers</a></li><li><a href="global.html#useAllSeasonsAdmin">useAllSeasonsAdmin</a></li><li><a href="global.html#useAllUsersAdmin">useAllUsersAdmin</a></li><li><a href="global.html#useBootstrapTooltip">useBootstrapTooltip</a></li><li><a href="global.html#useDemoMode">useDemoMode</a></li><li><a href="global.html#useDemoNotifications">useDemoNotifications</a></li><li><a href="global.html#useGlobalDim">useGlobalDim</a></li><li><a href="global.html#useGlobalModal">useGlobalModal</a></li><li><a href="global.html#useMatchAdminActions">useMatchAdminActions</a></li><li><a href="global.html#useMatchHistoryAdmin">useMatchHistoryAdmin</a></li><li><a href="global.html#useMatchTeamPositionOverview">useMatchTeamPositionOverview</a></li><li><a href="global.html#useMyMatchRegistrationHistory">useMyMatchRegistrationHistory</a></li><li><a href="global.html#useMyPassedMatches">useMyPassedMatches</a></li><li><a href="global.html#useMyPlayerStats">useMyPlayerStats</a></li><li><a href="global.html#useMyUpcomingMatches">useMyUpcomingMatches</a></li><li><a href="global.html#useNotificationBadge">useNotificationBadge</a></li><li><a href="global.html#useNotifications">useNotifications</a></li><li><a href="global.html#usePlayerHistoryAdmin">usePlayerHistoryAdmin</a></li><li><a href="global.html#usePlayerInactivityPeriodsAdmin">usePlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#usePlayerRegistrationHistoryAdmin">usePlayerRegistrationHistoryAdmin</a></li><li><a href="global.html#usePlayerSettings">usePlayerSettings</a></li><li><a href="global.html#usePlayerStatsAdmin">usePlayerStatsAdmin</a></li><li><a href="global.html#usePlayers">usePlayers</a></li><li><a href="global.html#useSpecialNotificationTargets">useSpecialNotificationTargets</a></li><li><a href="global.html#useUserProfile">useUserProfile</a></li><li><a href="global.html#useUserSettings">useUserSettings</a></li><li><a href="global.html#validateMatch">validateMatch</a></li><li><a href="global.html#validatePlayerProfile">validatePlayerProfile</a></li><li><a href="global.html#validateSeason">validateSeason</a></li><li><a href="global.html#verifyEmail">verifyEmail</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">pages/AdminMatchesPage.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// src/pages/AdminMatchesPage.jsx
+
+import { useCallback, useState, useEffect } from "react";
+import {
+    createMatchAdmin,
+    updateMatchAdmin,
+    deleteMatchAdmin,
+    cancelMatchAdmin,
+    unCancelMatchAdmin,
+    getMatchHistoryAdmin,
+} from "../api/matchApi";
+import { useAllMatchesAdmin } from "../hooks/useAllMatchesAdmin";
+import { useSeason } from "../hooks/useSeason";
+import SeasonSelect from "../components/seasons/seasonSelect";
+import AdminMatchesTable from "../components/admin/AdminMatchesTable";
+import AdminMatchModal from "../components/admin/AdminMatchModal";
+import { useNotification } from "../context/NotificationContext";
+import CancelMatchModal from "../components/admin/CancelMatchModal";
+import BackButton from  "../components/BackButton";
+
+//  DEMO notifications
+import { useAppMode } from "../context/AppModeContext";
+import {
+    tryGetDemoNotifications,
+    tryClearDemoNotifications,
+} from "../api/demoApi";
+import DemoNotificationsModal from "../components/demo/DemoNotificationsModal";
+
+const hasAnyDemoItems = (demo) => {
+    if (!demo) return false;
+    return (demo.emails?.length ?? 0) > 0 || (demo.sms?.length ?? 0) > 0;
+};
+
+/**
+ * AdminMatchesPage
+ *
+ * zápas – Bootstrap modal.
+ *
+ * Vedlejší efekty:
+ * - při zobrazení registruje a po zavření uklízí event listenery nebo synchronizuje stav
+ * - načítá nebo odesílá data přes API
+ *
+ * @param {Object} props vstupní hodnoty komponenty
+ */
+const AdminMatchesPage = () => {
+    const { currentSeasonId } = useSeason();
+    const { matches, loading, error, reload } = useAllMatchesAdmin(currentSeasonId);
+    const { showNotification } = useNotification();
+
+    //  DEMO mode
+    const { demoMode } = useAppMode();
+    const [showDemoModal, setShowDemoModal] = useState(false);
+    const [demoNotifications, setDemoNotifications] = useState(null);
+    const [demoLoading, setDemoLoading] = useState(false);
+    const [demoError, setDemoError] = useState(null);
+
+    const [editingMatch, setEditingMatch] = useState(null);
+    const [saving, setSaving] = useState(false);
+    const [serverError, setServerError] = useState(null);
+    const [cancelMatch, setCancelMatch] = useState(null);
+    const [cancelSaving, setCancelSaving] = useState(false);
+    const [cancelError, setCancelError] = useState(null);
+
+    const handleCloseDemoModal = () => {
+        setShowDemoModal(false);
+        setDemoNotifications(null);
+        setDemoError(null);
+    };
+
+    const openDemoModalIfAny = useCallback(async () => {
+        if (!demoMode) return;
+
+        setDemoLoading(true);
+        setDemoError(null);
+
+        try {
+            const demo = await tryGetDemoNotifications(); // GET už dělá getAndClear()
+            if (hasAnyDemoItems(demo)) {
+                setDemoNotifications(demo);
+                setShowDemoModal(true);
+            }
+        } catch (e) {
+            setDemoError("Nepodařilo se načíst demo notifikace.");
+        } finally {
+            setDemoLoading(false);
+        }
+    }, [demoMode]);
+
+    const clearDemoBeforeOperation = useCallback(async () => {
+        if (!demoMode) return;
+        await tryClearDemoNotifications(); // v produkci endpoint není, v demo existuje
+    }, [demoMode]);
+
+    const handleCreate = () => {
+        setServerError(null);
+        setEditingMatch({
+            id: null,
+            dateTime: "",
+            location: "",
+            description: "",
+            maxPlayers: "",
+            price: "",
+            matchStatus: null,
+            cancelReason: null,
+            matchNumber: null,
+            seasonId: null,
+        });
+    };
+
+    useEffect(() => {
+        if (currentSeasonId == null) return;
+        reload();
+    }, [currentSeasonId, reload]);
+
+    const handleEdit = useCallback((match) => {
+        setServerError(null);
+        setEditingMatch(match);
+    }, []);
+
+    const handleDelete = useCallback(
+        async (matchId) => {
+            const confirmDelete = window.confirm(
+                `Opravdu chceš smazat zápas s ID ${matchId}?`
+            );
+            if (!confirmDelete) return;
+
+            try {
+                await clearDemoBeforeOperation();
+
+                await deleteMatchAdmin(matchId);
+                showNotification("Zápas byl smazán.", "success");
+
+                await openDemoModalIfAny();
+                await reload();
+            } catch (err) {
+                const message =
+                    err?.response?.data?.message ||
+                    err?.message ||
+                    "Smazání zápasu se nezdařilo.";
+                showNotification(message, "danger");
+            }
+        },
+        [reload, showNotification, clearDemoBeforeOperation, openDemoModalIfAny]
+    );
+
+    const handleCloseModal = () => {
+        if (!saving) {
+            setEditingMatch(null);
+            setServerError(null);
+        }
+    };
+
+    const handleCloseCancelModal = () => {
+        if (!cancelSaving) {
+            setCancelMatch(null);
+            setCancelError(null);
+        }
+    };
+
+    const handleSaveMatch = async (payload) => {
+        try {
+            setSaving(true);
+            setServerError(null);
+
+            await clearDemoBeforeOperation();
+
+            if (payload.id) {
+                await updateMatchAdmin(payload.id, payload);
+                showNotification("Zápas byl úspěšně upraven.", "success");
+            } else {
+                await createMatchAdmin(payload);
+                showNotification("Zápas byl úspěšně vytvořen.", "success");
+            }
+
+            setEditingMatch(null);
+            setServerError(null);
+
+            await openDemoModalIfAny();
+            await reload();
+        } catch (err) {
+            const status = err?.response?.status;
+            const message =
+                err?.response?.data?.message ||
+                err?.message ||
+                "Uložení zápasu se nezdařilo.";
+
+            if (status === 400 || status === 409) {
+                setServerError(message);
+            } else {
+                showNotification(message, "danger");
+            }
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleCancel = useCallback((match) => {
+        setCancelError(null);
+        setCancelMatch(match);
+    }, []);
+
+    const handleConfirmCancel = async (matchId, reason) => {
+        try {
+            setCancelSaving(true);
+            setCancelError(null);
+
+            await clearDemoBeforeOperation();
+
+            await cancelMatchAdmin(matchId, reason);
+
+            showNotification("Zápas byl zrušen.", "success");
+            setCancelMatch(null);
+
+            await openDemoModalIfAny();
+            await reload();
+        } catch (err) {
+            const message =
+                err?.response?.data?.message ||
+                err?.message ||
+                "Zrušení zápasu se nezdařilo.";
+
+            setCancelError(message);
+        } finally {
+            setCancelSaving(false);
+        }
+    };
+
+    const handleUnCancel = useCallback(
+        async (matchId) => {
+            try {
+                await clearDemoBeforeOperation();
+
+                await unCancelMatchAdmin(matchId);
+                showNotification("Zápas byl obnoven.", "success");
+
+                await openDemoModalIfAny();
+                await reload();
+            } catch (err) {
+                const message =
+                    err?.response?.data?.message ||
+                    err?.message ||
+                    "Obnovení zápasu se nezdařilo.";
+                showNotification(message, "danger");
+            }
+        },
+        [reload, showNotification, clearDemoBeforeOperation, openDemoModalIfAny]
+    );
+
+    const handleShowHistory = useCallback(
+        async (matchId) => {
+            try {
+                const history = await getMatchHistoryAdmin(matchId);
+                console.log("Match history", matchId, history);
+                showNotification(
+                    "Historie zápasu byla načtena (viz konzole).",
+                    "info"
+                );
+            } catch (err) {
+                const message =
+                    err?.response?.data?.message ||
+                    err?.message ||
+                    "Historii zápasu se nepodařilo načíst.";
+                showNotification(message, "danger");
+            }
+        },
+        [showNotification]
+    );
+
+    return (
+        &lt;>
+                &lt;BackButton />
+        &lt;div className="container mt-4">
+            
+
+                &lt;div className="d-flex flex-column flex-md-row 
+                justify-content-between 
+                align-items-start align-items-md-center 
+                gap-2 mb-3">
+
+                    &lt;h1 className="h3 mb-0">Správa zápasů&lt;/h1>
+
+                    &lt;SeasonSelect />
+
+                    &lt;button
+                        type="button"
+                        className="btn btn-primary"
+                        onClick={handleCreate}
+                    >
+                        Vytvořit nový zápas
+                    &lt;/button>
+
+                &lt;/div>
+
+ 
+            &lt;p className="text-muted mb-3">
+                Zde může administrátor a manažer spravovat zápasy v systému –
+                vytvářet je, upravovat, rušit, obnovovat a mazat. Zápasy se
+                vždy vztahují k aktuálně zvolené / aktivní sezóně.
+            &lt;/p>
+
+            &lt;AdminMatchesTable
+                matches={matches}
+                loading={loading}
+                error={error}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onCancel={handleCancel}
+                onUnCancel={handleUnCancel}
+                onShowHistory={handleShowHistory}
+            />
+
+            &lt;AdminMatchModal
+                match={editingMatch}
+                show={!!editingMatch}
+                onClose={handleCloseModal}
+                onSave={handleSaveMatch}
+                saving={saving}
+                serverError={serverError}
+            />
+
+            &lt;CancelMatchModal
+                match={cancelMatch}
+                show={!!cancelMatch}
+                onClose={handleCloseCancelModal}
+                onConfirm={handleConfirmCancel}
+                saving={cancelSaving}
+                serverError={cancelError}
+            />
+
+            {/*DEMO NOTIF – modal s demo notifikacemi jen v demo režimu */}
+            {demoMode &amp;&amp; (
+                &lt;DemoNotificationsModal
+                    show={showDemoModal}
+                    onClose={handleCloseDemoModal}
+                    notifications={demoNotifications}
+                    loading={demoLoading}
+                    error={demoError}
+                />
+            )}
+        &lt;/div>
+        &lt;/>
+    );
+};
+
+export default AdminMatchesPage;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="utf-8">
+    <title>components/matches/MatchCard.jsx - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#AdminCancelNoExcuseModal">AdminCancelNoExcuseModal</a></li><li><a href="global.html#AdminHomePage">AdminHomePage</a></li><li><a href="global.html#AdminMatchCard">AdminMatchCard</a></li><li><a href="global.html#AdminMatchDetailInline">AdminMatchDetailInline</a></li><li><a href="global.html#AdminMatchHistory">AdminMatchHistory</a></li><li><a href="global.html#AdminMatchHistoryCard">AdminMatchHistoryCard</a></li><li><a href="global.html#AdminMatchInfo">AdminMatchInfo</a></li><li><a href="global.html#AdminMatchModal">AdminMatchModal</a></li><li><a href="global.html#AdminMatchRegistrationInfo">AdminMatchRegistrationInfo</a></li><li><a href="global.html#AdminMatchesPage">AdminMatchesPage</a></li><li><a href="global.html#AdminMatchesTable">AdminMatchesTable</a></li><li><a href="global.html#AdminNoExcuseModal">AdminNoExcuseModal</a></li><li><a href="global.html#AdminNotificationBell">AdminNotificationBell</a></li><li><a href="global.html#AdminNotificationCard">AdminNotificationCard</a></li><li><a href="global.html#AdminNotificationPage">AdminNotificationPage</a></li><li><a href="global.html#AdminNotificationsList">AdminNotificationsList</a></li><li><a href="global.html#AdminPlayerCard">AdminPlayerCard</a></li><li><a href="global.html#AdminPlayerEditModal">AdminPlayerEditModal</a></li><li><a href="global.html#AdminPlayerHistory">AdminPlayerHistory</a></li><li><a href="global.html#AdminPlayerHistoryCard">AdminPlayerHistoryCard</a></li><li><a href="global.html#AdminPlayerInactivityModal">AdminPlayerInactivityModal</a></li><li><a href="global.html#AdminPlayerRegistrationHistory">AdminPlayerRegistrationHistory</a></li><li><a href="global.html#AdminPlayerRegistrationHistoryModal">AdminPlayerRegistrationHistoryModal</a></li><li><a href="global.html#AdminPlayerRow">AdminPlayerRow</a></li><li><a href="global.html#AdminPlayersInactivityPage">AdminPlayersInactivityPage</a></li><li><a href="global.html#AdminPlayersPage">AdminPlayersPage</a></li><li><a href="global.html#AdminPlayersTable">AdminPlayersTable</a></li><li><a href="global.html#AdminSeasonCard">AdminSeasonCard</a></li><li><a href="global.html#AdminSeasonModal">AdminSeasonModal</a></li><li><a href="global.html#AdminSeasonsPage">AdminSeasonsPage</a></li><li><a href="global.html#AdminSeasonsTable">AdminSeasonsTable</a></li><li><a href="global.html#AdminSpecialNotificationModal">AdminSpecialNotificationModal</a></li><li><a href="global.html#AdminUserCard">AdminUserCard</a></li><li><a href="global.html#AdminUserDetailPage">AdminUserDetailPage</a></li><li><a href="global.html#AdminUserEditModal">AdminUserEditModal</a></li><li><a href="global.html#AdminUsersPage">AdminUsersPage</a></li><li><a href="global.html#AdminUsersTable">AdminUsersTable</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#AppModeProvider">AppModeProvider</a></li><li><a href="global.html#AuthProvider">AuthProvider</a></li><li><a href="global.html#BackButton">BackButton</a></li><li><a href="global.html#CancelMatchModal">CancelMatchModal</a></li><li><a href="global.html#CapacityRing">CapacityRing</a></li><li><a href="global.html#ChangePasswordForm">ChangePasswordForm</a></li><li><a href="global.html#ConfirmActionModal">ConfirmActionModal</a></li><li><a href="global.html#CookieConsentBanner">CookieConsentBanner</a></li><li><a href="global.html#CreatePlayer">CreatePlayer</a></li><li><a href="global.html#CreatePlayerForm">CreatePlayerForm</a></li><li><a href="global.html#CurrentPlayerProvider">CurrentPlayerProvider</a></li><li><a href="global.html#DatePicker">DatePicker</a></li><li><a href="global.html#DateTimePicker">DateTimePicker</a></li><li><a href="global.html#DemoNotificationsModal">DemoNotificationsModal</a></li><li><a href="global.html#ExcuseModal">ExcuseModal</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#ForgottenPasswordRequestPage">ForgottenPasswordRequestPage</a></li><li><a href="global.html#ForgottenPasswordResetPage">ForgottenPasswordResetPage</a></li><li><a href="global.html#HamburgerIcon">HamburgerIcon</a></li><li><a href="global.html#HeaderTop">HeaderTop</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#HomeDecider">HomeDecider</a></li><li><a href="global.html#InfoPage">InfoPage</a></li><li><a href="global.html#LoginPage">LoginPage</a></li><li><a href="global.html#MATCH_MODE_CONFIG">MATCH_MODE_CONFIG</a></li><li><a href="global.html#MATCH_MODE_OPTIONS">MATCH_MODE_OPTIONS</a></li><li><a href="global.html#MatchActions">MatchActions</a></li><li><a href="global.html#MatchCard">MatchCard</a></li><li><a href="global.html#MatchDetail">MatchDetail</a></li><li><a href="global.html#MatchDetailPage">MatchDetailPage</a></li><li><a href="global.html#MatchForm">MatchForm</a></li><li><a href="global.html#MatchHeader">MatchHeader</a></li><li><a href="global.html#MatchInfo">MatchInfo</a></li><li><a href="global.html#MatchOverview">MatchOverview</a></li><li><a href="global.html#MatchRegistrationHistory">MatchRegistrationHistory</a></li><li><a href="global.html#MatchRegistrationInfo">MatchRegistrationInfo</a></li><li><a href="global.html#MoneyIcon">MoneyIcon</a></li><li><a href="global.html#MyInactivityPage">MyInactivityPage</a></li><li><a href="global.html#Navbar">Navbar</a></li><li><a href="global.html#NotificationBadgeContext">NotificationBadgeContext</a></li><li><a href="global.html#NotificationBell">NotificationBell</a></li><li><a href="global.html#NotificationCard">NotificationCard</a></li><li><a href="global.html#NotificationProvider">NotificationProvider</a></li><li><a href="global.html#NotificationsList">NotificationsList</a></li><li><a href="global.html#NotificationsPage">NotificationsPage</a></li><li><a href="global.html#PastMatches">PastMatches</a></li><li><a href="global.html#PhoneIcon">PhoneIcon</a></li><li><a href="global.html#PlayerCard">PlayerCard</a></li><li><a href="global.html#PlayerHomePage">PlayerHomePage</a></li><li><a href="global.html#PlayerInactivityCards">PlayerInactivityCards</a></li><li><a href="global.html#PlayerMatchStatus">PlayerMatchStatus</a></li><li><a href="global.html#PlayerPositionModal">PlayerPositionModal</a></li><li><a href="global.html#PlayerProfileForm">PlayerProfileForm</a></li><li><a href="global.html#PlayerSettings">PlayerSettings</a></li><li><a href="global.html#PlayerStats">PlayerStats</a></li><li><a href="global.html#PlayerStatsCharts">PlayerStatsCharts</a></li><li><a href="global.html#Players">Players</a></li><li><a href="global.html#PlayersPage">PlayersPage</a></li><li><a href="global.html#PositionModalView">PositionModalView</a></li><li><a href="global.html#PublicLandingPage">PublicLandingPage</a></li><li><a href="global.html#PublicLayout">PublicLayout</a></li><li><a href="global.html#RegisterPage">RegisterPage</a></li><li><a href="global.html#RegisteredIcon">RegisteredIcon</a></li><li><a href="global.html#RequireAuth">RequireAuth</a></li><li><a href="global.html#RoleGuard">RoleGuard</a></li><li><a href="global.html#ScrollToTop">ScrollToTop</a></li><li><a href="global.html#ScrollToTopButton">ScrollToTopButton</a></li><li><a href="global.html#SeasonForm">SeasonForm</a></li><li><a href="global.html#SeasonProvider">SeasonProvider</a></li><li><a href="global.html#SeasonSelect">SeasonSelect</a></li><li><a href="global.html#SettingsPage">SettingsPage</a></li><li><a href="global.html#SharedLayout">SharedLayout</a></li><li><a href="global.html#SuccessModal">SuccessModal</a></li><li><a href="global.html#TeamSelectModal">TeamSelectModal</a></li><li><a href="global.html#UpcomingMatches">UpcomingMatches</a></li><li><a href="global.html#UserProfileForm">UserProfileForm</a></li><li><a href="global.html#UserSettings">UserSettings</a></li><li><a href="global.html#VerifyEmailPage">VerifyEmailPage</a></li><li><a href="global.html#approvePlayerAdmin">approvePlayerAdmin</a></li><li><a href="global.html#autoLineupAdmin">autoLineupAdmin</a></li><li><a href="global.html#autoSelectCurrentPlayer">autoSelectCurrentPlayer</a></li><li><a href="global.html#buildPositionCapacityForMode">buildPositionCapacityForMode</a></li><li><a href="global.html#calculateMaxPlayers">calculateMaxPlayers</a></li><li><a href="global.html#calculatePlayersPerTeam">calculatePlayersPerTeam</a></li><li><a href="global.html#cancelMatchAdmin">cancelMatchAdmin</a></li><li><a href="global.html#cancelNoExcusedAdmin">cancelNoExcusedAdmin</a></li><li><a href="global.html#changeMyRegistrationTeam">changeMyRegistrationTeam</a></li><li><a href="global.html#changePlayerUserAdmin">changePlayerUserAdmin</a></li><li><a href="global.html#changeRegistrationTeamAdmin">changeRegistrationTeamAdmin</a></li><li><a href="global.html#checkAuthentication">checkAuthentication</a></li><li><a href="global.html#checkDuplicateName">checkDuplicateName</a></li><li><a href="global.html#computeTeamPositionAvailability">computeTeamPositionAvailability</a></li><li><a href="global.html#createInactivityAdmin">createInactivityAdmin</a></li><li><a href="global.html#createMatchAdmin">createMatchAdmin</a></li><li><a href="global.html#createPlayer">createPlayer</a></li><li><a href="global.html#createPlayerAdmin">createPlayerAdmin</a></li><li><a href="global.html#createSeasonAdmin">createSeasonAdmin</a></li><li><a href="global.html#deleteInactivityAdmin">deleteInactivityAdmin</a></li><li><a href="global.html#deleteMatchAdmin">deleteMatchAdmin</a></li><li><a href="global.html#deletePlayerAdmin">deletePlayerAdmin</a></li><li><a href="global.html#extractRoles">extractRoles</a></li><li><a href="global.html#fetchAllNotificationsAdmin">fetchAllNotificationsAdmin</a></li><li><a href="global.html#fetchAppMode">fetchAppMode</a></li><li><a href="global.html#fetchCurrentSeasonForUser">fetchCurrentSeasonForUser</a></li><li><a href="global.html#fetchCurrentUser">fetchCurrentUser</a></li><li><a href="global.html#fetchNotificationBadge">fetchNotificationBadge</a></li><li><a href="global.html#fetchNotificationsSinceLastLogin">fetchNotificationsSinceLastLogin</a></li><li><a href="global.html#fetchRecentNotifications">fetchRecentNotifications</a></li><li><a href="global.html#fetchSeasonsForUser">fetchSeasonsForUser</a></li><li><a href="global.html#fetchSpecialNotificationTargets">fetchSpecialNotificationTargets</a></li><li><a href="global.html#formatDate">formatDate</a></li><li><a href="global.html#formatDateTime">formatDateTime</a></li><li><a href="global.html#formatPhoneNumber">formatPhoneNumber</a></li><li><a href="global.html#getAllMatchesAdmin">getAllMatchesAdmin</a></li><li><a href="global.html#getAllPlayerInactivityPeriodsAdmin">getAllPlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#getAllPlayersAdmin">getAllPlayersAdmin</a></li><li><a href="global.html#getAllSeasonsAdmin">getAllSeasonsAdmin</a></li><li><a href="global.html#getAvailableMatchesForPlayerAdmin">getAvailableMatchesForPlayerAdmin</a></li><li><a href="global.html#getCurrentPlayer">getCurrentPlayer</a></li><li><a href="global.html#getCurrentPlayerSettings">getCurrentPlayerSettings</a></li><li><a href="global.html#getFirstUpcomingMatch">getFirstUpcomingMatch</a></li><li><a href="global.html#getForgottenPasswordInfo">getForgottenPasswordInfo</a></li><li><a href="global.html#getIcePositionsForMode">getIcePositionsForMode</a></li><li><a href="global.html#getInactivityByPlayerAdmin">getInactivityByPlayerAdmin</a></li><li><a href="global.html#getMatchDetail">getMatchDetail</a></li><li><a href="global.html#getMatchHistoryAdmin">getMatchHistoryAdmin</a></li><li><a href="global.html#getMatchTeamPositionOverview">getMatchTeamPositionOverview</a></li><li><a href="global.html#getMyInactivity">getMyInactivity</a></li><li><a href="global.html#getMyPassedMatchesOverview">getMyPassedMatchesOverview</a></li><li><a href="global.html#getMyPlayerHistory">getMyPlayerHistory</a></li><li><a href="global.html#getMyPlayerStats">getMyPlayerStats</a></li><li><a href="global.html#getMyPlayers">getMyPlayers</a></li><li><a href="global.html#getMyUpcomingMatchesOverview">getMyUpcomingMatchesOverview</a></li><li><a href="global.html#getPastMatchesAdmin">getPastMatchesAdmin</a></li><li><a href="global.html#getPlayerById">getPlayerById</a></li><li><a href="global.html#getPlayerHistoryAdmin">getPlayerHistoryAdmin</a></li><li><a href="global.html#getPlayerPositionLabel">getPlayerPositionLabel</a></li><li><a href="global.html#getPlayerSettings">getPlayerSettings</a></li><li><a href="global.html#getPlayerStatsAdmin">getPlayerStatsAdmin</a></li><li><a href="global.html#getSeasonByIdAdmin">getSeasonByIdAdmin</a></li><li><a href="global.html#getUpcomingMatchesAdmin">getUpcomingMatchesAdmin</a></li><li><a href="global.html#getUserSettings">getUserSettings</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#logoutUser">logoutUser</a></li><li><a href="global.html#mapRegistrationToPlayer">mapRegistrationToPlayer</a></li><li><a href="global.html#markAllNotificationsAsRead">markAllNotificationsAsRead</a></li><li><a href="global.html#markNoExcusedAdmin">markNoExcusedAdmin</a></li><li><a href="global.html#markNotificationAsRead">markNotificationAsRead</a></li><li><a href="global.html#matchPassesFilter">matchPassesFilter</a></li><li><a href="global.html#normalizeDate">normalizeDate</a></li><li><a href="global.html#previewNoResponseReminders">previewNoResponseReminders</a></li><li><a href="global.html#registerUser">registerUser</a></li><li><a href="global.html#rejectPlayerAdmin">rejectPlayerAdmin</a></li><li><a href="global.html#requestForgottenPassword">requestForgottenPassword</a></li><li><a href="global.html#resetForgottenPassword">resetForgottenPassword</a></li><li><a href="global.html#runMatchReminders">runMatchReminders</a></li><li><a href="global.html#runNoResponseReminders">runNoResponseReminders</a></li><li><a href="global.html#sendSpecialNotification">sendSpecialNotification</a></li><li><a href="global.html#setCurrentPlayer">setCurrentPlayer</a></li><li><a href="global.html#setCurrentSeasonForUser">setCurrentSeasonForUser</a></li><li><a href="global.html#smoothScrollTo">smoothScrollTo</a></li><li><a href="global.html#statusTextMap">statusTextMap</a></li><li><a href="global.html#transformMatchDetail">transformMatchDetail</a></li><li><a href="global.html#unCancelMatchAdmin">unCancelMatchAdmin</a></li><li><a href="global.html#updateCurrentPlayerSettings">updateCurrentPlayerSettings</a></li><li><a href="global.html#updateInactivityAdmin">updateInactivityAdmin</a></li><li><a href="global.html#updateMatchAdmin">updateMatchAdmin</a></li><li><a href="global.html#updateMatchScoreAdmin">updateMatchScoreAdmin</a></li><li><a href="global.html#updateMyCurrentPlayer">updateMyCurrentPlayer</a></li><li><a href="global.html#updatePlayerAdmin">updatePlayerAdmin</a></li><li><a href="global.html#updatePlayerSettings">updatePlayerSettings</a></li><li><a href="global.html#updateSeasonAdmin">updateSeasonAdmin</a></li><li><a href="global.html#updateUserSettings">updateUserSettings</a></li><li><a href="global.html#upsertMyRegistration">upsertMyRegistration</a></li><li><a href="global.html#useAllMatchesAdmin">useAllMatchesAdmin</a></li><li><a href="global.html#useAllPlayersAdmin">useAllPlayersAdmin</a></li><li><a href="global.html#useAllPlayersAdminWithUsers">useAllPlayersAdminWithUsers</a></li><li><a href="global.html#useAllSeasonsAdmin">useAllSeasonsAdmin</a></li><li><a href="global.html#useAllUsersAdmin">useAllUsersAdmin</a></li><li><a href="global.html#useBootstrapTooltip">useBootstrapTooltip</a></li><li><a href="global.html#useDemoMode">useDemoMode</a></li><li><a href="global.html#useDemoNotifications">useDemoNotifications</a></li><li><a href="global.html#useGlobalDim">useGlobalDim</a></li><li><a href="global.html#useGlobalModal">useGlobalModal</a></li><li><a href="global.html#useMatchAdminActions">useMatchAdminActions</a></li><li><a href="global.html#useMatchHistoryAdmin">useMatchHistoryAdmin</a></li><li><a href="global.html#useMatchTeamPositionOverview">useMatchTeamPositionOverview</a></li><li><a href="global.html#useMyMatchRegistrationHistory">useMyMatchRegistrationHistory</a></li><li><a href="global.html#useMyPassedMatches">useMyPassedMatches</a></li><li><a href="global.html#useMyPlayerStats">useMyPlayerStats</a></li><li><a href="global.html#useMyUpcomingMatches">useMyUpcomingMatches</a></li><li><a href="global.html#useNotificationBadge">useNotificationBadge</a></li><li><a href="global.html#useNotifications">useNotifications</a></li><li><a href="global.html#usePlayerHistoryAdmin">usePlayerHistoryAdmin</a></li><li><a href="global.html#usePlayerInactivityPeriodsAdmin">usePlayerInactivityPeriodsAdmin</a></li><li><a href="global.html#usePlayerRegistrationHistoryAdmin">usePlayerRegistrationHistoryAdmin</a></li><li><a href="global.html#usePlayerSettings">usePlayerSettings</a></li><li><a href="global.html#usePlayerStatsAdmin">usePlayerStatsAdmin</a></li><li><a href="global.html#usePlayers">usePlayers</a></li><li><a href="global.html#useSpecialNotificationTargets">useSpecialNotificationTargets</a></li><li><a href="global.html#useUserProfile">useUserProfile</a></li><li><a href="global.html#useUserSettings">useUserSettings</a></li><li><a href="global.html#validateMatch">validateMatch</a></li><li><a href="global.html#validatePlayerProfile">validatePlayerProfile</a></li><li><a href="global.html#validateSeason">validateSeason</a></li><li><a href="global.html#verifyEmail">verifyEmail</a></li></ul>
+    
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">components/matches/MatchCard.jsx</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import {
+    RegisteredIcon,
+    UnregisteredIcon,
+    ExcusedIcon,
+    ReservedIcon,
+    NoResponseIcon,
+    NoExcusedIcon,
+    UserIcon,
+    MoneyIcon,
+    Happy,
+    Sad,
+} from "../../icons";
+
+import { TeamDarkIcon, TeamLightIcon } from "../../icons";
+
+import CapacityRing from "./CapacityRing";
+import { MATCH_MODE_CONFIG } from "../../constants/matchModeConfig";
+
+import "./MatchCard.css";
+
+const statusClassMap = {
+    REGISTERED: "match-registered",
+    UNREGISTERED: "match-unregistered",
+    EXCUSED: "match-excused",
+    RESERVED: "match-reserved",
+    SUBSTITUTE: "match-substitute",
+    NO_RESPONSE: "match-no-response",
+    NO_EXCUSED: "match-no-excused",
+};
+
+const statusTextUpcomingMap = {
+    REGISTERED: "BUDU",
+    UNREGISTERED: "ODHLÁŠEN",
+    EXCUSED: "NEMŮŽU",
+    RESERVED: "ČEKÁM",
+    SUBSTITUTE: "MOŽNÁ",
+    NO_RESPONSE: "",
+    NO_EXCUSED: "NEOMLUVEN",
+};
+
+const statusTextPastMap = {
+    REGISTERED: "",
+    NO_RESPONSE: "NEREAGOVAL",
+    NO_EXCUSED: "NEPŘIŠEL",
+    UNREGISTERED: "ODHLÁŠEN",
+    SUBSTITUTE: "NEBYL",
+    EXCUSED: "NEMOHL",
+    RESERVED: "BYLO PLNO",
+};
+
+const statusIconMap = {
+    REGISTERED: RegisteredIcon,
+    UNREGISTERED: UnregisteredIcon,
+    EXCUSED: ExcusedIcon,
+    RESERVED: ReservedIcon,
+    SUBSTITUTE: NoResponseIcon,
+    NO_RESPONSE: NoResponseIcon,
+    NO_EXCUSED: NoExcusedIcon,
+};
+
+const matchStatusLabelMap = {
+    CANCELED: "ZRUŠENÝ",
+    UNCANCELED: "Obnovený",
+    UPDATED: "Změněný",
+};
+
+const cancelReasonLabelMap = {
+    NOT_ENOUGH_PLAYERS: "Málo hráčů",
+    TECHNICAL_ISSUE: "Technické problémy",
+    WEATHER: "Počasí",
+    ORGANIZER_DECISION: "Rozhodnutí organizátora",
+    OTHER: "Jiný důvod",
+};
+
+const matchResultLabelMap = {
+    LIGHT_WIN: "LIGHT",
+    DARK_WIN: "DARK",
+    DRAW: "Remíza",
+};
+
+const formatDateTime = (dateTime) => {
+    if (!dateTime) return null;
+
+    const iso = dateTime.replace(" ", "T");
+    const d = new Date(iso);
+
+    const dayName = new Intl.DateTimeFormat("cs-CZ", {
+        weekday: "long",
+    }).format(d);
+
+    const datePart = new Intl.DateTimeFormat("cs-CZ", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+    }).format(d);
+
+    const timePart = d.toLocaleTimeString("cs-CZ", {
+        hour: "2-digit",
+        minute: "2-digit",
+    });
+
+    return {
+        day: dayName.charAt(0).toUpperCase() + dayName.slice(1),
+        dateTime: `${datePart} ${timePart}`,
+    };
+};
+
+const isPastMatch = (dateTime) => {
+    if (!dateTime) return false;
+    const iso = dateTime.replace(" ", "T");
+    const d = new Date(iso);
+    const now = new Date();
+    return d &lt; now;
+};
+
+const getDaysUntilMatch = (dateTime) => {
+    if (!dateTime) return null;
+
+    const iso = dateTime.replace(" ", "T");
+    const matchDate = new Date(iso);
+    if (Number.isNaN(matchDate.getTime())) return null;
+
+    const now = new Date();
+
+    // Vynulování času -> porovnává se jen kalendářní den
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const matchDay = new Date(
+        matchDate.getFullYear(),
+        matchDate.getMonth(),
+        matchDate.getDate()
+    );
+
+    const diffMs = matchDay.getTime() - today.getTime();
+    const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+
+    return Math.max(diffDays, 0);
+};
+
+const getDaysBadgeClass = (days) => {
+    if (days === null || days === undefined) return "match-days--default";
+    if (days >= 5) return "match-days--ok";       // 5+
+    if (days >= 1) return "match-days--warn";     // 2–4
+    return "match-days--danger";                  // 0–1 (dnes + 1)
+};
+
+/**
+ * MatchCard
+ *
+ * Karta zápasu pro přehled.
+ */
+const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
+    const playerMatchStatus = match.playerMatchStatus ?? "NO_RESPONSE";
+
+    const statusText = condensed
+        ? statusTextPastMap[playerMatchStatus] ?? playerMatchStatus
+        : statusTextUpcomingMap[playerMatchStatus] ?? playerMatchStatus;
+
+    const statusClass = statusClassMap[playerMatchStatus] ?? "";
+
+    const hasDisabledTooltip = !!disabledTooltip;
+    const isRegistered = playerMatchStatus === "REGISTERED";
+
+    const formatted = formatDateTime(match.dateTime);
+    const past = isPastMatch(match.dateTime);
+
+    const rawMatchStatus = match.matchStatus || null;
+    const isCanceled = rawMatchStatus === "CANCELED";
+
+    const isDisabledByTooltip = hasDisabledTooltip &amp;&amp; !isRegistered;
+    const isClickable = !!onClick &amp;&amp; !isDisabledByTooltip &amp;&amp; !isCanceled;
+
+    const statusModifier = playerMatchStatus.toLowerCase();
+
+    const cardLayoutClass = condensed ? "match-card--condensed" : "match-card--default";
+
+    let matchStatusText = "";
+    if (past) {
+        if (
+            !rawMatchStatus ||
+            rawMatchStatus === "CANCELED" ||
+            rawMatchStatus === "UNCANCELED" ||
+            rawMatchStatus === "UPDATED"
+        ) {
+            matchStatusText = "Odehraný";
+        } else {
+            matchStatusText = matchStatusLabelMap[rawMatchStatus] ?? rawMatchStatus;
+        }
+    } else {
+        if (!rawMatchStatus) {
+            matchStatusText = "Plánovaný";
+        } else {
+            matchStatusText = matchStatusLabelMap[rawMatchStatus] ?? rawMatchStatus;
+        }
+    }
+
+    const matchModeKey = match.matchMode || null;
+    const matchModeConfig = matchModeKey ? MATCH_MODE_CONFIG[matchModeKey] : null;
+    const matchModeLabel = matchModeConfig?.label || null;
+
+    const hasScore =
+        match.scoreDark !== null &amp;&amp;
+        match.scoreDark !== undefined &amp;&amp;
+        match.scoreLight !== null &amp;&amp;
+        match.scoreLight !== undefined;
+
+    const resultKey = match.result || null;
+    const resultLabel = resultKey ? matchResultLabelMap[resultKey] ?? resultKey : null;
+
+    /**
+     * Výsledek pro hráče v past + REGISTERED:
+     * Backend vrací:
+     * - match.draw (boolean|null)
+     * - match.playerWon (boolean|null)
+     * - match.playerTeam (DARK/LIGHT/null) – už jen informativně
+     */
+    const drawFlag = match.draw; // boolean|null|undefined
+    const playerWonFlag = match.playerWon; // boolean|null|undefined
+
+    const isRegisteredPast = past &amp;&amp; playerMatchStatus === "REGISTERED";
+
+    const outcomeIcon =
+        isRegisteredPast &amp;&amp; drawFlag !== true
+            ? (playerWonFlag === true ? Happy : playerWonFlag === false ? Sad : null)
+            : null;
+
+    const StatusIcon = isRegisteredPast
+        ? (drawFlag === true ? null : (outcomeIcon || RegisteredIcon))
+        : (statusIconMap[playerMatchStatus] || null);
+
+    const statusTextOverride = isRegisteredPast
+        ? (drawFlag === true ? "Remíza" : "")
+        : statusText;
+
+    let overlayTooltipContent = null;
+
+    if (isCanceled) {
+        const label = match.cancelReason
+            ? cancelReasonLabelMap[match.cancelReason] ?? match.cancelReason
+            : null;
+
+        overlayTooltipContent = (
+            &lt;div className="match-card-tooltip-inner">
+                &lt;div className="match-card-tooltip-title">ZRUŠENÝ&lt;/div>
+                {label &amp;&amp; (
+                    &lt;div className="match-card-tooltip-reason">
+                        Důvod:
+                        &lt;p>
+                            &lt;strong>{label}&lt;/strong>
+                        &lt;/p>
+                    &lt;/div>
+                )}
+            &lt;/div>
+        );
+    } else if (disabledTooltip) {
+        overlayTooltipContent = disabledTooltip;
+    }
+
+    const handleClick = () => {
+        if (isClickable &amp;&amp; onClick) onClick();
+    };
+
+    const daysUntil = !past ? getDaysUntilMatch(match.dateTime) : null;
+    const daysBadgeClass = getDaysBadgeClass(daysUntil);
+
+    return (
+        &lt;div
+            className={`match-card
+                ${statusClass}
+                ${cardLayoutClass}
+                ${isCanceled ? "match-card--canceled" : ""}
+                ${isClickable ? "clickable" : ""}
+                ${isDisabledByTooltip ? "match-card--disabled" : ""}`}
+            role={isClickable ? "button" : undefined}
+            tabIndex={isClickable ? 0 : -1}
+            onClick={isClickable ? handleClick : undefined}
+            onKeyDown={isClickable ? (e) => e.key === "Enter" &amp;&amp; handleClick() : undefined}
+        >
+            &lt;div className="card-body match-card__body">
+                {formatted &amp;&amp; (
+                    &lt;>
+                        &lt;div className="match-card__header">
+                            &lt;h5 className="card-title text-muted text-center match-day">
+                                {formatted.day} {"  #"}
+                                {match.matchNumber}
+
+                                {!past &amp;&amp; daysUntil !== null &amp;&amp; (
+                                    &lt;span className={`match-days ${daysBadgeClass}`}>
+                                        {" "}– {daysUntil === 0
+                                            ? "DNES !!!"
+                                            : `za ${daysUntil} ${daysUntil === 1
+                                                ? "den"
+                                                : daysUntil >= 2 &amp;&amp; daysUntil &lt;= 4
+                                                    ? "dny"
+                                                    : "dní"
+                                            }`}
+                                    &lt;/span>
+                                )}
+                            &lt;/h5>
+
+                            {matchStatusText &amp;&amp; (
+                                &lt;div
+                                    className={`match-card__match-status match-card__match-status--${(
+                                        rawMatchStatus ?? "DEFAULT"
+                                    ).toLowerCase()} text-center`}
+                                >
+                                    &lt;strong>{matchStatusText}&lt;/strong>
+                                &lt;/div>
+                            )}
+                        &lt;/div>
+
+                        &lt;h3 className="text-center match-date">{formatted.dateTime}&lt;/h3>
+                    &lt;/>
+                )}
+
+                &lt;div className="text-center">
+                    &lt;p className="card-text text-center">{match.location}&lt;/p>
+
+                    {past &amp;&amp; hasScore &amp;&amp; (
+                        &lt;p className="card-text text-center match-score">
+                            &lt;strong>
+                                &lt;TeamDarkIcon className="match-reg-team-icon-dark" />{" "}
+                                {match.scoreDark}{" "}
+                                : {match.scoreLight}{" "}
+                                &lt;TeamLightIcon className="match-reg-team-icon-light" />
+                            &lt;/strong>                           
+                        &lt;/p>
+                    )}
+                &lt;/div>
+
+                {matchModeLabel &amp;&amp; (
+                    &lt;p className="card-text text-center match-mode">
+                        &lt;strong>{matchModeLabel}&lt;/strong>
+                    &lt;/p>
+                )}
+
+                {!condensed &amp;&amp; match.description &amp;&amp; (
+                    &lt;p className="card-text">
+                        Popis: &lt;strong>{match.description}&lt;/strong>
+                    &lt;/p>
+                )}
+
+                &lt;p className="card-text text-center players-count">
+                    &lt;span className="players-count__wrap">
+                        &lt;UserIcon
+                            className={`player-icon player-icon--${match.playerTeam?.toLowerCase() ?? "default"}`}
+                        />
+                        &lt;strong>
+                            {match.inGamePlayers} / {match.maxPlayers}{" "}
+                        &lt;/strong>
+
+                        &lt;CapacityRing
+                            value={match.inGamePlayers}
+                            max={match.maxPlayers}
+                            size={50}
+                            stroke={10}
+                            title={`Obsazenost: ${match.inGamePlayers}/${match.maxPlayers}`}
+                        />
+                    &lt;/span>
+                &lt;/p>
+
+                {!condensed &amp;&amp; (
+                    &lt;p className="card-text text-center">
+                        &lt;MoneyIcon className="money-icon" />
+                        &lt;strong>
+                            {match.pricePerRegisteredPlayer.toFixed(0)} Kč /{" "}
+                            &lt;UserIcon className="player-price-icon" />
+                        &lt;/strong>
+                    &lt;/p>
+                )}
+
+                &lt;div className="text-center status-cell">
+                    &lt;span className={`player-match-status player-match-status--${statusModifier}`}>
+                        {StatusIcon &amp;&amp; (
+                            &lt;StatusIcon
+                                className={
+                                    isRegisteredPast &amp;&amp; outcomeIcon
+                                        ? "player-match-status-icon player-match-outcome-icon"
+                                        : "player-match-status-icon"
+                                }
+                            />
+                        )}
+                        &lt;strong className="player-match-status-text">
+                            {statusTextOverride}
+                        &lt;/strong>
+                    &lt;/span>
+                &lt;/div>
+            &lt;/div>
+
+            {overlayTooltipContent &amp;&amp; (
+                &lt;div className="match-card-tooltip">{overlayTooltipContent}&lt;/div>
+            )}
+        &lt;/div>
+    );
+};
+
+export default MatchCard;</code></pre>
+        </article>
+    </section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.5</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
+</html>
