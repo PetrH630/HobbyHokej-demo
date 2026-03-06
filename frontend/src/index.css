@@ -119,7 +119,6 @@ body.dim-open::before {
   /* overlay je jen vizuální */
 }
 
-/* tvoje klikací vrstva pro zavření detailu/historie – musí být POD kartou, ale NAD dimem */
 .global-dim-click {
   position: fixed;
   inset: 0;

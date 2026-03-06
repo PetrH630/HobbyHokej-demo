@@ -21,7 +21,7 @@ export const useMyUpcomingMatches = () => {
         let isMounted = true;
 
         const load = async () => {
-            // 1) Bez vybrané sezóny nemá smysl nic tahat
+          
             if (!currentSeasonId) {
                 if (isMounted) {
                     setMatches([]);
@@ -29,9 +29,7 @@ export const useMyUpcomingMatches = () => {
                     setError(null);
                 }
                 return;
-            }
-
-            // 2) Bez aktuálního hráče také ne – počkáme, než si ho uživatel vybere
+            }  
             if (!currentPlayer) {
                 if (isMounted) {
                     setMatches([]);
@@ -80,7 +78,7 @@ export const useMyUpcomingMatches = () => {
         return () => {
             isMounted = false;
         };
-        // 👇 reaguje na změnu sezóny i aktuálního hráče
+
     }, [currentSeasonId, currentPlayer?.id]);
 
     return { matches, loading, error };

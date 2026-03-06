@@ -17,7 +17,6 @@ export const getMyMatchRegistrationHistory = async (matchId) => {
 };
 
 // ADMIN: historie registrací konkrétního hráče v konkrétním zápase
-// Upravenou URL přizpůsob svému backendu
 export const getPlayerRegistrationHistoryAdmin = async (matchId, playerId) => {
     const res = await api.get(
         `/registrations/history/admin/matches/${matchId}/players/${playerId}`

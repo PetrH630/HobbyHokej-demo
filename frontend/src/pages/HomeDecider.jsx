@@ -17,8 +17,7 @@ const HomeDecider = () => {
     if (loading) {
         return <p>Načítám uživatele…</p>;
     }
-
-    // Defenzivně znormalizujeme role
+   
     const rawRoles = user?.roles || user?.role || [];
     const roles = Array.isArray(rawRoles) ? rawRoles : [rawRoles].filter(Boolean);
 
@@ -27,8 +26,6 @@ const HomeDecider = () => {
     if (isAdmin) {
         return <AdminHomePage />;
     }
-
-    // ostatní (hráč, manažer…) uvidí původní Home
     return <Home />;
 };
 

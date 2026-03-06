@@ -72,7 +72,7 @@ const resolveTargetPathForNonAdmin = (defaultLandingPage, hasPlayer) => {
 
         case "MATCHES":
         default:
-            // fallback = původní chování:
+          
             // pokud má hráče, jdi na zápasy, jinak na hráče
             return hasPlayer ? "/app/matches" : "/app/players";
     }

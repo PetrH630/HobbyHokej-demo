@@ -397,7 +397,7 @@ const SettingsPage = () => {
                 newPasswordConfirm: passwordValues.newPasswordConfirm,
             };
 
-            const message = await userApi.changeMyPassword(payload); // ⬅️ tady
+            const message = await userApi.changeMyPassword(payload);
 
             const okMsg =
                 typeof message === "string"
@@ -406,7 +406,6 @@ const SettingsPage = () => {
 
             setPasswordSuccess(okMsg);
 
-            // ✅ MODAL
             openSuccessModal(okMsg, "Změna hesla");
 
             setPasswordValues({

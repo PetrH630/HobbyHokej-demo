@@ -94,7 +94,7 @@ export const AppModeProvider = ({ children }) => {
         };
 
         loadMode();
-    }, [isAuthenticated]); // 👈 refetch vždy, když se změní stav přihlášení
+    }, [isAuthenticated]);
 
     return (
         <AppModeContext.Provider value={{ demoMode, loading, error }}>

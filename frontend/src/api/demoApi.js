@@ -6,7 +6,7 @@
  */
 
 // api/demoApi.js
-import api from "./axios"; // tvůj axios instance
+import api from "./axios";
 
 export async function tryGetDemoNotifications() {
   try {
@@ -25,7 +25,7 @@ export async function tryGetDemoNotifications() {
       });
     // 404 = endpoint v produkci neexistuje (pojistka), 403 = security blokuje
     if (status === 404 || status === 403) return null;
-    return null; // ať to neláme flow ani při jiných chybách
+    return null;
   }
 }
 

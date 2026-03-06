@@ -39,7 +39,7 @@ const VerifyEmailPage = () => {
     const handleCloseDemoModal = async () => {
         setShowDemoModal(false);
         setDemoNotifications(null);
-        await tryClearDemoNotifications(); // pojistka
+        await tryClearDemoNotifications(); 
         navigate("/login");
     };
 
@@ -52,13 +52,12 @@ const VerifyEmailPage = () => {
             }
 
             try {
-                // pojistka: kdyby v demo store visely staré zprávy
-                await tryClearDemoNotifications();
+                              await tryClearDemoNotifications();
 
                 const res = await verifyEmail(token);
                 setSuccessMessage(res.data || "Účet byl úspěšně aktivován.");
 
-                const demo = await tryGetDemoNotifications(); // GET už stejně dělá getAndClear()
+                const demo = await tryGetDemoNotifications(); 
                 if (hasAnyDemoItems(demo)) {
                     setDemoNotifications(demo);
                     setShowDemoModal(true);

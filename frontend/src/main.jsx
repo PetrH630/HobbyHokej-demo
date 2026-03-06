@@ -1,4 +1,4 @@
-// src/main.jsx nebo src/index.jsx (podle tvého projektu)
+// src/main.jsx
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";

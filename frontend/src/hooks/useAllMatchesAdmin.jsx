@@ -37,7 +37,7 @@ export const useAllMatchesAdmin = (seasonId) => {
         } finally {
             setLoading(false);
         }
-    }, [seasonId]); // 👈 DŮLEŽITÉ: závislost na seasonId
+    }, [seasonId]);
 
     useEffect(() => {
         // když seasonId ještě není známa (např. při prvním mountu), můžeš i tak načíst,

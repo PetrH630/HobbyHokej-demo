@@ -82,7 +82,7 @@ export const useMyPassedMatches = () => {
         return () => {
             isMounted = false;
         };
-        // 👇 reaguje na změnu sezóny i hráče
+       
     }, [currentSeasonId, currentPlayer?.id]);
 
     return { matches, loading, error };

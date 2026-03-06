@@ -33,7 +33,6 @@ const AdminHomePage = () => {
 
     const [showManagerInfo, setShowManagerInfo] = useState(isManager);
 
-    // 👇 nový state pro modal speciálních zpráv
     const [showSpecialModal, setShowSpecialModal] = useState(false);
 
     const {
@@ -222,7 +221,7 @@ const AdminHomePage = () => {
         return "info";
     };
 
-    // časové okno pro sloučení duplicitních notifikací (stejný typ + text)
+   
     const ACTIVITY_TIME_WINDOW_MS = 1000; // 1 sekunda
 
     const makeActivityKey = (n) => {
@@ -231,14 +230,14 @@ const AdminHomePage = () => {
             .trim()
             .toLowerCase();
 
-        // Záměrně jen typ + text, aby se nesledoval konkrétní příjemce
+
         return [type, text].join("|");
     };
 
     const lastActivities = useMemo(() => {
         if (!Array.isArray(notifications)) return [];
 
-        // Normalizace – připravíme key + dateObj
+   
         const normalized = notifications
             .map((n) => {
                 if (!n) return null;
@@ -280,14 +279,13 @@ const AdminHomePage = () => {
             });
 
             if (alreadyExists) {
-                // jen další exemplář stejné vlny notifikací (víc hráčů)
+                
                 continue;
             }
 
             unique.push(item);
 
-            // stačí prvních 5 unikátních aktivit
-            if (unique.length >= 5) {
+                  if (unique.length >= 5) {
                 break;
             }
         }
@@ -381,7 +379,6 @@ const AdminHomePage = () => {
                     </p>
                 </div>
 
-                {/* 👇 upraveno: na malém zařízení pod sebou, od md vedle sebe */}
                 <div className="d-flex flex-column flex-md-row gap-2">
                     <button
                         className="btn btn-outline-secondary"
@@ -398,7 +395,6 @@ const AdminHomePage = () => {
                         Obnovit
                     </button>
 
-                    {/* 👇 nové tlačítko vedle Obnovit */}
                     <button
                         className="btn btn-primary"
                         type="button"
@@ -664,7 +660,7 @@ const AdminHomePage = () => {
                 Počty i nadcházející zápasy jsou načteny z databáze přes admin hooky.
             </div>
 
-            {/* 👇 modal pro speciální zprávu */}
+            {/*modal pro speciální zprávu */}
             <AdminSpecialNotificationModal
                 show={showSpecialModal}
                 onClose={() => setShowSpecialModal(false)}
