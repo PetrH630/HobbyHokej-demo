@@ -25,24 +25,27 @@ aplikace**.
 
 # Obsah
 
--   Popis projektu
--   Hlavní funkce systému
--   Architektura systému
--   Doménový model
--   Registrace hráče na zápas 
--   Použité technologie
--   Projektová struktura
--   REST API
--   Bezpečnost
--   Uživatelské role
--   Notifikační systém
--   Audit změn
--   Spuštění aplikace
--   Screenshoty aplikace
--   Dokumentace
--   Možná budoucí rozšíření
--   Autor
--   Licence
+# Obsah
+
+- [Popis projektu](#popis-projektu)
+- [Hlavní funkce systému](#hlavní-funkce-systému)
+- [Architektura systému](#architektura-systému)
+- [Doménový model](#doménový-model)
+- [Registrace hráče na zápas](#registrace-hráče-na-zápas)
+- [Použité technologie](#použité-technologie)
+- [Projektová struktura](#projektová-struktura)
+- [REST API](#rest-api)
+- [Bezpečnost](#bezpečnost)
+- [Uživatelské role](#uživatelské-role)
+- [Notifikační systém](#notifikační-systém)
+- [Databázový model](#databázový-model)
+- [Audit změn](#audit-změn)
+- [Spuštění aplikace](#spuštění-aplikace)
+- [Link na demo aplikaci](#Link-na-demo-aplikaci)
+- [Dokumentace](#dokumentace)
+- [Možná budoucí rozšíření](#možná-budoucí-rozšíření)
+- [Autor](#autor)
+- [Licence](#licence)
 
 ------------------------------------------------------------------------
 
