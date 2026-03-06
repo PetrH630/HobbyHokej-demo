@@ -10,12 +10,9 @@ import {
     Happy,
     Sad,
 } from "../../icons";
-
 import { TeamDarkIcon, TeamLightIcon } from "../../icons";
-
 import CapacityRing from "./CapacityRing";
 import { MATCH_MODE_CONFIG } from "../../constants/matchModeConfig";
-
 import "./MatchCard.css";
 
 const statusClassMap = {
@@ -78,8 +75,19 @@ const matchResultLabelMap = {
     DRAW: "Remíza",
 };
 
+/**
+ * Převede datum a čas zápasu do formátu vhodného pro zobrazení v kartě.
+ *
+ * Vstupní hodnota se převádí na objekt Date po nahrazení mezery znakem T,
+ * aby bylo možné korektně zpracovat formát vracený backendem.
+ *
+ * @param {string | null | undefined} dateTime datum a čas zápasu ve formátu backendu
+ * @returns {{ day: string, dateTime: string } | null} objekt s názvem dne a formátovaným datem, nebo null
+ */
 const formatDateTime = (dateTime) => {
-    if (!dateTime) return null;
+    if (!dateTime) {
+        return null;
+    }
 
     const iso = dateTime.replace(" ", "T");
     const d = new Date(iso);
@@ -105,24 +113,48 @@ const formatDateTime = (dateTime) => {
     };
 };
 
+/**
+ * Určí, zda již datum zápasu nastalo.
+ *
+ * Porovnání se provádí proti aktuálnímu času klienta.
+ *
+ * @param {string | null | undefined} dateTime datum a čas zápasu ve formátu backendu
+ * @returns {boolean} true, pokud je zápas v minulosti, jinak false
+ */
 const isPastMatch = (dateTime) => {
-    if (!dateTime) return false;
+    if (!dateTime) {
+        return false;
+    }
+
     const iso = dateTime.replace(" ", "T");
     const d = new Date(iso);
     const now = new Date();
+
     return d < now;
 };
 
+/**
+ * Vypočte počet kalendářních dnů do začátku zápasu.
+ *
+ * Časová složka se před porovnáním vynuluje, aby se porovnával pouze kalendářní den.
+ *
+ * @param {string | null | undefined} dateTime datum a čas zápasu ve formátu backendu
+ * @returns {number | null} počet dnů do zápasu, nebo null při neplatné hodnotě
+ */
 const getDaysUntilMatch = (dateTime) => {
-    if (!dateTime) return null;
+    if (!dateTime) {
+        return null;
+    }
 
     const iso = dateTime.replace(" ", "T");
     const matchDate = new Date(iso);
-    if (Number.isNaN(matchDate.getTime())) return null;
+
+    if (Number.isNaN(matchDate.getTime())) {
+        return null;
+    }
 
     const now = new Date();
 
-    // Vynulování času -> porovnává se jen kalendářní den
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
     const matchDay = new Date(
         matchDate.getFullYear(),
@@ -136,17 +168,46 @@ const getDaysUntilMatch = (dateTime) => {
     return Math.max(diffDays, 0);
 };
 
+/**
+ * Vrátí CSS modifikátor pro barevné zvýraznění odpočtu do zápasu.
+ *
+ * @param {number | null | undefined} days počet dnů do zápasu
+ * @returns {string} název CSS třídy pro badge s odpočtem
+ */
 const getDaysBadgeClass = (days) => {
-    if (days === null || days === undefined) return "match-days--default";
-    if (days >= 5) return "match-days--ok";       // 5+
-    if (days >= 1) return "match-days--warn";     // 2–4
-    return "match-days--danger";                  // 0–1 (dnes + 1)
+    if (days === null || days === undefined) {
+        return "match-days--default";
+    }
+
+    if (days >= 5) {
+        return "match-days--ok";
+    }
+
+    if (days >= 1) {
+        return "match-days--warn";
+    }
+
+    return "match-days--danger";
 };
 
 /**
  * MatchCard
  *
- * Karta zápasu pro přehled.
+ * Komponenta se používá pro zobrazení karty zápasu v přehledu budoucích i uplynulých zápasů.
+ * Komponenta kombinuje stav zápasu, stav registrace hráče, informace o obsazenosti,
+ * ceně, výsledku a případném zrušení. Podle těchto dat se vytváří textové a vizuální
+ * indikátory určené pro hráčskou i administrační část aplikace.
+ *
+ * Při zrušeném zápasu se zobrazuje priorizovaný stav „ZRUŠENÝ“ a současně se blokuje
+ * klikatelnost karty. U odehraných zápasů se stav určuje podle času zápasu a doplňkového
+ * statusu vráceného backendem.
+ *
+ * @param {Object} props vstupní vlastnosti komponenty
+ * @param {MatchDTO} props.match data zápasu načtená z backendu
+ * @param {Function} [props.onClick] callback vyvolaný při kliknutí na kartu
+ * @param {string} [props.disabledTooltip] text tooltipu zobrazeného při deaktivované kartě
+ * @param {boolean} [props.condensed=false] určuje, zda se má použít zhuštěná varianta karty
+ * @returns {JSX.Element} vykreslená karta zápasu
  */
 const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
     const playerMatchStatus = match.playerMatchStatus ?? "NO_RESPONSE";
@@ -170,20 +231,30 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
     const isClickable = !!onClick && !isDisabledByTooltip && !isCanceled;
 
     const statusModifier = playerMatchStatus.toLowerCase();
+    const cardLayoutClass = condensed
+        ? "match-card--condensed"
+        : "match-card--default";
 
-    const cardLayoutClass = condensed ? "match-card--condensed" : "match-card--default";
-
+    /**
+     * Textový stav zápasu určený pro záhlaví karty.
+     *
+     * Stav „ZRUŠENÝ“ má nejvyšší prioritu a musí být zobrazen i u zápasu,
+     * který již časově spadá do minulosti. Tím se zabraňuje tomu, aby se
+     * zrušený zápas nesprávně označil jako odehraný.
+     */
     let matchStatusText = "";
-    if (past) {
-        if (
-            !rawMatchStatus ||
-            rawMatchStatus === "CANCELED" ||
-            rawMatchStatus === "UNCANCELED" ||
-            rawMatchStatus === "UPDATED"
-        ) {
+
+    if (isCanceled) {
+        matchStatusText = matchStatusLabelMap.CANCELED;
+    } else if (past) {
+        if (!rawMatchStatus) {
             matchStatusText = "Odehraný";
+        } else if (rawMatchStatus === "UNCANCELED") {
+            matchStatusText = "Obnovený";
+        } else if (rawMatchStatus === "UPDATED") {
+            matchStatusText = "Změněný";
         } else {
-            matchStatusText = matchStatusLabelMap[rawMatchStatus] ?? rawMatchStatus;
+            matchStatusText = matchStatusLabelMap[rawMatchStatus] ?? "Odehraný";
         }
     } else {
         if (!rawMatchStatus) {
@@ -204,33 +275,63 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
         match.scoreLight !== undefined;
 
     const resultKey = match.result || null;
-    const resultLabel = resultKey ? matchResultLabelMap[resultKey] ?? resultKey : null;
+    const resultLabel = resultKey
+        ? matchResultLabelMap[resultKey] ?? resultKey
+        : null;
 
     /**
-     * Výsledek pro hráče v past + REGISTERED:
-     * Backend vrací:
-     * - match.draw (boolean|null)
-     * - match.playerWon (boolean|null)
-     * - match.playerTeam (DARK/LIGHT/null) – už jen informativně
+     * Backend vrací informaci o tom, zda zápas skončil remízou
+     * a zda přihlášený hráč vyhrál.
+     *
+     * Tyto hodnoty se používají pouze u odehraných zápasů,
+     * ve kterých byl hráč skutečně registrován.
      */
-    const drawFlag = match.draw; // boolean|null|undefined
-    const playerWonFlag = match.playerWon; // boolean|null|undefined
+    const drawFlag = match.draw;
+    const playerWonFlag = match.playerWon;
 
     const isRegisteredPast = past && playerMatchStatus === "REGISTERED";
 
+    /**
+     * Ikona výsledku pro registrovaného hráče v odehraném zápasu.
+     *
+     * Při remíze se samostatná výherní ani proherní ikona nezobrazuje.
+     */
     const outcomeIcon =
         isRegisteredPast && drawFlag !== true
-            ? (playerWonFlag === true ? Happy : playerWonFlag === false ? Sad : null)
+            ? playerWonFlag === true
+                ? Happy
+                : playerWonFlag === false
+                    ? Sad
+                    : null
             : null;
 
+    /**
+     * Ikona stavu registrace nebo výsledku pro spodní stavový řádek karty.
+     */
     const StatusIcon = isRegisteredPast
-        ? (drawFlag === true ? null : (outcomeIcon || RegisteredIcon))
-        : (statusIconMap[playerMatchStatus] || null);
+        ? drawFlag === true
+            ? null
+            : outcomeIcon || RegisteredIcon
+        : statusIconMap[playerMatchStatus] || null;
 
+    /**
+     * Text spodního stavového řádku.
+     *
+     * U odehraného zápasu s registrací se pro remízu zobrazuje explicitní text.
+     * V ostatních případech se používá text odvozený z map stavů registrace.
+     */
     const statusTextOverride = isRegisteredPast
-        ? (drawFlag === true ? "Remíza" : "")
+        ? drawFlag === true
+            ? "Remíza"
+            : ""
         : statusText;
 
+    /**
+     * Obsah tooltipu překrývajícího kartu.
+     *
+     * Při zrušeném zápasu se zobrazuje důvod zrušení.
+     * V ostatních případech se používá externě předaný text.
+     */
     let overlayTooltipContent = null;
 
     if (isCanceled) {
@@ -242,8 +343,7 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
             <div className="match-card-tooltip-inner">
                 <div className="match-card-tooltip-title">ZRUŠENÝ</div>
                 {label && (
-                    <div className="match-card-tooltip-reason">
-                        Důvod:
+                    <div className="match-card-tooltip-reason">                        
                         <p>
                             <strong>{label}</strong>
                         </p>
@@ -255,8 +355,13 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
         overlayTooltipContent = disabledTooltip;
     }
 
+    /**
+     * Zpracuje kliknutí na kartu pouze v případě, že je karta aktivní.
+     */
     const handleClick = () => {
-        if (isClickable && onClick) onClick();
+        if (isClickable && onClick) {
+            onClick();
+        }
     };
 
     const daysUntil = !past ? getDaysUntilMatch(match.dateTime) : null;
@@ -273,7 +378,9 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
             role={isClickable ? "button" : undefined}
             tabIndex={isClickable ? 0 : -1}
             onClick={isClickable ? handleClick : undefined}
-            onKeyDown={isClickable ? (e) => e.key === "Enter" && handleClick() : undefined}
+            onKeyDown={
+                isClickable ? (e) => e.key === "Enter" && handleClick() : undefined
+            }
         >
             <div className="card-body match-card__body">
                 {formatted && (
@@ -285,7 +392,9 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
 
                                 {!past && daysUntil !== null && (
                                     <span className={`match-days ${daysBadgeClass}`}>
-                                        {" "}– {daysUntil === 0
+                                        {" "}
+                                        –{" "}
+                                        {daysUntil === 0
                                             ? "DNES !!!"
                                             : `za ${daysUntil} ${daysUntil === 1
                                                 ? "den"
@@ -315,14 +424,13 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
                 <div className="text-center">
                     <p className="card-text text-center">{match.location}</p>
 
-                    {past && hasScore && (
+                    {past && hasScore && !isCanceled && (
                         <p className="card-text text-center match-score">
                             <strong>
                                 <TeamDarkIcon className="match-reg-team-icon-dark" />{" "}
-                                {match.scoreDark}{" "}
-                                : {match.scoreLight}{" "}
+                                {match.scoreDark} : {match.scoreLight}{" "}
                                 <TeamLightIcon className="match-reg-team-icon-light" />
-                            </strong>                           
+                            </strong>
                         </p>
                     )}
                 </div>
@@ -369,7 +477,9 @@ const MatchCard = ({ match, onClick, disabledTooltip, condensed = false }) => {
                 )}
 
                 <div className="text-center status-cell">
-                    <span className={`player-match-status player-match-status--${statusModifier}`}>
+                    <span
+                        className={`player-match-status player-match-status--${statusModifier}`}
+                    >
                         {StatusIcon && (
                             <StatusIcon
                                 className={

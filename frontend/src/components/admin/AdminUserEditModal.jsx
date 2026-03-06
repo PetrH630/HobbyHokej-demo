@@ -1,7 +1,5 @@
-// src/components/admin/AdminUserEditModal.jsx
 import { useEffect, useState } from "react";
 import { useGlobalModal } from "../../hooks/useGlobalModal";
-
 
 /**
  * AdminUserEditModal
@@ -17,19 +15,14 @@ import { useGlobalModal } from "../../hooks/useGlobalModal";
  * @param {Function} props.onSave vstupní hodnota komponenty.
  * @param {boolean} props.saving Příznak, že probíhá ukládání a akce mají být dočasně blokovány.
  */
-
 const AdminUserEditModal = ({ user, show, onClose, onSave, saving }) => {
-  
-
-    if (!show || !user) {
-        return null;
-    }
+    useGlobalModal(show);
 
     const [values, setValues] = useState({
-        id: user.id ?? null,
-        name: user.name || "",
-        surname: user.surname || "",
-        email: user.email || "",
+        id: null,
+        name: "",
+        surname: "",
+        email: "",
     });
 
     const [errors, setErrors] = useState({});
@@ -57,12 +50,7 @@ const AdminUserEditModal = ({ user, show, onClose, onSave, saving }) => {
         });
     };
 
-    
-/**
- * Prověří povinná pole a vrátí textovou chybu nebo null pro validní stav.
- */
-
-const validate = () => {
+    const validate = () => {
         const errs = {};
 
         if (!values.name || !values.name.trim()) {
@@ -80,12 +68,7 @@ const validate = () => {
         return errs;
     };
 
-    
-/**
- * Zpracuje odeslání formuláře a zavolá příslušný callback nadřazené komponenty.
- */
-
-const handleSubmit = (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const validationErrors = validate();
@@ -105,23 +88,19 @@ const handleSubmit = (e) => {
         onSave(payload);
     };
 
-    
-/**
- * Zajistí konzistentní zavření modalu a vrácení lokálního stavu do výchozího nastavení.
- */
-
-const handleClose = () => {
+    const handleClose = () => {
         if (!saving) {
             onClose();
         }
     };
 
-    const nameClass =
-        "form-control" + (errors.name ? " is-invalid" : "");
-    const surnameClass =
-        "form-control" + (errors.surname ? " is-invalid" : "");
-    const emailClass =
-        "form-control" + (errors.email ? " is-invalid" : "");
+    if (!show || !user) {
+        return null;
+    }
+
+    const nameClass = "form-control" + (errors.name ? " is-invalid" : "");
+    const surnameClass = "form-control" + (errors.surname ? " is-invalid" : "");
+    const emailClass = "form-control" + (errors.email ? " is-invalid" : "");
 
     return (
         <>
@@ -144,15 +123,12 @@ const handleClose = () => {
                                     aria-label="Close"
                                     onClick={handleClose}
                                     disabled={saving}
-                                ></button>
+                                />
                             </div>
 
                             <div className="modal-body">
                                 <div className="mb-3">
-                                    <label
-                                        className="form-label"
-                                        htmlFor="name"
-                                    >
+                                    <label className="form-label" htmlFor="name">
                                         Jméno
                                     </label>
                                     <input
@@ -171,10 +147,7 @@ const handleClose = () => {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label
-                                        className="form-label"
-                                        htmlFor="surname"
-                                    >
+                                    <label className="form-label" htmlFor="surname">
                                         Příjmení
                                     </label>
                                     <input
@@ -193,10 +166,7 @@ const handleClose = () => {
                                 </div>
 
                                 <div className="mb-3">
-                                    <label
-                                        className="form-label"
-                                        htmlFor="email"
-                                    >
+                                    <label className="form-label" htmlFor="email">
                                         E-mail
                                     </label>
                                     <input
@@ -229,9 +199,7 @@ const handleClose = () => {
                                     className="btn btn-primary"
                                     disabled={saving}
                                 >
-                                    {saving
-                                        ? "Ukládám změny…"
-                                        : "Uložit změny uživatele"}
+                                    {saving ? "Ukládám změny…" : "Uložit změny uživatele"}
                                 </button>
                             </div>
                         </form>

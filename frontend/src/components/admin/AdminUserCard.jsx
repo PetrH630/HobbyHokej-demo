@@ -58,9 +58,9 @@ const AdminUserCard = ({
     const hasPlayers = Array.isArray(user.players) && user.players.length > 0;
 
     return (
-        <div className="card shadow-sm">
+        <div className="card shadow-sm py-1">
             {/* === ŘÁDEK 1 – UŽIVATEL === */}
-            <div className="card-body border-bottom">
+            <div className="card-body border-bottom py-1">
                 <div className="row align-items-center">
                     <div className="col-md-4 fw-bold">
                         {user.name} {user.surname?.toUpperCase()}
@@ -88,7 +88,7 @@ const AdminUserCard = ({
             </div>
 
             {/* === ŘÁDEK 2 – AKCE === */}
-            <div className="card-body border-bottom bg-light">
+            <div className="card-body border-bottom bg-light py-1">
                 <RoleGuard roles={["ROLE_ADMIN"]}>
                     <div className="d-flex justify-content-end">
                         <div className="btn-group btn-group-sm flex-wrap">
@@ -142,8 +142,8 @@ const AdminUserCard = ({
             </div>
 
             {/* === ŘÁDKY 3+ – HRÁČI U UŽIVATELE === */}
-            <div className="card-body">
-                <small className="text-muted d-block mb-2">
+            <div className="card-body py-0">
+                <small className="text-muted d-block mb-0">
                     Hráči přiřazení k uživateli:
                 </small>
 
@@ -153,8 +153,7 @@ const AdminUserCard = ({
                             <div
                                 key={player.id}
                                 className="d-flex justify-content-between border-bottom py-1"
-                            >
-                                
+                            >                               
                                 <div>
                                     <strong>
                                         {player.name}{" "}
@@ -168,9 +167,9 @@ const AdminUserCard = ({
                                 </div>
                                 <div className="text-end">
                                     <small className="text-muted d-block">
-                                        Tým
+                                        Tým: <strong>{player.team || "-"}</strong>
                                     </small>
-                                    <span>{player.team || "-"}</span>
+                                    
                                 </div>
                             </div>
                         ))}

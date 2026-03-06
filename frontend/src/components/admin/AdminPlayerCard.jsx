@@ -96,7 +96,7 @@ const AdminPlayerCard = ({
     } = usePlayerStatsAdmin(player.id, { enabled: showStats });
 
     const cardClassName =
-        "card shadow-sm mb-3 " +
+        "card shadow-sm mb-3 p-1" +
         (dimActive ? "bg-white dim-keep " : "") +
         (showHistory ? "border border-3 border-info " : "") +
         (showStats ? "border border-3 border-primary " : "") +
@@ -131,7 +131,7 @@ const AdminPlayerCard = ({
 
             <div className={cardClassName}>
                 {/* === ŘÁDEK 1 – HRÁČ === */}
-                <div className="card-body border-bottom">
+                <div className="card-body border-bottom py-2">
                     <div className="row align-items-center g-2">
                         {/* Jméno + meta */}
                         <div className="col-md-4">
@@ -207,7 +207,7 @@ const AdminPlayerCard = ({
                 </div>
 
                 {/* === ŘÁDEK 2 – UŽIVATEL === */}
-                <div className="card-body border-bottom bg-light">
+                <div className="card-body border-bottom bg-light py-2">
                     {user ? (
                         <div className="row align-items-center g-2">
                             <div className="col-md-4">
@@ -234,7 +234,7 @@ const AdminPlayerCard = ({
                 </div>
 
                 {/* === ŘÁDEK 3 – AKCE === */}
-                <div className="card-footer bg-white">
+                <div className="card-footer bg-white py-2">
                     <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
                         <div className="d-flex justify-content-end gap-2 flex-wrap">
                             {/* Primární akce */}
@@ -390,6 +390,7 @@ const AdminPlayerCard = ({
                             loading={statsLoading}
                             error={statsError}
                             onReload={reloadStats}
+                            
                         />
                     </div>
                 )}

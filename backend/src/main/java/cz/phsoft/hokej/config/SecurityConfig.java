@@ -163,7 +163,6 @@ public class SecurityConfig {
                     auth.requestMatchers("/api/email/test/**").hasRole("ADMIN");
                     auth.requestMatchers("/api/debug/me").hasRole("ADMIN");
                     auth.requestMatchers("/api/test/**").hasRole("ADMIN");
-
                     auth.requestMatchers("/api/matches/admin/**").hasAnyRole("ADMIN", "MANAGER");
                     auth.requestMatchers("/api/players/admin/**").hasAnyRole("ADMIN", "MANAGER");
                     auth.requestMatchers("/api/registrations/admin/**").hasAnyRole("ADMIN", "MANAGER");

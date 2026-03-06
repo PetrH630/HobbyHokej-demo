@@ -1,7 +1,9 @@
 package cz.phsoft.hokej.player.services;
 
 import cz.phsoft.hokej.match.entities.MatchEntity;
+import cz.phsoft.hokej.match.entities.MatchScore;
 import cz.phsoft.hokej.match.enums.MatchResult;
+import cz.phsoft.hokej.match.enums.MatchStatus;
 import cz.phsoft.hokej.match.repositories.MatchRepository;
 import cz.phsoft.hokej.player.dto.PlayerMatchResultDTO;
 import cz.phsoft.hokej.player.dto.PlayerStatsDTO;
@@ -104,7 +106,10 @@ public class PlayerStatsServiceImpl implements PlayerStatsService {
         PlayerEntity player = getPlayerOrThrow(playerId);
         LocalDateTime playerCreatedDate = player.getTimestamp();
 
-        List<MatchEntity> pastMatchesInSeason = findPastMatchesForCurrentSeason();
+        List<MatchEntity> pastMatchesInSeason = findPastMatchesForCurrentSeason().stream()
+                .filter(match -> match.getMatchStatus() != MatchStatus.CANCELED)
+                .toList();
+
         int allMatchesInCurrentSeason = pastMatchesInSeason.size();
 
         List<MatchEntity> availableMatches =
@@ -113,12 +118,12 @@ public class PlayerStatsServiceImpl implements PlayerStatsService {
                         .filter(match -> isPlayerActiveForMatch(player, match.getDateTime()))
                         .toList();
 
-        int allMatchesInSeasonForPlayer = availableMatches.size();
+        int allMatchesInSeasonForPlayerCount = availableMatches.size();
 
         PlayerStatsDTO statsDTO = new PlayerStatsDTO();
         statsDTO.setPlayerId(playerId);
         statsDTO.setAllMatchesInSeason(allMatchesInCurrentSeason);
-        statsDTO.setAllMatchesInSeasonForPlayer(allMatchesInSeasonForPlayer);
+        statsDTO.setAllMatchesInSeasonForPlayer(allMatchesInSeasonForPlayerCount);
         statsDTO.setHomeTeam(player.getTeam());
         statsDTO.setPrimaryPosition(player.getPrimaryPosition());
         statsDTO.setSecondaryPosition(player.getSecondaryPosition());
@@ -174,16 +179,19 @@ public class PlayerStatsServiceImpl implements PlayerStatsService {
                     registeredByTeam.merge(team, 1, Integer::sum);
                 }
 
+                MatchScore score = match.getScore();
+                if (score == null) {
+                    continue;
+                }
+
                 MatchResult result = match.getScore().getResult();
                 Team winner = match.getScore().getWinner();
-
                 PlayerMatchResultDTO item = new PlayerMatchResultDTO();
                 item.setMatchId(match.getId());
                 item.setPlayerTeam(team);
                 item.setResult(result);
                 item.setScoreDark(match.getScore().getDark());
                 item.setScoreLight(match.getScore().getLight());
-
                 item.setDraw(result == MatchResult.DRAW);
                 item.setPlayerWon(team != null && winner != null && winner == team);
 

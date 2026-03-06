@@ -25,10 +25,11 @@ const AdminHomePage = () => {
     const { user } = useAuth();
 
     const isAdmin =
-        user?.roles?.includes("ADMIN") || user?.role === "ADMIN";
+        user?.roles?.includes("ROLE_ADMIN") || user?.role === "ROLE_ADMIN";
+
     const isManager =
         !isAdmin &&
-        (user?.roles?.includes("MANAGER") || user?.role === "MANAGER");
+        (user?.roles?.includes("ROLE_MANAGER") || user?.role === "ROLE_MANAGER");
 
     const [showManagerInfo, setShowManagerInfo] = useState(isManager);
 
@@ -285,8 +286,8 @@ const AdminHomePage = () => {
 
             unique.push(item);
 
-            // stačí prvních 10 unikátních aktivit
-            if (unique.length >= 10) {
+            // stačí prvních 5 unikátních aktivit
+            if (unique.length >= 5) {
                 break;
             }
         }
@@ -303,19 +304,50 @@ const AdminHomePage = () => {
         }));
     }, [notifications]);
 
-    const ActionCard = ({ title, desc, to, icon }) => (
+    const ActionCard = ({
+        title,
+        desc,
+        to,
+        icon,
+        disabled = false,
+        disabledTitle = "",
+    }) => (
         <div className="col-12 col-md-6 col-xl-3">
-            <div className="card h-100 shadow-sm">
-                <div className="card-body d-flex flex-column">
+            <div className="card h-100 shadow-sm py-2">
+                <div className="card-body d-flex flex-column py-1">
+
                     <div className="d-flex align-items-center gap-2 mb-2">
                         <span className="fs-4">{icon}</span>
                         <h5 className="card-title mb-0">{title}</h5>
                     </div>
+
                     <p className="text-muted small mb-3">{desc}</p>
+
                     <div className="mt-auto">
-                        <Link to={to} className="btn btn-outline-primary w-100">
-                            Otevřít
-                        </Link>
+
+                        {disabled ? (
+                            <span
+                                className="d-inline-block w-100"
+                                title={disabledTitle}
+                            >
+                                <button
+                                    type="button"
+                                    className="btn btn-outline-secondary w-100"
+                                    disabled
+                                    style={{ pointerEvents: "none" }}
+                                >
+                                    Otevřít
+                                </button>
+                            </span>
+                        ) : (
+                            <Link
+                                to={to}
+                                className="btn btn-outline-primary w-100"
+                            >
+                                Otevřít
+                            </Link>
+                        )}
+
                     </div>
                 </div>
             </div>
@@ -380,21 +412,13 @@ const AdminHomePage = () => {
 
             {/* Manager info + redirect on close */}
             {showManagerInfo && (
-                <div className="alert alert-info d-flex justify-content-between align-items-start" role="alert">
+                <div className="alert alert-info d-flex justify-content-between align-items-start py-1" role="alert">
                     <div className="me-3">
                         <div className="fw-semibold mb-1">Režim správce (MANAGER)</div>
                         <div className="small">
-                            Tato stránka je sdílená pro Admin i Manager. Po zavření této zprávy
-                            bude otevřena Správa hráčů.
+                            Tato stránka je sdílená pro Admin i Manager. 
                         </div>
                     </div>
-
-                    <button
-                        type="button"
-                        className="btn-close"
-                        aria-label="Zavřít"
-                        onClick={handleCloseManagerInfo}
-                    />
                 </div>
             )}
 
@@ -406,7 +430,7 @@ const AdminHomePage = () => {
             )}
 
             {/* Quick actions */}
-            <div className="row g-3 mb-4">
+            <div className="row g-3 mb-3">
                 <ActionCard
                     icon="📅"
                     title="Sezóny"
@@ -424,6 +448,8 @@ const AdminHomePage = () => {
                     title="Uživatelé"
                     desc="Role, aktivace účtů, reset hesel a oprávnění."
                     to="/app/admin/users"
+                    disabled={!isAdmin}
+                    disabledTitle={isManager ? "Jen pro administrátora" : ""}
                 />
                 <ActionCard
                     icon="🧑‍🤝‍🧑"
@@ -438,7 +464,7 @@ const AdminHomePage = () => {
                 {stats.map((s) => (
                     <div className="col-12 col-md-6 col-xl-3" key={s.label}>
                         <div className="card h-100 shadow-sm">
-                            <div className="card-body">
+                            <div className="card-body py-2">
                                 <div className="d-flex justify-content-between align-items-start">
                                     <div>
                                         <div className="text-muted small">{s.label}</div>
@@ -472,7 +498,7 @@ const AdminHomePage = () => {
                             </div>
                         </div>
 
-                        <div className="card-body">
+                        <div className="card-body py-2">
                             {matchesLoading ? (
                                 <div className="text-muted py-2">Načítám zápasy…</div>
                             ) : upcomingMatches.length === 0 ? (
@@ -501,9 +527,9 @@ const AdminHomePage = () => {
                                         return (
                                             <div
                                                 key={id ?? `${opponent}-${dateObj?.toISOString()}`}
-                                                className="card border-0 shadow-sm"
+                                                className="card border-0 shadow-sm py-1"
                                             >
-                                                <div className="card-body">
+                                                <div className="card-body py-1">
                                                     <div className="d-flex flex-column flex-md-row justify-content-between gap-2">
                                                         <div>
                                                             <div className="fw-semibold">

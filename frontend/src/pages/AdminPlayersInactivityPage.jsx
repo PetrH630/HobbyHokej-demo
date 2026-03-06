@@ -318,7 +318,7 @@ const AdminPlayersInactivityPage = () => {
                     const playerSurname = player?.surname || "";
 
                     return (
-                        <div key={p.id} className="card shadow-sm">
+                        <div key={p.id} className="card shadow-sm py-1">
                             <div className="card-body">
                                 <div className="row align-items-center">
                                     <div className="col-md-3">                                        

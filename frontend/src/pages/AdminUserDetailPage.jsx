@@ -24,7 +24,9 @@ function AdminUserDetailPage() {
         userApi.getById(Number(id)).then(setUser);
     }, [id]);
 
-    if (!user) return <p className="m-4">Načítám…</p>;
+    if (!user) {
+        return <p className="m-4">Načítám…</p>;
+    }
 
     return (
         <div className="container mt-4">
@@ -32,13 +34,15 @@ function AdminUserDetailPage() {
                 ← Zpět
             </button>
 
-            <h2>{user.name} {user.surname}</h2>
+            <h2>
+                {user.name} {user.surname}
+            </h2>
 
             <p><strong>Email:</strong> {user.email}</p>
             <p><strong>Role:</strong> {user.role}</p>
             <p>
-                <strong>Stav:</strong>{' '}
-                {user.enabled ? 'Aktivní' : 'Neaktivní'}
+                <strong>Stav:</strong>{" "}
+                {user.enabled ? "Aktivní" : "Neaktivní"}
             </p>
 
             <div className="d-flex gap-2 mt-3">
@@ -52,14 +56,14 @@ function AdminUserDetailPage() {
                 {user.enabled ? (
                     <button
                         className="btn btn-outline-danger"
-                        onClick={() => userApi.deactivate(user.id)}
+                        onClick={() => userApi.deactivateUser(user.id)}
                     >
                         Deaktivovat
                     </button>
                 ) : (
                     <button
                         className="btn btn-outline-success"
-                        onClick={() => userApi.activate(user.id)}
+                        onClick={() => userApi.activateUser(user.id)}
                     >
                         Aktivovat
                     </button>

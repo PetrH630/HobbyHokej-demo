@@ -5,10 +5,11 @@ import AdminMatchDetailInline from "./AdminMatchDetailInline";
 import {
     matchStatusLabel,
     matchCancelReasonLabel,
-    matchActionLabel,
 } from "../../utils/matchFormatter";
 import { useGlobalDim } from "../../hooks/useGlobalDim";
 import ConfirmActionModal from "../common/ConfirmActionModal";
+import { MATCH_MODE_CONFIG } from "../../constants/matchModeConfig";
+import { TeamDarkIcon, TeamLightIcon, UserIcon, MoneyIcon } from "../../icons";
 
 import {
     InfoCircle,
@@ -18,53 +19,66 @@ import {
     ArrowCounterclockwise,
 } from "react-bootstrap-icons";
 
+
 /**
  * AdminMatchCard
  *
- * Karta pro zobrazení přehledových informací a akcí nad konkrétní entitou.
+ * Karta pro zobrazení přehledových informací o zápasu
+ * a pro spuštění administračních akcí nad vybraným zápasem.
  *
- * Props:
+ * Komponenta umožňuje:
+ * - zobrazit detail zápasu,
+ * - zobrazit historii změn,
+ * - otevřít formulář pro úpravu,
+ * - zrušit nebo obnovit zápas.
+ *
+ * V jednu chvíli může být otevřen pouze jeden rozbalovací blok,
+ * aby se detail a historie nepřekrývaly.
+ *
+ * @param {Object} props Vstupní parametry komponenty.
  * @param {MatchDTO} props.match Data vybraného zápasu načtená z backendu.
- * @param {Function} props.onEdit vstupní hodnota komponenty.
- * @param {Function} props.onDelete vstupní hodnota komponenty.
- * @param {Function} props.onCancel callback pro předání akce do nadřazené vrstvy.
- * @param {Function} props.onUnCancel vstupní hodnota komponenty. 
+ * @param {Function} props.onEdit Callback pro otevření editace zápasu.
+ * @param {Function} props.onDelete Callback pro smazání zápasu.
+ * @param {Function} props.onCancel Callback pro zrušení zápasu.
+ * @param {Function} props.onUnCancel Callback pro obnovení zrušeného zápasu.
+ * @returns {JSX.Element} Karta zápasu s akcemi a rozbalovacím obsahem.
  */
-
 const AdminMatchCard = ({ match, onEdit, onDelete, onCancel, onUnCancel }) => {
-    const [showHistory, setShowHistory] = useState(false);
-    const [showDetail, setShowDetail] = useState(false);
+    const [activePanel, setActivePanel] = useState(null);
     const [confirmAction, setConfirmAction] = useState(null);
 
-    const isExpanded = showDetail || showHistory;
+    const isExpanded = activePanel !== null;
     const dimActive = isExpanded;
 
     useGlobalDim(dimActive);
 
     const statusText = matchStatusLabel(match.matchStatus);
     const cancelReasonText = matchCancelReasonLabel(match.cancelReason);
-    const actionText = matchActionLabel(match.action);
 
     const isCanceled = match.matchStatus === "CANCELED";
 
-    
-/**
- * Bezpečně převede řetězec data a času z backendu na instanci Date pro účely formátování v UI.
- */
-
-const parseDateTime = (dt) => {
+    /**
+     * Bezpečně převede řetězec data a času z backendu
+     * na instanci Date pro účely formátování v UI.
+     *
+     * @param {string} dt Datum a čas ve formátu vráceném backendem.
+     * @returns {Date|null} Instance Date nebo null při neplatné hodnotě.
+     */
+    const parseDateTime = (dt) => {
         if (!dt) return null;
         const safe = dt.replace(" ", "T");
         const d = new Date(safe);
         return Number.isNaN(d.getTime()) ? null : d;
     };
 
-    
-/**
- * Vrátí textovou reprezentaci data a času včetně dne v týdnu pro zobrazení v administraci.
- */
-
-const formatWithDay = (dt) => {
+    /**
+     * Vrátí textovou reprezentaci data a času
+     * včetně dne v týdnu pro zobrazení v administraci.
+     *
+     * @param {string} dt Datum a čas zápasu.
+     * @returns {{day: string, dateTime: string}} Objekt s názvem dne a formátovaným datem.
+     */
+    const formatWithDay = (dt) => {
         const d = parseDateTime(dt);
         if (!d) return { day: "-", dateTime: "-" };
 
@@ -106,11 +120,21 @@ const formatWithDay = (dt) => {
         badgeClass = "bg-secondary";
     }
 
-    const toggleHistory = () => setShowHistory((prev) => !prev);
-    const toggleDetail = () => setShowDetail((prev) => !prev);
+    /**
+     * Přepne aktivní rozbalovací sekci.
+     * Pokud je kliknuto na již otevřenou sekci, sekce se zavře.
+     *
+     * @param {"detail"|"history"} panel Název sekce, která se má přepnout.
+     */
+    const togglePanel = (panel) => {
+        setActivePanel((prev) => (prev === panel ? null : panel));
+    };
+
+    const showDetail = activePanel === "detail";
+    const showHistory = activePanel === "history";
 
     const cardClassName =
-        "card shadow-sm mb-3 " +
+        "card shadow-sm mb-1 p-1" +
         (isExpanded ? "border border-2 " : "") +
         (dimActive
             ? "bg-white dim-keep"
@@ -118,60 +142,84 @@ const formatWithDay = (dt) => {
                 ? "bg-danger bg-opacity-10"
                 : "");
 
-    
-/**
- * Sestaví krátký popisek zápasu pro záhlaví karty na základě dostupných údajů.
- */
-
-const buildMatchTitle = () =>
+    /**
+     * Sestaví krátký popisek zápasu pro texty potvrzovacích dialogů.
+     *
+     * @returns {string} Textový titulek zápasu.
+     */
+    const buildMatchTitle = () =>
         `#${match.matchNumber ?? match.id} – ${formatted.dateTime}`;
+
+    const hasScore =
+        match.scoreDark !== null &&
+        match.scoreDark !== undefined &&
+        match.scoreLight !== null &&
+        match.scoreLight !== undefined;
+
+    const matchModeKey = match.matchMode || null;
+    const matchModeConfig = matchModeKey ? MATCH_MODE_CONFIG[matchModeKey] : null;
+    const matchModeLabel = matchModeConfig?.label || "-";
 
     return (
         <>
             {dimActive && (
                 <div
                     className="global-dim-click"
-                    onClick={() => {
-                        setShowHistory(false);
-                        setShowDetail(false);
-                    }}
+                    onClick={() => setActivePanel(null)}
                     aria-hidden="true"
                 />
             )}
 
             <div className={cardClassName}>
                 {/* === ŘÁDEK 1 – ZÁKLADNÍ INFO O ZÁPASE === */}
-                <div className="card-body border-bottom">
-                    <div className="row align-items-center">
+                <div className="card-body border-bottom py-2">
+                    <div className="row align-items-start">
                         <div className="col-md-2 fw-bold">
                             {match.matchNumber != null && (
                                 <span className="me-2">#{match.matchNumber}</span>
                             )}
+                            <span className="text-muted me-2">{formatted.day}</span>
+                        </div>
 
-                            {/* ✅ Název dne */}
-                            <span className="text-muted me-2">
-                                {formatted.day}
-                            </span>
-                            </div>
-                            <div className="col-md-3 fw-bold">
-                            {/* Datum + čas */}
+                        <div className="col-md-3 fw-bold">
                             <span>{formatted.dateTime}</span>
 
-                            <span className={`badge ms-2 ${badgeClass}`}>
-                                {badgeText}
-                            </span>
+                            <div className="mt-1">
+                                <span className={`badge ${badgeClass}`}>
+                                    {badgeText}
+                                </span>
+                            </div>
                         </div>
 
                         <div className="col-md-3">
                             <small className="text-muted d-block">
                                 Místo: <strong>{match.location || "-"}</strong>
                             </small>
+
+                            <small className="text-muted d-block mt-1">
+                                {isPast ? (
+                                    <>{hasScore && (
+                                            <span className="ms-2">
+                                                <strong>
+                                                    <TeamDarkIcon className="match-reg-team-icon-dark" />{" "}
+                                                    {match.scoreDark} : {match.scoreLight}{" "}
+                                                    <TeamLightIcon className="match-reg-team-icon-light" />
+                                                </strong>
+                                            </span>
+                                        )}
+                                    </>
+                                ) : (
+                                    <>
+                                        Status: <strong>{isCanceled ? "Zrušený" : "Plánovaný"}</strong>
+                                    </>
+                                )}
+                            </small>
                         </div>
 
                         <div className="col-md-2">
                             <small className="text-muted d-block">
                                 Max. hráčů: <strong>{match.maxPlayers ?? "-"}</strong>
-                            </small>
+                            </small>                            
                         </div>
 
                         <div className="col-md-2">
@@ -181,35 +229,37 @@ const buildMatchTitle = () =>
                                     {match.price != null ? `${match.price} Kč` : "-"}
                                 </strong>
                             </small>
-                        </div>
-                    </div>
-                </div>        
-          
 
-                {/* === ŘÁDEK 2 – STAV + AKCE === */}
-                <div className="card-body border-bottom bg-light">
-                    <div className="row align-items-center">
-                        <div className="col-md-4">
-                            <small className="text-muted d-block">
-                                Stav{" "}
-                                <strong>
-                                    {statusText || "-"}
-                                    {match.cancelReason && (
-                                        <div className="mt-1">
-                                            <small className="text-muted d-block">
-                                                Důvod zrušení
-                                            </small>
-                                            <span>{cancelReasonText}</span>
-                                        </div>
-                                    )}
-                                </strong>
+                            <small className="text-muted d-block mt-1">
+                                <strong>{matchModeLabel}</strong>
                             </small>
                         </div>
+                    </div>
+                </div>
 
-                        <div className="col-md-8">
+                {/* === ŘÁDEK 2 – STAV + AKCE === */}
+                <div className="card-body border-bottom bg-light py-2">
+                    <div className="row align-items-center">
+                        {statusText && (
+                            <div className="col-md-4">
+                                <small className="text-muted d-block">
+                                    Stav{" "}
+                                    <strong>
+                                        {statusText}
+                                        {match.cancelReason && (
+                                            <div className="mt-1">
+                                                <small className="text-muted d-block">
+                                                    - {cancelReasonText}
+                                                </small>
+                                            </div>
+                                        )}
+                                    </strong>
+                                </small>
+                            </div>
+                        )}
+                        <div className={statusText ? "col-md-8" : "col-12"}>
                             <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
                                 <div className="d-flex justify-content-end">
-                                    {/* jen styling + ikony, žádné nové položky */}
                                     <div className="btn-group btn-group-sm flex-wrap gap-2">
                                         {/* DETAIL */}
                                         <button
@@ -218,7 +268,7 @@ const buildMatchTitle = () =>
                                                 "btn btn-outline-info d-inline-flex align-items-center justify-content-center gap-1" +
                                                 (showDetail ? " active" : "")
                                             }
-                                            onClick={toggleDetail}
+                                            onClick={() => togglePanel("detail")}
                                             title="Detail"
                                         >
                                             <InfoCircle className="me-1" />
@@ -248,7 +298,7 @@ const buildMatchTitle = () =>
                                                 "btn btn-outline-secondary d-inline-flex align-items-center justify-content-center gap-1" +
                                                 (showHistory ? " active" : "")
                                             }
-                                            onClick={toggleHistory}
+                                            onClick={() => togglePanel("history")}
                                             title="Historie"
                                         >
                                             <ClockHistory className="me-1" />
@@ -257,7 +307,7 @@ const buildMatchTitle = () =>
                                             </span>
                                         </button>
 
-                                        {/* ZRUŠIT (s confirm) */}
+                                        {/* ZRUŠIT */}
                                         {!isCanceled && (
                                             <button
                                                 type="button"
@@ -270,16 +320,16 @@ const buildMatchTitle = () =>
                                                         message: `Opravdu chcete zrušit zápas ${buildMatchTitle()}?`,
                                                     })
                                                 }
-                                                title="Zrušit"
+                                                title="Zrušit zápas"
                                             >
                                                 <XOctagon className="me-1" />
                                                 <span className="d-none d-md-inline text-nowrap">
-                                                    Zrušit
+                                                    Zrušit zápas
                                                 </span>
                                             </button>
                                         )}
 
-                                        {/* OBNOVIT (s confirm) */}
+                                        {/* OBNOVIT */}
                                         {isCanceled && (
                                             <button
                                                 type="button"
@@ -296,7 +346,7 @@ const buildMatchTitle = () =>
                                             >
                                                 <ArrowCounterclockwise className="me-1" />
                                                 <span className="d-none d-md-inline text-nowrap">
-                                                    Obnovit
+                                                    Obnovit zápas
                                                 </span>
                                             </button>
                                         )}
@@ -328,7 +378,6 @@ const buildMatchTitle = () =>
                 )}
             </div>
 
-            {/* ✅ ConfirmActionModal */}
             {confirmAction && (
                 <ConfirmActionModal
                     show={true}

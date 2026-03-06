@@ -23,28 +23,32 @@ const statusTextMap = {
  *
  * Props:
  * @param {PlayerDTO} props.player Data hráče používaná pro zobrazení nebo administraci.
- * @param {Object} props.onSelect callback pro předání akce do nadřazené vrstvy.
- * @param {Object} props.isActive vstupní hodnota komponenty.
- * @param {Object} props.disabledTooltip vstupní hodnota komponenty.
+ * @param {Function} props.onSelect callback pro předání akce do nadřazené vrstvy.
+ * @param {boolean} props.isActive určuje, zda je karta aktuálně aktivní.
+ * @param {string} props.disabledTooltip text tooltipu při deaktivované kartě.
  */
 const PlayerCard = ({ player, onSelect, isActive, disabledTooltip }) => {
-    const playerStatus = player.playerStatus ?? "PENDING";
+
+    const playerStatus = player?.playerStatus ?? "PENDING";
 
     const statusClass = statusClassMap[playerStatus] || "";
     const statusText = statusTextMap[playerStatus] ?? playerStatus;
 
     const isApproved = playerStatus === "APPROVED";
-    const isDarkTeam = player.team === "DARK";
+    const isDarkTeam = player?.team === "DARK";
 
     const hasDisabledTooltip = !!disabledTooltip;
     const isDisabled = !isApproved && hasDisabledTooltip;
 
     const isClickable = isApproved && !!onSelect && !isDisabled;
 
-
     const primaryPositionLabel = getPlayerPositionLabel(
-        player.primaryPosition
+        player?.primaryPosition
     );
+
+    const phoneFormatted = player?.phoneNumber
+        ? formatPhoneNumber(player.phoneNumber)
+        : null;
 
     return (
         <div
@@ -73,8 +77,9 @@ const PlayerCard = ({ player, onSelect, isActive, disabledTooltip }) => {
             />
 
             <div className="card-body">
+
                 <h5 className="card-title mb-4 mt-3 text-center">
-                    {player.fullName}
+                    {player?.fullName}
                 </h5>
 
                 <div className="mb-2 text-center">
@@ -87,7 +92,7 @@ const PlayerCard = ({ player, onSelect, isActive, disabledTooltip }) => {
                     </div>
                 </div>
 
-                {player.primaryPosition && (
+                {player?.primaryPosition && (
                     <p className="card-text text-center mb-2">
                         <strong>Post:</strong>{" "}
                         {primaryPositionLabel}
@@ -96,18 +101,21 @@ const PlayerCard = ({ player, onSelect, isActive, disabledTooltip }) => {
 
                 <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
                     <p className="card-text text-center mb-2">
-                        <strong>Typ:</strong> {player.type}
+                        <strong>Typ:</strong> {player?.type}
                     </p>
                 </RoleGuard>
 
                 <p className="card-text text-center mb-2">
-                    <strong>Status:</strong> {player.statusText ?? statusText}
+                    <strong>Status:</strong>{" "}
+                    {player?.statusText ?? statusText}
                 </p>
 
-                <p className="card-text text-center mb-2">
-                    <PhoneIcon className="phone-icon" />
-                    +{formatPhoneNumber(player.phoneNumber)}
-                </p>
+                {phoneFormatted && (
+                    <p className="card-text text-center mb-2">
+                        <PhoneIcon className="phone-icon" /> +{phoneFormatted}
+                    </p>
+                )}
+
             </div>
 
             {isDisabled && (
@@ -115,6 +123,7 @@ const PlayerCard = ({ player, onSelect, isActive, disabledTooltip }) => {
                     {disabledTooltip}
                 </div>
             )}
+
         </div>
     );
 };

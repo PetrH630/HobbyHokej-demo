@@ -882,7 +882,7 @@ public class MatchQueryServiceImpl implements MatchQueryService {
      * Typ hráče určuje maximální počet zápasů, které se zobrazí:
      * - VIP: maximálně tři zápasy,
      * - STANDARD: maximálně dva zápasy,
-     * - BASIC: pouze první nadcházející zápas.
+     * - BASIC: pouze první nadcházející zápas a až 3 dny před začátkem.
      *
      * @param upcomingAll seznam všech nadcházejících zápasů
      * @param type typ hráče
@@ -892,11 +892,14 @@ public class MatchQueryServiceImpl implements MatchQueryService {
         if (upcomingAll == null || upcomingAll.isEmpty()) {
             return List.of();
         }
-
+        LocalDateTime now = LocalDateTime.now();
         return switch (type) {
             case VIP -> upcomingAll.stream().limit(3).toList();
             case STANDARD -> upcomingAll.stream().limit(2).toList();
-            case BASIC -> List.of(upcomingAll.get(0));
+            case BASIC -> upcomingAll.stream()
+                    .filter(match -> match.getDateTime().isBefore(now.plusDays(3)))
+                    .limit(1)
+                    .toList();
         };
     }
 

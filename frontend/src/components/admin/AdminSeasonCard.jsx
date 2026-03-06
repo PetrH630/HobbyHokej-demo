@@ -25,7 +25,7 @@ const AdminSeasonCard = ({ season, onEdit, onSetActive }) => {
     const isActive = season.active === true;
 
     return (
-        <div className="card shadow-sm">
+        <div className="card shadow-sm py-1">
             <div className="card-body">
                 <div className="row align-items-center">
                     <div className="col-md-4 fw-bold">

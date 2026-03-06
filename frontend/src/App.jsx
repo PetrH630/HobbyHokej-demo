@@ -24,7 +24,7 @@ import "./App.css";
 import "./styles/theme.css";
 import "./styles/icons.css";
 
-// ADMIN PAGES
+// ADMIN PAGES 
 import HomeDecider from "./pages/HomeDecider";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminPlayersPage from "./pages/AdminPlayersPage";

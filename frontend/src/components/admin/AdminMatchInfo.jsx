@@ -14,15 +14,7 @@ import {
     autoLineupAdmin,
     updateMatchScoreAdmin,
 } from "../../api/matchApi";
-import {
-    RegisteredIcon,
-    UnregisteredIcon,
-    ExcusedIcon,
-    ReservedIcon,
-    NoResponseIcon,
-    NoExcusedIcon,
-    UserIcon,
-    MoneyIcon,
+import {    
     TeamDarkIcon,
     TeamLightIcon,
 } from "../../icons";
@@ -214,10 +206,10 @@ const isPastMatch = matchDate ? matchDate < now : false;
     };
     
     return (
-        <div className="card">
-            <div className="card-body match-info-body">
-                <div className="admin-match-info-header mb-3">
-                    <div className="admin-match-info-left">
+        <div className="card p-2">
+            <div className="card-body match-info-body p-2">
+                <div className="admin-match-info-header mb-2">
+                    <div className="admin-match-info-left py-1">
                         {match.description && (
                             <p className="card-text mb-2">
                                 <strong>Popis: </strong>
@@ -225,20 +217,20 @@ const isPastMatch = matchDate ? matchDate < now : false;
                             </p>
                         )}
 
-                        <p className="card-text mb-2 admin-players-total-row">
+                        <p className="card-text mb-1 admin-players-total-row">
                             <strong>Hráči celkem: </strong>
                             {match.inGamePlayers} / {match.maxPlayers}
                         </p>
 
-                        <p className="card-text mb-2">
-                            <TeamDarkIcon className="match-reg-team-icon-dark" />
+                        <p className="card-text mb-1">
+                            <TeamDarkIcon className="match-reg-team-icon-dark" />{" "}
                             {match.inGamePlayersDark} /{" "}
                             {match.inGamePlayersLight} <TeamLightIcon className="match-reg-team-icon-light" />
 
                         </p>
 
                         {isPastMatch && hasScore && (
-                            <p className="card-text mb-2">
+                            <p className="card-text mb-1">
                                 <strong>Skóre: </strong>
                                 {scoreDark} : {scoreLight}
                                 {resultLabel && (
@@ -257,7 +249,7 @@ const isPastMatch = matchDate ? matchDate < now : false;
                         )}
 
                         {match.price != null && (
-                            <p className="card-text mb-2 admin-price-row">
+                            <p className="card-text mb-1 admin-price-row">
                                 <strong>Cena: </strong>
                                 {match.price} Kč / <strong> hráč: </strong>
                                 {match.pricePerRegisteredPlayer.toFixed(0)} Kč
@@ -317,7 +309,7 @@ const isPastMatch = matchDate ? matchDate < now : false;
                     </RoleGuard>
                 </div>
 
-                <h4 className="mt-4">Sestava:</h4>
+                <h4 className="mt-1">Sestava:</h4>
                 <AdminMatchRegistrationInfo
                     match={match}
                     onPlayerClick={setHistoryPlayer}
