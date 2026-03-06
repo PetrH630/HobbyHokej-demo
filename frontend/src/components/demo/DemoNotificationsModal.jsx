@@ -1,6 +1,7 @@
 import "./DemoNotificationsModal.css";
 import { useGlobalModal } from "../../hooks/useGlobalModal";
 
+
 /**
  * DemoNotificationsModal
  *
@@ -50,14 +51,7 @@ const DemoNotificationsModal = ({
                         <div className="modal-header demo-modal-header">
                             <h5 className="modal-title" id="demo-notifications-title">
                                 DEMO - odeslané notifikace - pouze zobrazení - email se neodesílá
-                            </h5>
-
-                            <button
-                                type="button"
-                                className="btn-close"
-                                onClick={onClose}
-                                aria-label="Zavřít"
-                            />
+                            </h5>                            
                         </div>
 
                         <div className="modal-body demo-modal-body">
@@ -121,7 +115,7 @@ const DemoNotificationsModal = ({
                                                                 <strong>Text:</strong>
                                                                 <div
                                                                     className="border rounded p-2 bg-light mt-1"
-                                                                    style={{ maxHeight: "200px", overflow: "auto" }}
+                                                                    
                                                                     dangerouslySetInnerHTML={{
                                                                         __html: demoPrefixHtml + (mail.body ?? ""),
                                                                     }}
@@ -151,13 +145,8 @@ const DemoNotificationsModal = ({
                                                         <div className="mt-2">
                                                             <strong>Text:</strong>
                                                             <div
-                                                                className="border rounded p-2 bg-light mt-1"
-                                                                style={{
-                                                                    maxHeight: "400px",
-                                                                    overflow: "auto",
-                                                                    whiteSpace: "pre-wrap",
-                                                                }}
-                                                            >
+                                                                className="border rounded p-2 bg-light mt-1"  
+                                                                 >
                                                                 {s.text ?? ""}
                                                             </div>
                                                         </div>
@@ -168,13 +157,18 @@ const DemoNotificationsModal = ({
                                     )}
                                 </>
                             )}
+                            <div className="text-center mt-4">
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={onClose}
+                                >
+                                    Zavřít
+                                </button>
+                            </div>
                         </div>
 
-                        <div className="modal-footer">
-                            <button type="button" className="btn btn-secondary" onClick={onClose}>
-                                Zavřít
-                            </button>
-                        </div>
+                       
                     </div>
                 </div>
             </div>

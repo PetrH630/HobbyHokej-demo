@@ -554,12 +554,15 @@ http://hokej.phsoft.cz
 # Dokumentace
 
 -   README.md
+-   FULLSTACK_SCENARIOS
+
 
 Backend:
 -   backend/README.md
 -   backend/docs/ARCHITECTURE.md
 -   backend/docs/API.md
 -   backend/docs/Javadoc
+-   backend/docs/API_SENARIOS_BACKEND
 
 Frontend:
 
@@ -573,9 +576,10 @@ Frontend:
 -   frontend/docs/NOTIFICATION_SYSTEM.md
 -   frontend/docs/PLAYER_REGISTRATION_FLOW.md
 -   frontend/docs/STATE_FLOW.md
+-   frontend/docs/FRONTEND_SCENARIOS
 
 Databázový model: 
--   backend/src/main/resources/db/README.md
+-   backend/docs/README.md
 
 ------------------------------------------------------------------------
 

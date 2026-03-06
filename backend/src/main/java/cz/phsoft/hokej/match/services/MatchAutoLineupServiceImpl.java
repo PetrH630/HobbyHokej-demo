@@ -118,7 +118,7 @@ public class MatchAutoLineupServiceImpl implements MatchAutoLineupService {
                                 Collectors.toList()
                         ));
 
-        // 1) Nejprve zkus přeskupit v rámci REGISTERED (tvoje původní logika).
+        // 1) Nejprve přeskupit v rámci REGISTERED
         List<PlayerPosition> targetPositions = perTeamCapacity.entrySet().stream()
                 .filter(e -> e.getValue() != null && e.getValue() > 0)
                 .map(Map.Entry::getKey)

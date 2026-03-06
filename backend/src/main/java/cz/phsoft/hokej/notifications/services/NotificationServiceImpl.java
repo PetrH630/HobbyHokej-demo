@@ -238,7 +238,7 @@ public class NotificationServiceImpl implements NotificationService {
                     type, user.getId(), ex);
         }
 
-        // 2) E-maily a kopie manažerům – původní logika (jen jsem vyhodil duplicitní rozhodování okolo emailTo)
+        // 2) E-maily a kopie manažerům
         try {
             Object effectiveContext = (context != null) ? context : user;
 

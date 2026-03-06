@@ -88,7 +88,7 @@ public class SeasonServiceImpl implements SeasonService {
 
         SeasonEntity entity = mapper.toEntity(seasonDTO);
 
-        // Nově se nastavuje identifikátor uživatele, který sezónu vytvořil.
+        //zde se nastavuje identifikátor uživatele, který sezónu vytvořil.
         Long currentUserId = getCurrentUserIdOrNull();
         entity.setCreatedByUserId(currentUserId);
 

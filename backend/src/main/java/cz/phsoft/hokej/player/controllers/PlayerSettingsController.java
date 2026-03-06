@@ -83,8 +83,6 @@ public class PlayerSettingsController {
             @RequestBody PlayerSettingsDTO requestDto,
             Authentication auth
     ) {
-        // TODO: případná kontrola vlastnictví hráče
-
         PlayerSettingsDTO updated = playerSettingsService.updateSettingsForPlayer(playerId, requestDto);
         return ResponseEntity.ok(updated);
     }

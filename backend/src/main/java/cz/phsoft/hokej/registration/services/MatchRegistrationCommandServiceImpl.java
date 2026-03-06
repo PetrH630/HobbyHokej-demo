@@ -83,8 +83,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
         this.matchAllocationEngine = matchAllocationEngine;
     }
 
-    // HLAVNÍ METODA – UPSERT REGISTRACE HRÁČE
-
     /**
      * Vytváří nebo aktualizuje registraci hráče na zápas.
      *
@@ -110,10 +108,7 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
         MatchEntity match = getMatchOrThrow(request.getMatchId());
         PlayerEntity player = getPlayerOrThrow(playerId);
 
-        // Ověření, že zápas patří do aktivní sezóny.
         assertMatchInActiveSeason(match);
-
-        // Ověření oprávnění hráče měnit registraci v čase.
         assertPlayerCanModifyMatch(match);
 
         MatchRegistrationEntity registration =
@@ -146,8 +141,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
         registration = registrationRepository.save(registration);
 
-        // Po odhlášení ze stavu REGISTERED se provede pokus o povýšení
-        // nejvhodnějšího kandidáta ze stavu RESERVED.
         if (request.isUnregister() && originalStatus == PlayerMatchStatus.REGISTERED) {
             promoteReservedCandidateAfterUnregister(match, registration);
         }
@@ -159,8 +152,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
         return matchRegistrationMapper.toDTO(registration);
     }
-
-    // OMLUVY A NO_EXCUSED
 
     /**
      * Nastavuje registraci hráče do stavu NO_EXCUSED.
@@ -215,9 +206,7 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
                         true
                 );
 
-        PlayerMatchStatus newStatus = PlayerMatchStatus.NO_EXCUSED;
-
-        NotificationType notificationType = resolveNotificationType(newStatus);
+        NotificationType notificationType = resolveNotificationType(PlayerMatchStatus.NO_EXCUSED);
         if (notificationType != null) {
             notifyPlayer(player, notificationType, updated);
         }
@@ -265,6 +254,7 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
         registration.setExcuseReason(excuseReason != null ? excuseReason : ExcuseReason.JINE);
         registration.setAdminNote(null);
+
         if (excuseNote == null || excuseNote.isBlank()) {
             registration.setExcuseNote("Opravdu nemohl");
         } else {
@@ -281,8 +271,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
         return matchRegistrationMapper.toDTO(updated);
     }
-
-    // ZMĚNY TÝMU A POZICE
 
     /**
      * Mění tým hráče v rámci registrace na zápas.
@@ -327,16 +315,16 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
             );
         }
 
-        PlayerMatchStatus newStatus = PlayerMatchStatus.REGISTERED;
         Team newTeam = oldTeam.opposite();
-
         registration.setTeam(newTeam);
 
         registration = registrationRepository.save(registration);
-        NotificationType notificationType = resolveNotificationType(newStatus);
+
+        NotificationType notificationType = resolveNotificationType(PlayerMatchStatus.REGISTERED);
         if (notificationType != null) {
             notifyPlayer(player, notificationType, registration);
         }
+
         return matchRegistrationMapper.toDTO(registration);
     }
 
@@ -360,7 +348,7 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
                                                            PlayerPosition positionInMatch) {
 
         MatchEntity match = getMatchOrThrow(matchId);
-        PlayerEntity player = getPlayerOrThrow(playerId);
+        getPlayerOrThrow(playerId);
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
@@ -387,7 +375,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
         }
 
         registration.setPositionInMatch(positionInMatch);
-
         registration = registrationRepository.save(registration);
 
         return matchRegistrationMapper.toDTO(registration);
@@ -427,8 +414,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
         return matchRegistrationMapper.toDTO(updated);
     }
-
-    // PŘEPOČET KAPACITY
 
     /**
      * Přepočítává stavy registrací pro daný zápas.
@@ -505,8 +490,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
         }
     }
 
-    // SMS – HROMADNÉ ODESÍLÁNÍ
-
     /**
      * Odesílá SMS zprávu všem hráčům ve stavu REGISTERED,
      * kteří mají povolené SMS notifikace.
@@ -537,8 +520,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
                 });
     }
 
-    // PRIVÁTNÍ METODY
-
     /**
      * Zpracovává registraci, rezervaci nebo označení hráče jako náhradníka.
      *
@@ -567,8 +548,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
             throw new DuplicateRegistrationException(request.getMatchId(), player.getId());
         }
 
-        // Registrace jako náhradník (SUBSTITUTE) – hráč je označen jako „možná“
-        // a neblokuje kapacitu ani pořadí.
         if (request.isSubstitute()) {
             if (currentStatus == PlayerMatchStatus.SUBSTITUTE) {
                 throw new DuplicateRegistrationException(
@@ -582,26 +561,38 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
             return PlayerMatchStatus.SUBSTITUTE;
         }
 
-        // Nejdřív globální kapacita zápasu (maxPlayers)
         PlayerMatchStatus baseStatus =
                 isSlotAvailable(match) ? PlayerMatchStatus.REGISTERED : PlayerMatchStatus.RESERVED;
 
-        // Pokud už teď víme, že se hráč nevejde do celkové kapacity,
-        // vrátíme rovnou RESERVED – konkrétní pozice v tu chvíli slot neblokuje.
         if (baseStatus == PlayerMatchStatus.RESERVED) {
             clearExcuseIfNeeded(registration);
             return PlayerMatchStatus.RESERVED;
         }
 
-        // Tady víme, že v zápase je globálně volné místo → kandidát na REGISTERED.
-        // Teď musíme ověřit kapacitu konkrétní pozice v rámci týmu.
+        /*
+         * ZMĚNA:
+         * Pro rozhodnutí o kapacitě se musí použít aktuální požadavek z FE,
+         * ne stará data z existující registrace.
+         *
+         * Původně byl tým vyhodnocován prioritou:
+         *   registrace -> request
+         * což vedlo k tomu, že se kapacita ověřila podle starého týmu
+         * a teprve potom se v applyRequestDetails(...) zapsal nový tým.
+         *
+         * Správně se má použít:
+         *   request -> registrace
+         */
+        Team targetTeam = request.getTeam();
+        if (targetTeam == null && registration != null) {
+            targetTeam = registration.getTeam();
+        }
 
-        // Tým – priorita: existující registrace -> request
-        Team targetTeam = (registration != null && registration.getTeam() != null)
-                ? registration.getTeam()
-                : request.getTeam();
-
-        // Pozice – priorita: request -> registrace -> primaryPosition hráče
+        /*
+         * ZMĚNA:
+         * Stejný princip i pro pozici. FE podle zadání vždy posílá konkrétní pozici,
+         * ale ponechává se bezpečný fallback na existující registraci a až nakonec
+         * na primární pozici hráče.
+         */
         PlayerPosition targetPosition = request.getPositionInMatch();
         if (targetPosition == null && registration != null) {
             targetPosition = registration.getPositionInMatch();
@@ -615,9 +606,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
         clearExcuseIfNeeded(registration);
 
-        // Pokud je konkrétní pozice pro daný tým plná → uloží se registrace jako RESERVED.
-        // Pozice se normálně uloží v applyRequestDetails(...) – má být použita
-        // pro případné povýšení na danou pozici.
         return positionAvailable ? PlayerMatchStatus.REGISTERED : PlayerMatchStatus.RESERVED;
     }
 
@@ -824,7 +812,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
         PlayerPosition effectiveCurrentPosition =
                 (currentPositionInMatch != null) ? currentPositionInMatch : primaryPosition;
 
-        // 1) Vyhodnocení cílového týmu.
         Team targetTeam;
         if (freedTeam == null || currentTeam == freedTeam) {
             targetTeam = currentTeam;
@@ -835,7 +822,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
             targetTeam = freedTeam;
         }
 
-        // 2) Vyhodnocení cílové pozice s ohledem na GOALIE a změnu řady.
         PlayerPosition targetPosition = resolveTargetPosition(
                 effectiveCurrentPosition,
                 freedPosition,
@@ -846,12 +832,10 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
             return false;
         }
 
-        // Kontrola kapacity pozice – pokud není volno, kandidát se NEpovýší.
         if (!isPositionSlotAvailableForTeam(match, targetTeam, targetPosition)) {
             return false;
         }
 
-        // 3) Provést změnu týmu/pozice a statusu na REGISTERED
         candidate.setTeam(targetTeam);
         candidate.setPositionInMatch(targetPosition);
 
@@ -887,7 +871,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
             return currentPosition;
         }
 
-        // GOALIE – speciální pravidlo: pouze kandidát, který je již veden jako GOALIE.
         if (freedPosition == PlayerPosition.GOALIE) {
             if (currentPosition == PlayerPosition.GOALIE) {
                 return PlayerPosition.GOALIE;
@@ -895,12 +878,10 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
             return null;
         }
 
-        // Kandidát s ANY (nezáleží) – může obsadit libovolnou ne-brankářskou pozici.
         if (currentPosition == null || currentPosition == PlayerPosition.ANY) {
             return freedPosition;
         }
 
-        // Stejná pozice = vždy povoleno.
         if (currentPosition == freedPosition) {
             return currentPosition;
         }
@@ -915,7 +896,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
                         (currentIsForward && freedIsForward);
 
         if (sameLine) {
-            // Změna v rámci obrany nebo útoku je povolena vždy.
             return freedPosition;
         }
 
@@ -924,7 +904,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
                         (currentIsForward && freedIsDefense);
 
         if (crossLine) {
-            // Přechod mezi obranou a útokem pouze pokud to hráč povolil v nastavení.
             if (!canChangePosition) {
                 return null;
             }
@@ -937,8 +916,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Určuje, zda daná pozice patří mezi obranné pozice.
      *
-     * Metoda deleguje rozhodnutí do utilitní třídy PlayerPositionUtil.
-     *
      * @param position pozice hráče
      * @return true, pokud se jedná o obrannou pozici, jinak false
      */
@@ -948,8 +925,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
     /**
      * Určuje, zda daná pozice patří mezi útočné pozice.
-     *
-     * Metoda deleguje rozhodnutí do utilitní třídy PlayerPositionUtil.
      *
      * @param position pozice hráče
      * @return true, pokud se jedná o útočnou pozici, jinak false
@@ -961,12 +936,9 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Odesílá notifikaci danému hráči.
      *
-     * Notifikace se odesílá pomocí NotificationService
-     * a obsahuje zadaný typ a kontext.
-     *
      * @param player hráč, kterému se má notifikace odeslat
      * @param type typ notifikace
-     * @param context kontext notifikace, typicky registrace nebo jiná doménová data
+     * @param context kontext notifikace
      */
     private void notifyPlayer(PlayerEntity player, NotificationType type, Object context) {
         notificationService.notifyPlayer(player, type, context);
@@ -974,9 +946,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
     /**
      * Načítá zápas podle identifikátoru nebo vyhazuje výjimku při neexistenci.
-     *
-     * Metoda slouží k centralizaci načítání entity zápasu. Při nenalezení
-     * zápasu se vyhazuje MatchNotFoundException.
      *
      * @param matchId identifikátor zápasu
      * @return nalezená entita zápasu
@@ -989,9 +958,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Načítá hráče podle identifikátoru nebo vyhazuje výjimku při neexistenci.
      *
-     * Metoda slouží k centralizaci načítání entity hráče. Při nenalezení
-     * hráče se vyhazuje PlayerNotFoundException.
-     *
      * @param playerId identifikátor hráče
      * @return nalezená entita hráče
      */
@@ -1002,9 +968,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
     /**
      * Načítá registraci podle identifikátorů hráče a zápasu.
-     *
-     * Metoda vrací registraci, pokud existuje, jinak null. Používá se
-     * v situacích, kdy absence registrace není chybovým stavem.
      *
      * @param playerId identifikátor hráče
      * @param matchId identifikátor zápasu
@@ -1019,9 +982,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Načítá registraci podle identifikátorů hráče a zápasu nebo vyhazuje výjimku.
      *
-     * Metoda se používá v situacích, kdy se existence registrace očekává.
-     * Při nenalezení registrace se vyhazuje RegistrationNotFoundException.
-     *
      * @param playerId identifikátor hráče
      * @param matchId identifikátor zápasu
      * @return nalezená registrace
@@ -1035,9 +995,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Ověřuje, zda je v zápase ještě volné globální místo pro stav REGISTERED.
      *
-     * Metoda porovnává aktuální počet registrací ve stavu REGISTERED
-     * s maximálním počtem hráčů definovaným u zápasu.
-     *
      * @param match zápas, pro který se kapacita ověřuje
      * @return true, pokud je v zápase volné místo, jinak false
      */
@@ -1049,10 +1006,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
     /**
      * Odesílá SMS hráči k dané registraci.
-     *
-     * Metoda dohledá telefonní číslo v nastavení hráče nebo v jeho profilu,
-     * ověří, že číslo existuje a není prázdné, a pokusí se odeslat SMS
-     * pomocí SmsService. Případné chyby se zalogují.
      *
      * @param registration registrace, ke které se zpráva vztahuje
      * @param message text SMS zprávy
@@ -1092,9 +1045,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Aktualizuje stav registrace a volitelně čas změny.
      *
-     * Metoda nastaví nový stav, informaci o uživateli, který změnu provedl,
-     * a případně i čas změny. Registrace se uloží a flushne do databáze.
-     *
      * @param registration registrace, která se má aktualizovat
      * @param status nový stav registrace
      * @param updatedBy identifikátor nebo role, která změnu provedla
@@ -1118,11 +1068,8 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Určuje typ notifikace podle nového stavu registrace.
      *
-     * Metoda mapuje stavy registrace na typy notifikací používané
-     * v notifikačním systému. Pro neznámé stavy vrací null.
-     *
      * @param newStatus nový stav registrace
-     * @return typ notifikace nebo null, pokud se notifikace nemá posílat
+     * @return typ notifikace nebo null
      */
     private NotificationType resolveNotificationType(PlayerMatchStatus newStatus) {
         return switch (newStatus) {
@@ -1140,9 +1087,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Vrací aktuální datum a čas.
      *
-     * Metoda je oddělena kvůli případnému testování a možnosti
-     * pozdějšího nahrazení mockem času.
-     *
      * @return aktuální datum a čas
      */
     private LocalDateTime now() {
@@ -1151,10 +1095,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
     /**
      * Ověřuje, zda zápas patří do aktivní sezóny.
-     *
-     * Metoda se používá pro zajištění, že se registrace mění pouze
-     * u zápasů v aktivní sezóně. Pokud zápas do aktivní sezóny nepatří,
-     * je vyhozena výjimka InvalidSeasonStateException.
      *
      * @param match zápas, který se má ověřit
      */
@@ -1168,10 +1108,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
     /**
      * Ověřuje, zda aktuální hráč může měnit registraci pro daný zápas.
-     *
-     * Kontrola se provádí pouze v případě, že je aktuálně přihlášen hráč.
-     * Pokud čas překročí limit (30 minut po začátku zápasu), je vyhozena
-     * výjimka InvalidPlayerStatusException.
      *
      * @param match zápas, pro který se právo na změnu ověřuje
      */
@@ -1190,9 +1126,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
     /**
      * Ověřuje, zda je zápas pro hráče ještě editovatelný.
      *
-     * Zápas je považován za editovatelný do 30 minut po plánovaném
-     * začátku. Po uplynutí této lhůty se registrace hráčem měnit nesmí.
-     *
      * @param match zápas, který se má ověřit
      * @return true, pokud je zápas editovatelný, jinak false
      */
@@ -1203,8 +1136,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
     /**
      * Zjišťuje, zda je aktuálně přihlášený uživatel hráč.
-     *
-     * Metoda kontroluje, zda je v autentizačním kontextu přítomna role ROLE_PLAYER.
      *
      * @return true, pokud je aktuální uživatel hráč, jinak false
      */
@@ -1222,13 +1153,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
      * Ověřuje, zda je pro daný zápas, tým a pozici ještě volný slot
      * podle MatchModeLayoutUtil a aktuálně registrovaných hráčů.
      *
-     * Metoda pracuje s celkovou kapacitou zápasu, rozdělenou na oba týmy,
-     * a s konfigurací kapacity podle pozic a módů zápasů. Pro konkrétní
-     * pozici a tým ověřuje, zda počet hráčů ve stavu REGISTERED nepřekračuje
-     * definovanou kapacitu.
-     *
-     * Pokud není pozice nebo tým určen, kapacita se neomezuje.
-     *
      * @param match zápas, pro který se kapacita ověřuje
      * @param team tým, v jehož rámci se pozice kontroluje
      * @param positionInMatch pozice v zápase, která se má ověřit
@@ -1238,7 +1162,6 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
                                                    Team team,
                                                    PlayerPosition positionInMatch) {
 
-        // Pokud nemáme konkrétní pozici nebo tým, kapacitu neomezujeme.
         if (positionInMatch == null || positionInMatch == PlayerPosition.ANY || team == null) {
             return true;
         }
@@ -1246,12 +1169,10 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
         Integer maxPlayers = match.getMaxPlayers();
         MatchMode mode = match.getMatchMode();
 
-        // Není definovaná celková kapacita nebo mód zápasu – neomezujeme.
         if (maxPlayers == null || maxPlayers <= 0 || mode == null) {
             return true;
         }
 
-        // Stejná logika jako v MatchPositionServiceImpl – maxPlayers je pro oba týmy.
         int slotsPerTeam = maxPlayers / 2;
 
         Map<PlayerPosition, Integer> perTeamCapacity =
@@ -1259,12 +1180,18 @@ public class MatchRegistrationCommandServiceImpl implements MatchRegistrationCom
 
         Integer positionCapacity = perTeamCapacity.get(positionInMatch);
 
-        // Pro tuto pozici není definovaná kapacita – bere se jako neomezená.
+        /*
+         * ZMĚNA:
+         * Pokud pro danou pozici není kapacita v layoutu definována,
+         * nesmí se to považovat za volné místo.
+         *
+         * Dřívější benevolentní chování vedlo k tomu, že neplatná nebo
+         * nesprávně namapovaná pozice mohla projít jako REGISTERED.
+         */
         if (positionCapacity == null || positionCapacity <= 0) {
-            return true;
+            return false;
         }
 
-        // Spočítá se obsazenost této pozice v daném týmu mezi REGISTERED hráči.
         List<MatchRegistrationEntity> registered = registrationRepository
                 .findByMatchIdAndStatus(match.getId(), PlayerMatchStatus.REGISTERED);
 

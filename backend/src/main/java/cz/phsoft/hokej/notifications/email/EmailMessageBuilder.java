@@ -167,7 +167,6 @@ public class EmailMessageBuilder {
         String activationLink = resolveActivationLink(context);
         String greeting = "Dobrý den " + escape(userName) + ",";
 
-        // logika switch zůstává beze změny
         return switch (type) {
             
             // PLAYER – vazba hráče na uživatele
