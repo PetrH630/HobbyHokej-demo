@@ -345,7 +345,7 @@ Frontend:
 -   frontend/docs/FRONTEND_SCENARIOS
 
 Databázový model: 
--   backend/docs/README.md
+-   backend/docs/DATABASE_MODEL.md
 
 ------------------------------------------------------------------------
 
