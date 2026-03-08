@@ -26,6 +26,7 @@ Live demo aplikace je dostupné zde:
 https://hobbyhokej.phsoft.cz
 
 Testovací účty:
+
 email: admin@example.com  - Role Admin
 password: Admin123
 
