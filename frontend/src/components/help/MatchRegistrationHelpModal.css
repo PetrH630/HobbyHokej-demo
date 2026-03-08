@@ -1,0 +1,50 @@
+.match-registration-help-modal .modal-body {
+    line-height: 1.6;
+}
+
+.match-registration-help-modal h6 {
+    margin-bottom: 0.5rem;
+}
+
+.match-registration-help-modal ul,
+.match-registration-help-modal ol {
+    margin-bottom: 1rem;
+    padding-left: 1.25rem;
+}
+
+.match-registration-help-modal table {
+    margin-bottom: 0;
+}
+
+.help-icon {
+    margin-right: 0.4rem;
+    vertical-align: -2px;
+}
+
+.help-icon-registered {
+    color: #198754;
+}
+
+.help-icon-unregistered {
+    color: #fd7e14;
+}
+
+.help-icon-excused {
+    color: #0d6efd;
+}
+
+.help-icon-reserved {
+    color: #6f42c1;
+}
+
+.help-icon-substitute {
+    color: #6c757d;
+}
+
+.help-icon-no-response {
+    color: #6c757d;
+}
+
+.help-icon-no-excused {
+    color: #dc3545;
+}

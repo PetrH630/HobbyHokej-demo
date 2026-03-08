@@ -136,7 +136,7 @@ const AdminPlayerCard = ({
                         {/* Jméno + meta */}
                         <div className="col-md-4">
                             <div className="fw-bold">
-                                {fullName}
+                                {fullName} 
                                 {player.nickname && (
                                     <span className="text-muted ms-2">
                                         ({player.nickname})

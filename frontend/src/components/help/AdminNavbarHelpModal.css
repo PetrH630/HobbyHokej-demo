@@ -1,0 +1,21 @@
+.admin-help-modal .modal-body {
+    line-height: 1.6;
+}
+
+.admin-help-modal h6 {
+    margin-bottom: 0.5rem;
+}
+
+.admin-help-modal ul,
+.admin-help-modal ol {
+    margin-bottom: 1rem;
+    padding-left: 1.25rem;
+}
+
+.admin-help-modal table {
+    margin-bottom: 0;
+}
+
+.admin-help-card .card-body {
+    line-height: 1.6;
+}

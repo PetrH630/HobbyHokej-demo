@@ -60,8 +60,6 @@ const PublicLandingPage = () => {
                 </div>
             </div>
 
-
-            {/* HERO */}
             <main className="flex-grow-1">
 
                 <div
@@ -88,11 +86,11 @@ const PublicLandingPage = () => {
                                     />
                                 </div>
 
-                                <h1 className="fw-bold mb-3">
+                                <h4 className="fw-bold mb-3">
                                     Správa hobby (rybníkového) hokejového týmu jednoduše a přehledně
-                                </h1>
+                                </h4>
 
-                                <p className="lead text-muted mb-4">
+                                <p className="text-muted mb-4">
                                     Už žádné nekonečné zprávy ve skupině, dohady kdo přijde a kdo bude hrát za který tým.
                                     <p></p>
                                     HobbyHokej je webová aplikace, která zjednodušuje organizaci pravidelných amatérských hokejových zápasů.
@@ -103,19 +101,19 @@ const PublicLandingPage = () => {
                                 </p>
 
                                 <div className="d-flex flex-column flex-sm-row gap-3">
-                                    <Link to="/login" className="btn btn-primary btn-lg px-4 shadow-sm">
+                                    <Link to="/login" className="btn btn-primary btn-md px-4 shadow-sm">
                                         Přihlásit se
                                     </Link>
-                                    <Link to="/register" className="btn btn-outline-primary btn-lg px-4">
+                                    <Link to="/register" className="btn btn-outline-primary btn-md px-4">
                                         Vytvořit účet
                                     </Link>
                                 </div>
 
-                                <div className="mt-5">
+                                <div className="mt-3">
                                     <div className="row g-3">
 
                                         <div className="col-sm-6">
-                                            <div className="card border-0 shadow-sm h-100">
+                                            <div className="card border-0 shadow-sm h-100 py-2 px-2">
                                                 <div className="card-body">
                                                     <h6 className="fw-semibold">Zápasy</h6>
                                                     <p className="small text-muted mb-0">
@@ -130,7 +128,7 @@ const PublicLandingPage = () => {
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="card border-0 shadow-sm h-100">
+                                            <div className="card border-0 shadow-sm h-100 py-2 px-2">
                                                 <div className="card-body">
                                                     <h6 className="fw-semibold">Registrace na zápas</h6>
                                                     <p className="small text-muted mb-0">
@@ -141,7 +139,7 @@ const PublicLandingPage = () => {
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="card border-0 shadow-sm h-100">
+                                            <div className="card border-0 shadow-sm h-100 py-2 px-2">
                                                 <div className="card-body">
                                                     <h6 className="fw-semibold">Notifikace</h6>
                                                     <p className="small text-muted mb-0">
@@ -153,7 +151,7 @@ const PublicLandingPage = () => {
                                         </div>
 
                                         <div className="col-sm-6">
-                                            <div className="card border-0 shadow-sm h-100">
+                                            <div className="card border-0 shadow-sm h-100 py-2 px-2">
                                                 <div className="card-body">
                                                     <h6 className="fw-semibold">Správa</h6>
                                                     <p className="small text-muted mb-0">
@@ -171,7 +169,7 @@ const PublicLandingPage = () => {
                             <div className="col-lg-5">
 
                                 {/* DEMO CARD */}
-                                <div className="card shadow border-0 mb-4">
+                                <div className="card shadow border-0 mb-4 py-2 px-2">
                                     <div className="card-body">
                                         <h5 className="fw-semibold mb-3">DEMO režim</h5>
 
@@ -183,19 +181,19 @@ const PublicLandingPage = () => {
                                         <div className="alert alert-warning small">
                                             <strong>Důležité:</strong><br />
                                             Nepoužívej reálné e-maily, telefonní čísla ani osobní údaje.
-                                            Používej testovací data nebo si vytvoř vlastní demo účet.
+                                            Používej testovací data nebo si vytvoř vlastní demo účet. Vytvořené údaje mohou být kdykoliv smazány a aplikace může být resetována do výchozího stavu s pouze testovacími daty.
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* ROLE CARD */}
-                                <div className="card shadow border-0">
+                                <div className="card shadow border-0 py-2 px-2">
                                     <div className="card-body">
                                         <h5 className="fw-semibold mb-3">Testovací přihlášení</h5>
 
                                         {/* ADMIN */}
-                                        <div className="mb-4 p-3 bg-light rounded">
-                                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <div className="mb-4 p-1 bg-light rounded">
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
                                                 <span className="badge bg-dark">Admin</span>
                                             </div>
                                             <div className="small text-muted mb-2">
@@ -208,8 +206,8 @@ const PublicLandingPage = () => {
                                         </div>
 
                                         {/* MANAGER */}
-                                        <div className="mb-4 p-3 bg-light rounded">
-                                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                        <div className="mb-4 p-1 bg-light rounded">
+                                            <div className="d-flex justify-content-between align-items-center mb-1">
                                                 <span className="badge bg-primary">Manažer</span>
                                             </div>
                                             <div className="small text-muted mb-2">
@@ -222,7 +220,7 @@ const PublicLandingPage = () => {
                                         </div>
 
                                         {/* HRÁČ */}
-                                        <div className="p-3 bg-light rounded">
+                                        <div className="p-1 bg-light rounded">
                                             <div className="mb-2">
                                                 <span className="badge bg-secondary">Hráč</span>
                                             </div>

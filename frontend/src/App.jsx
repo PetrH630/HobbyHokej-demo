@@ -24,10 +24,11 @@ import "./App.css";
 import "./styles/theme.css";
 import "./styles/icons.css";
 
-// ADMIN PAGES 
+// ADMIN PAGES
 import HomeDecider from "./pages/HomeDecider";
 import AdminHomePage from "./pages/AdminHomePage";
 import AdminPlayersPage from "./pages/AdminPlayersPage";
+import AdminHelpPage from "./pages/AdminHelpPage";
 import RoleGuard from "./components/RoleGuard";
 
 // ADMIN MATCHES
@@ -51,6 +52,9 @@ import PublicLayout from "./pages/PublicLayout";
 
 // NOTIFIKACE
 import NotificationsPage from "./pages/NotificationsPage";
+
+// HELP PAGES
+import HelpPage from "./pages/HelpPage";
 
 const App = () => (
   <AppModeProvider>
@@ -90,7 +94,7 @@ const App = () => (
           {/* index = "/app" */}
           <Route index element={<HomeDecider />} />
 
-          {/* nested routy bez "/" */}
+          {/* hráčská část */}
           <Route path="matches" element={<Matches />} />
           <Route path="players" element={<Players />} />
           <Route path="createPlayer" element={<CreatePlayer />} />
@@ -98,6 +102,7 @@ const App = () => (
           <Route path="settings" element={<SettingsPage />} />
           <Route path="my-inactivity" element={<MyInactivityPage />} />
           <Route path="player" element={<PlayerHomePage />} />
+          <Route path="help" element={<HelpPage />} />
 
           {/* NOTIFIKACE – pro přihlášeného uživatele */}
           <Route path="notifications" element={<NotificationsPage />} />
@@ -108,6 +113,16 @@ const App = () => (
             element={
               <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
                 <AdminHomePage />
+              </RoleGuard>
+            }
+          />
+
+          {/* ADMIN/MANAGER – HELP */}
+          <Route
+            path="admin/help"
+            element={
+              <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
+                <AdminHelpPage />
               </RoleGuard>
             }
           />
@@ -151,14 +166,15 @@ const App = () => (
               </RoleGuard>
             }
           />
+
           {/* ADMIN/MANAGER – NOTIFIKACE */}
           <Route
-            path="/app/admin/notifications"
+            path="admin/notifications"
             element={
-            <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
-            <AdminNotificationPage />
+              <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
+                <AdminNotificationPage />
               </RoleGuard>
-              }
+            }
           />
 
           {/* ADMIN – SPRÁVA UŽIVATELŮ */}

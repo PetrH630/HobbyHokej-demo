@@ -1,0 +1,72 @@
+.matches-help-modal .modal-body {
+    line-height: 1.6;
+}
+
+.matches-help-modal h6 {
+    margin-bottom: 0.5rem;
+}
+
+.matches-help-modal ul,
+.matches-help-modal ol {
+    margin-bottom: 1rem;
+    padding-left: 1.25rem;
+}
+
+.matches-help-modal table {
+    margin-bottom: 0;
+}
+
+/* Player match status icon/text colors */
+
+.unregistered-icon{
+    color: #f17108;
+}
+
+.excused-icon {
+    color: #ffc107;
+}
+
+.reserved-icon {
+    color: #0d6efd;
+}
+
+.maybe-icon {
+    color: #ffc107;
+}
+
+.noresponse-icon {
+    color: #f8f9fa;
+}
+
+.no-excused-icon {
+    color: #dc3545;
+}
+
+/* Match card backgrounds & borders */
+
+
+.registered-bg-color {
+    background-color: #29d158 !important;
+}
+
+.unregistered-bg-color {
+    background-color: #fff9db !important;
+}
+
+.excused-bg-color {
+    background-color: rgba(39, 195, 243, 0.61) !important;
+}
+
+.no-response-bg-color {
+    background-color: #f8f9fa !important;
+}
+
+.no-excused-bg-color{
+    background-color:#fdecea !important;
+}
+
+.reserved-bg-color {
+    background-color: #fff4e5 !important;
+}
+
+

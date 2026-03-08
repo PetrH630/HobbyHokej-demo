@@ -16,6 +16,7 @@ import UserProfileForm from "../components/settings/UserProfileForm";
 import { useUserProfile } from "../hooks/useUserProfile";
 import RoleGuard from "../components/RoleGuard";
 import { validatePlayerProfile } from "../validation/playerValidation";
+import SettingsHelpModal from "../components/help/SettingsHelpModal";
 
 import SuccessInfoModal from "../components/common/SuccessModal";
 
@@ -254,8 +255,7 @@ const SettingsPage = () => {
             const msg = "Profil hráče byl úspěšně uložen.";
             setProfileSuccess(msg);
 
-            // ✅ MODAL
-            openSuccessModal(msg, "Profil hráče");
+        openSuccessModal(msg, "Profil hráče");
         } catch (err) {
             const msg =
                 err?.response?.data?.message ||
@@ -318,7 +318,7 @@ const SettingsPage = () => {
 
         await savePlayerSettings(payload);
 
-        // ✅ MODAL (nezasahuje do toho, co zobrazuje PlayerSettings komponenta)
+        //(nezasahuje do toho, co zobrazuje PlayerSettings komponenta)
         openSuccessModal(
             "Nastavení notifikací hráče bylo úspěšně uloženo.",
             "Notifikace hráče"
@@ -348,7 +348,7 @@ const SettingsPage = () => {
     const handleUserSubmit = async () => {
         await saveUserSettings(userFormValues);
 
-        // ✅ MODAL
+       
         openSuccessModal(
             "Nastavení uživatelského účtu bylo úspěšně uloženo.",
             "Nastavení účtu"
@@ -483,8 +483,7 @@ const SettingsPage = () => {
         }
 
         await saveUserProfile(userProfileValues);
-
-        // ✅ MODAL
+       
         openSuccessModal(
             "Profil uživatele byl úspěšně uložen.",
             "Profil uživatele"
@@ -520,8 +519,11 @@ const SettingsPage = () => {
         loadingUserSettings ||
         loadingUserProfile;
 
+// nápověda
+    const [showHelpModal, setShowHelpModal] = useState(false);
+
     return (
-        <div className="container mt-0">
+        <div className="container mt-2">
             {/* MODAL – render */}
             <SuccessInfoModal
                 show={successModal.show}
@@ -530,12 +532,20 @@ const SettingsPage = () => {
                 onClose={closeSuccessModal}
             />
 
-            <h1 className="h4 mb-3">Nastavení</h1>
+            <div className="d-flex justify-content-between align-items-start mb-3">
+                <div>
+                    <h1 className="h4 mb-3">Nastavení</h1>
+                    <p className="text-muted mb-0">
+                        Zde můžeš upravit nastavení svého uživatelského účtu i
+                        nastavení aktuálního hráče.
+                    </p>
+                </div>
 
-            <p className="text-muted mb-3">
-                Zde můžeš upravit nastavení svého uživatelského účtu i
-                nastavení aktuálního hráče.
-            </p>
+               
+                
+
+
+            </div>
 
             {/* Přepínač záložek */}
             <ul className="nav nav-pills mb-4 gap-2">
@@ -598,6 +608,17 @@ const SettingsPage = () => {
                     </li>
                 </RoleGuard>
             </ul>
+            <button
+                type="button"
+                className="btn btn-link p-0 mt-0 mb-3"
+                onClick={() => setShowHelpModal(true)}
+            >
+                Nápověda
+            </button>
+            <SettingsHelpModal
+                show={showHelpModal}
+                onClose={() => setShowHelpModal(false)}
+            />
 
             {isLoading && <p>Načítám nastavení…</p>}
 

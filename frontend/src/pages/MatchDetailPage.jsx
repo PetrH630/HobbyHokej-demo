@@ -13,7 +13,7 @@ import { useDemoNotifications } from "../hooks/useDemoNotifications";
 import DemoNotificationsModal from "../components/demo/DemoNotificationsModal";
 import { useAppMode } from "../context/AppModeContext";
 import { tryClearDemoNotifications } from "../api/demoApi";
-
+import MatchRegistrationHelpModal from "../components/help/MatchRegistrationHelpModal";
 
 import ExcuseModal from "../components/matchRegistration/ExcuseModal";
 
@@ -43,6 +43,8 @@ const MatchDetailPage = () => {
 
     const playerName = currentPlayer?.fullName || "Hráč";
     const { demoMode } = useAppMode();
+
+    const [showRegistrationHelp, setShowRegistrationHelp] = useState(false);
 
     // zapamatujeme si, se kterým hráčem jsme na stránku přišli
     const [initialPlayerId, setInitialPlayerId] = useState(null);
@@ -268,6 +270,19 @@ const MatchDetailPage = () => {
  
     return (
         <>
+            <div className="text-center mt-2">
+                <button
+                    className="btn btn-link p-0"
+                    onClick={() => setShowRegistrationHelp(true)}
+                >
+                    Nápověda k registraci na zápas
+                </button>
+            </div>
+            
+            <MatchRegistrationHelpModal
+                show={showRegistrationHelp}
+                onClose={() => setShowRegistrationHelp(false)}
+            />
             <MatchDetail
                 match={match}
                 playerMatchStatus={playerMatchStatus}

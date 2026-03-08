@@ -50,6 +50,10 @@ const PlayerCard = ({ player, onSelect, isActive, disabledTooltip }) => {
         ? formatPhoneNumber(player.phoneNumber)
         : null;
 
+    console.log("PLAYER", player);
+    console.log("PHONE", player?.phoneNumber);
+    console.log("FORMATTED PHONE", phoneFormatted);
+
     return (
         <div
             className={[
@@ -78,9 +82,16 @@ const PlayerCard = ({ player, onSelect, isActive, disabledTooltip }) => {
 
             <div className="card-body">
 
-                <h5 className="card-title mb-4 mt-3 text-center">
+                <h5 className="card-title mb-0 mt-3 text-center">
                     {player?.fullName}
                 </h5>
+                <h6 className="mb-3 text-center">
+                {player.nickname && (
+                        <span className="text-muted ms-2">
+                            ({player.nickname})
+                        </span>
+                    )}
+                </h6>
 
                 <div className="mb-2 text-center">
                     <div

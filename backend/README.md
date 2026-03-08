@@ -244,6 +244,8 @@ backend/
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── API.md
+│   ├── API_SCENARIOS_BACKEND.md
+│   ├── DATABASE_MODEL.md
 │   └── Javadoc/
 ├── pom.xml
 ├── README.md
@@ -256,7 +258,10 @@ backend/
 Projekt obsahuje generovanou dokumentaci:
 
 - Architektura: `docs/ARCHITECTURE.md`
-- API: `docs/API.md`
+- API: 
+- `docs/API.md`
+- `docs/API_SCENARIOS_BACKEND.md`
+- Databáze: `docs/DATABASE_MODEL.md`
 - Javadoc: `docs/Javadoc/index.html`
 
 ---

@@ -1,8 +1,10 @@
+import React, { useState } from "react";
 import { usePlayers } from "../../hooks/usePlayers";
 import PlayerCard from "./PlayerCard";
 import { setCurrentPlayer } from "../../api/playerApi";
 import { useNavigate } from "react-router-dom";
 import { useCurrentPlayer } from "../../hooks/useCurrentPlayer";
+import PlayerHelpModal from "../help/PlayerHelpModal";
 
 import "./Players.css";
 
@@ -18,8 +20,8 @@ const Players = () => {
     const navigate = useNavigate();
 
     const { currentPlayer, refreshCurrentPlayer } = useCurrentPlayer();
+    const [showHelp, setShowHelp] = useState(false);
 
-    
     const handleSelectPlayer = async (playerId) => {
         try {
             await setCurrentPlayer(playerId);
@@ -51,15 +53,14 @@ const Players = () => {
                 </button>
             </div>
         );
-    }
+    }  
 
     return (
-        <div className="container mt-3">
+        <div className="container mt-4">
             <div className="player-list">
                 {players.map((p) => {
                     const isActive = currentPlayer?.id === p.id;
-
-                    const disabledTooltip =
+                        const disabledTooltip =
                         p.playerStatus === "PENDING"
                             ? "Hráč čeká na schválení administrátorem"
                             : p.playerStatus === "REJECTED"
@@ -98,7 +99,21 @@ const Players = () => {
                 >
                     Přidat dalšího hráče
                 </button>
+                
             </div>
+            <div className="text-center mt-4">
+            <button
+                className="btn btn-link p-0"
+                onClick={() => setShowHelp(true)}
+            >
+                Nápověda
+            </button>
+            </div> 
+            <PlayerHelpModal
+                show={showHelp}
+                onClose={() => setShowHelp(false)}
+            />
+
         </div>
     );
 };

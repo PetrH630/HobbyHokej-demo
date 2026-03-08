@@ -159,7 +159,7 @@ Frontend zobrazuje:
 - výhry
 - prohry
 - remízy
-- úspěšnost hráče
+- přihlášování na zápasy
 
 ---
 
@@ -198,6 +198,12 @@ npm run build
 Výsledné soubory se vytvoří ve složce:
 
 dist/
+
+---
+
+# Autor
+
+Petr Hlista
 
 ---
 

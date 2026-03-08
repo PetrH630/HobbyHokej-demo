@@ -1,0 +1,13 @@
+.settings-help-modal .modal-body {
+    line-height: 1.6;
+}
+
+.settings-help-modal h6 {
+    margin-bottom: 0.5rem;
+}
+
+.settings-help-modal ul,
+.settings-help-modal ol {
+    margin-bottom: 1rem;
+    padding-left: 1.25rem;
+}

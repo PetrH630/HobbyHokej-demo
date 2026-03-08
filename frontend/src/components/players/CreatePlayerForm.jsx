@@ -142,7 +142,7 @@ const CreatePlayerForm = ({ onSubmit, onCancel, submitting }) => {
                 </div>
             </div>
 
-            <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER", "ROLE_PLAYER"]}>
+            <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
                 <div className="mb-3">
                     <label className="form-label">Typ</label>
                     <select

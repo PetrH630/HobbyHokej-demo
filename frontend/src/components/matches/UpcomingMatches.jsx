@@ -92,9 +92,10 @@ const UpcomingMatches = () => {
           Nadcházející zápasy pro {currentPlayer.fullName}
         </h3>
         <div className="text-center">
-          <p>Aktuálně nemáte žádné nadcházející zápasy.</p>
-          <p>Možná nejsou v této sezóně zatím žádné vytvořené, </p>
-          <p>nebo jste veden jako dlouhodobě "Mimo Hru".</p>
+          <p className="mb-0">Aktuálně nemáte žádné nadcházející zápasy.</p>
+          <p className="mb-0">Možná nejsou zatím žádné vytvořené</p>
+          <p className="mb-0">Možná nemáte zatím možnost zobrazit (typ hráče).</p>
+          <p className="mb-0">nebo jste veden jako dlouhodobě "Mimo Hru".</p>
         </div>
       </div>
     );

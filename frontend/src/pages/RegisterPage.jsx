@@ -13,13 +13,19 @@ const hasAnyDemoItems = (demo) => {
 /**
  * RegisterPage
  *
- * registrace – Bootstrap modal.
+ * Komponenta zobrazuje registrační formulář nového uživatele.
+ * Provádí základní frontend validaci vstupních údajů ještě před odesláním
+ * požadavku na backend a po úspěšné registraci zobrazuje potvrzovací zprávu.
  *
- * Vedlejší efekty:
- * - může provádět navigaci v aplikaci
- * - načítá nebo odesílá data přes API
+ * Validuje se zejména:
+ * - e-mail ve správném formátu
+ * - heslo s minimální délkou 8 znaků
+ * - shoda hesla a potvrzení hesla
  *
- * @param {Object} props vstupní hodnoty komponenty
+ * Po úspěšné registraci se může načíst DEMO obsah se zachycenými
+ * notifikacemi a zobrazit se v modálním okně.
+ *
+ * @returns {JSX.Element} Stránka registrace.
  */
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -40,6 +46,32 @@ const RegisterPage = () => {
   const [demoNotifications, setDemoNotifications] = useState(null);
   const [showDemoModal, setShowDemoModal] = useState(false);
 
+  /**
+   * Ověřuje, zda má e-mail základní platný formát.
+   *
+   * @param {string} value hodnota e-mailu
+   * @returns {boolean} Vrací true, pokud je formát platný.
+   */
+  const isValidEmail = (value) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  };
+
+  /**
+   * Ověřuje, zda heslo splňuje minimální délku.
+   *
+   * @param {string} value hodnota hesla
+   * @returns {boolean} Vrací true, pokud heslo obsahuje alespoň 8 znaků.
+   */
+  const isValidPassword = (value) => {
+    return value.trim().length >= 8;
+  };
+
+  /**
+   * Aktualizuje hodnotu pole ve formuláři.
+   *
+   * @param {React.ChangeEvent<HTMLInputElement>} e změnová událost vstupního pole
+   * @returns {void}
+   */
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -47,31 +79,108 @@ const RegisterPage = () => {
     });
   };
 
+  /**
+   * Uzavírá DEMO modal a současně čistí jeho data.
+   *
+   * @returns {void}
+   */
   const handleCloseDemoModal = () => {
     setShowDemoModal(false);
     setDemoNotifications(null);
   };
 
+  /**
+   * Vrací text validační chyby pro e-mail.
+   *
+   * @returns {string} Chybová zpráva nebo prázdný řetězec.
+   */
+  const getEmailError = () => {
+    if (!form.email) return "";
+    if (!isValidEmail(form.email)) {
+      return "Zadejte platný e-mail ve formátu např. uzivatel@example.com.";
+    }
+    return "";
+  };
+
+  /**
+   * Vrací text validační chyby pro heslo.
+   *
+   * @returns {string} Chybová zpráva nebo prázdný řetězec.
+   */
+  const getPasswordError = () => {
+    if (!form.password) return "";
+    if (!isValidPassword(form.password)) {
+      return "Heslo musí obsahovat alespoň 8 znaků.";
+    }
+    return "";
+  };
+
+  /**
+   * Vrací text validační chyby pro potvrzení hesla.
+   *
+   * @returns {string} Chybová zpráva nebo prázdný řetězec.
+   */
+  const getPasswordConfirmError = () => {
+    if (!form.passwordConfirm) return "";
+    if (form.password !== form.passwordConfirm) {
+      return "Hesla se neshodují.";
+    }
+    return "";
+  };
+
+  const emailError = getEmailError();
+  const passwordError = getPasswordError();
+  const passwordConfirmError = getPasswordConfirmError();
+
+  const isFormValid =
+    form.name.trim() !== "" &&
+    form.surname.trim() !== "" &&
+    form.email.trim() !== "" &&
+    form.password.trim() !== "" &&
+    form.passwordConfirm.trim() !== "" &&
+    !emailError &&
+    !passwordError &&
+    !passwordConfirmError;
+
+  /**
+   * Zpracovává odeslání registračního formuláře.
+   *
+   * Nejprve se provede frontend validace vstupních hodnot.
+   * Pokud validace neprojde, formulář se neodešle.
+   * Při úspěchu se odešle registrace na backend, zobrazí se potvrzení
+   * a případně se načtou DEMO notifikace pro zobrazení v modálním dialogu.
+   *
+   * @param {React.FormEvent<HTMLFormElement>} e odesílací událost formuláře
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    setLoading(true);
     setSuccess(false);
+
+    if (!isValidEmail(form.email)) {
+      setError("Zadejte platný e-mail ve správném formátu.");
+      return;
+    }
+
+    if (!isValidPassword(form.password)) {
+      setError("Heslo musí obsahovat alespoň 8 znaků.");
+      return;
+    }
 
     if (form.password !== form.passwordConfirm) {
       setError("Hesla se neshodují.");
-      setLoading(false);
       return;
     }
+
+    setLoading(true);
 
     try {
       await tryClearDemoNotifications();
       await registerUser(form);
 
-      // Success hláška (platí vždy)
       setSuccess(true);
 
-      // DEMO: načti zachycené notifikace a ukaž modal (např. USER_CREATED s aktivačním odkazem)
       const demo = await tryGetDemoNotifications();
       console.log("[RegisterPage] demo:", demo);
 
@@ -109,12 +218,14 @@ const RegisterPage = () => {
               </div>
             )}
 
-            {/* 🔹 FORMULÁŘ SE SKRYJE PO ÚSPĚCHU */}
             {!success && (
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} noValidate>
                 <div className="mb-3">
-                  <label className="form-label">Křestní jméno</label>
+                  <label htmlFor="name" className="form-label">
+                    Křestní jméno
+                  </label>
                   <input
+                    id="name"
                     type="text"
                     className="form-control"
                     name="name"
@@ -125,8 +236,11 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label">Příjmení</label>
+                  <label htmlFor="surname" className="form-label">
+                    Příjmení
+                  </label>
                   <input
+                    id="surname"
                     type="text"
                     className="form-control"
                     name="surname"
@@ -137,52 +251,92 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label">E-mail</label>
+                  <label htmlFor="email" className="form-label">
+                    E-mail
+                  </label>
                   <input
+                    id="email"
                     type="email"
-                    className="form-control"
+                    className={`form-control ${emailError ? "is-invalid" : form.email ? "is-valid" : ""}`}
                     name="email"
                     value={form.email}
                     onChange={handleChange}
+                    placeholder="např. uzivatel@example.com"
+                    autoComplete="email"
                     required
                   />
+                  <div className="form-text">
+                    Zadejte e-mail ve formátu např. uzivatel@example.com.
+                  </div>
+                  {emailError && (
+                    <div className="invalid-feedback d-block">
+                      {emailError}
+                    </div>
+                  )}
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label">Heslo</label>
+                  <label htmlFor="password" className="form-label">
+                    Heslo
+                  </label>
                   <input
+                    id="password"
                     type="password"
-                    className="form-control"
+                    className={`form-control ${passwordError ? "is-invalid" : form.password ? "is-valid" : ""}`}
                     name="password"
                     value={form.password}
                     onChange={handleChange}
+                    placeholder="Zadejte heslo"
+                    autoComplete="new-password"
+                    minLength={8}
                     required
                   />
+                  <div className="form-text">
+                    Heslo musí obsahovat alespoň 8 znaků.
+                  </div>
+                  {passwordError && (
+                    <div className="invalid-feedback d-block">
+                      {passwordError}
+                    </div>
+                  )}
                 </div>
 
                 <div className="mb-3">
-                  <label className="form-label">Potvrzení hesla</label>
+                  <label htmlFor="passwordConfirm" className="form-label">
+                    Potvrzení hesla
+                  </label>
                   <input
+                    id="passwordConfirm"
                     type="password"
-                    className="form-control"
+                    className={`form-control ${passwordConfirmError ? "is-invalid" : form.passwordConfirm ? "is-valid" : ""}`}
                     name="passwordConfirm"
                     value={form.passwordConfirm}
                     onChange={handleChange}
+                    placeholder="Zadejte heslo znovu"
+                    autoComplete="new-password"
+                    minLength={8}
                     required
                   />
+                  <div className="form-text">
+                    Potvrzení hesla musí být shodné se zadaným heslem.
+                  </div>
+                  {passwordConfirmError && (
+                    <div className="invalid-feedback d-block">
+                      {passwordConfirmError}
+                    </div>
+                  )}
                 </div>
 
                 <button
                   type="submit"
                   className="btn btn-primary w-100 mb-2"
-                  disabled={loading}
+                  disabled={loading || !isFormValid}
                 >
                   {loading ? "Registruji…" : "Registrovat"}
                 </button>
               </form>
             )}
 
-            {/* 🔹 TLAČÍTKO ZPĚT NA LOGIN – vždy viditelné */}
             <button
               type="button"
               className="btn btn-outline-secondary w-100 mt-2"

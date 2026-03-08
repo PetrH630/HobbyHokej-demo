@@ -1,19 +1,19 @@
 # Databázový model projektu HobbyHokej
 
-Model je navržen pro správu uživatelů, hráčů, sezón, zápasů, registrací na zápasy, notifikací a auditní historie změn.
+Databázový model jsem navrhl pro správu uživatelů, hráčů, sezón, zápasů, registrací na zápasy, notifikací a auditní historie změn.
 
 ---
 
 ## Přehled databázového modelu
 
-Databáze je postavena kolem těchto hlavních domén:
+Databázi jsem postavil kolem těchto hlavních domén:
 
-- **Uživatelé a jejich nastavení**
-- **Hráči a jejich individuální nastavení**
-- **Sezóny a zápasy**
-- **Registrace hráčů na zápasy**
-- **Notifikace**
-- **Auditní historie změn**
+- **uživatelé a jejich nastavení**
+- **hráči a jejich individuální nastavení**
+- **sezóny a zápasy**
+- **registrace hráčů na zápasy**
+- **notifikace**
+- **auditní historie změn**
 
 Model kombinuje:
 
@@ -189,7 +189,7 @@ Základní tabulka uživatelů aplikace.
 - `email` – unikátní přihlašovací identita,
 - `password` – hash hesla,
 - `role` – `ROLE_PLAYER`, `ROLE_MANAGER`, `ROLE_ADMIN`,
-- `enabled` – aktivní/neaktivní účet,
+- `enabled` – aktivní nebo neaktivní účet,
 - `last_login_at`, `current_login_at` – evidence přihlášení.
 
 **Poznámka:**
@@ -211,7 +211,7 @@ Rozšiřující uživatelské nastavení.
 - digest notifikací e-mailem,
 - chování při výběru hráče.
 
-Model je správně oddělen od tabulky uživatelů, takže provozní identita není zahlcena UI a preferenčními daty.
+Tento model jsem oddělil od tabulky uživatelů záměrně, aby identita uživatele nebyla zatížena UI preferencemi a pomocnými nastaveními.
 
 ---
 
@@ -231,7 +231,7 @@ Doménový profil hráče.
 - `user_id` – volitelná vazba na účet uživatele.
 
 **Návrhový význam:**
-Oddělení `app_users` a `player_entity` je správné. Umožňuje evidovat hráče i bez plnohodnotného uživatelského účtu a zároveň drží business atributy mimo bezpečnostní identitu.
+Oddělení `app_users` a `player_entity` jsem zvolil vědomě. Umožňuje evidovat hráče i bez plnohodnotného uživatelského účtu a současně držet business atributy mimo bezpečnostní identitu.
 
 ---
 
@@ -248,7 +248,7 @@ Nastavení notifikací a komunikačních preferencí hráče.
 - chování při změně týmu nebo pozice,
 - kontaktní údaje odlišné od uživatelského účtu.
 
-Tato tabulka dobře podporuje budoucí rozšíření notifikačního modulu bez zásahu do tabulky hráčů.
+Tato tabulka mi dává prostor pro další rozvoj notifikačního modulu bez nutnosti zasahovat do tabulky hráčů.
 
 ---
 
@@ -281,7 +281,7 @@ Sezóny systému.
 - `created_by_user_id`.
 
 **Poznámka:**
-V migračním skriptu je `created_by_user_id`, ale není na něj definován cizí klíč. Datově to dává smysl, ale z pohledu integrity by bylo vhodné jej v budoucnu svázat s `app_users.id`, pokud to chování aplikace dovolí.
+V migračním skriptu je `created_by_user_id`, ale není na něj definován cizí klíč. Datově to smysl dává, ale z pohledu integrity je to místo, které se dá do budoucna ještě zpřesnit vazbou na `app_users.id`, pokud to bude odpovídat chování aplikace.
 
 ---
 
@@ -290,7 +290,7 @@ Tabulka zápasů.
 
 **Vazba:**
 - `season_id` → `season.id`
-- 1 sezóna má více zápasů.
+- jedna sezóna obsahuje více zápasů.
 
 **Účel:**
 - plánování zápasů,
@@ -308,7 +308,7 @@ Tabulka zápasů.
 - `score_light`, `score_dark`.
 
 **Poznámka k návrhu:**
-Uložení skóre přímo do tabulky zápasu je správné a jednoduché řešení. Pro tento typ aplikace není nutné zavádět samostatnou tabulku skóre.
+Skóre ukládám přímo do tabulky zápasu. Pro tento typ aplikace je to jednoduché a plně dostačující řešení bez potřeby samostatné tabulky výsledků.
 
 ---
 
@@ -319,7 +319,7 @@ Registrace hráčů na konkrétní zápasy.
 - `match_id` → `matches.id`
 - `player_id` → `player_entity.id`
 
-Jde o klíčovou spojovací tabulku mezi hráčem a zápasem, rozšířenou o doménové atributy.
+Jde o klíčovou spojovací tabulku mezi hráčem a zápasem, rozšířenou o další doménové atributy.
 
 **Účel:**
 - evidence přihlášení a odhlášení,
@@ -337,10 +337,10 @@ Jde o klíčovou spojovací tabulku mezi hráčem a zápasem, rozšířenou o do
 - `reminder_already_sent`.
 
 **Architektonicky:**
-Tato tabulka je navržena dobře, protože nevystupuje jen jako čistá M:N vazba, ale jako samostatná doménová entita s vlastním životním cyklem.
+Tuto tabulku beru jako plnohodnotnou doménovou entitu s vlastním životním cyklem, ne jen jako technickou M:N vazbu.
 
-**Doporučení do budoucna:**
-V poskytnutých migracích není vidět unikátní omezení typu `(match_id, player_id)`. Pokud aplikace logicky dovoluje jen jednu aktivní registraci hráče na zápas, je vhodné takové omezení doplnit.
+**Doplnění do budoucna:**
+V poskytnutých migracích není vidět unikátní omezení typu `(match_id, player_id)`. Pokud má být logicky povolená jen jedna registrace hráče na daný zápas, je vhodné to časem vynutit i databázově.
 
 ---
 
@@ -360,20 +360,20 @@ Centrální tabulka notifikací.
 - audit, kdo notifikaci vytvořil.
 
 **Klíčové prvky návrhu:**
-- `type` je převeden na `ENUM`, což omezuje nevalidní hodnoty,
+- `type` je převeden na `ENUM`, takže omezuje nevalidní hodnoty,
 - `message_short` a `message_full` oddělují stručný a detailní text,
-- `email_to` a `sms_to` umožňují budoucí multikanálové doručování,
-- `read_at` podporuje stav přečteno/nepřečteno,
-- unikátní klíč `uk_notification_user_match_type (user_id, match_id, type)` omezuje duplicitní notifikace stejného typu pro stejný zápas a uživatele.
+- `email_to` a `sms_to` nechávají prostor pro multikanálové doručování,
+- `read_at` podporuje stav přečteno nebo nepřečteno,
+- unikátní klíč `uk_notification_user_match_type (user_id, match_id, type)` omezuje duplicitní notifikace stejného typu pro stejného uživatele a zápas.
 
-To je velmi dobrý návrh pro notifikační modul v menší až střední aplikaci.
+Pro rozsah této aplikace jde o dobře použitelný návrh notifikačního modulu.
 
 ---
 
 ## Bezpečnostní a autentizační tabulky
 
 ### `email_verification_tokens`
-Slouží pro ověření e-mailové adresy uživatele.
+Tabulka slouží pro ověření e-mailové adresy uživatele.
 
 **Vlastnosti:**
 - token je unikátní,
@@ -381,7 +381,7 @@ Slouží pro ověření e-mailové adresy uživatele.
 - obsahuje expiraci.
 
 ### `forgotten_password_reset_token_entity`
-Slouží pro reset zapomenutého hesla.
+Tabulka slouží pro reset zapomenutého hesla.
 
 **Vlastnosti:**
 - token je unikátní,
@@ -415,13 +415,13 @@ Databáze obsahuje samostatné history tabulky pro audit změn:
 - `original_timestamp`
 - reference na původní entitu, například `user_id`, `match_id`, `player_id`, `season_id`.
 
-Z názvů migrací je patrné, že historie je plněna databázovými triggery pro hlavní entity. To je robustní přístup, protože audit nevzniká jen na úrovni aplikace, ale přímo v databázi.
+Z názvů migrací je patrné, že historie je plněna databázovými triggery pro hlavní entity. Tento přístup mi dává smysl, protože audit nevzniká jen na úrovni aplikace, ale přímo v databázi.
 
 ---
 
 ## Doménové enumy
 
-Model intenzivně používá `ENUM`, což je zde vhodné, protože stavové hodnoty jsou relativně stabilní a patří do jádra business logiky.
+Model výrazně používá `ENUM`, což je v tomto případě vhodné, protože stavové hodnoty jsou relativně stabilní a patří do jádra business logiky.
 
 ### Hlavní enum oblasti
 
@@ -477,7 +477,7 @@ Model intenzivně používá `ENUM`, což je zde vhodné, protože stavové hodn
 - `OTHER`
 
 **Typy notifikací**
-Obsahují rozsáhlý seznam událostí, například:
+Obsahují širší seznam událostí, například:
 - registrace na zápas,
 - změny zápasu,
 - omluvenky,
@@ -487,7 +487,7 @@ Obsahují rozsáhlý seznam událostí, například:
 - bezpečnostní upozornění,
 - speciální zprávy.
 
-To ukazuje na dobře promyšlený doménový jazyk systému.
+Tento rozsah enumů odpovídá doménovému jazyku celé aplikace.
 
 ---
 
@@ -510,7 +510,7 @@ To ukazuje na dobře promyšlený doménový jazyk systému.
 ### M:N vztah realizovaný přes entitu
 - `player_entity` ↔ `matches` přes `match_registrations`
 
-To je správný a čistý návrh. M:N vazba je rozšířená o vlastní business atributy, takže nevzniká plochá vazební tabulka bez významu.
+Tento návrh je záměrně postavený tak, aby M:N vazba nebyla jen plochou vazební tabulkou, ale nesla vlastní business význam.
 
 ---
 
@@ -518,22 +518,22 @@ To je správný a čistý návrh. M:N vazba je rozšířená o vlastní business
 
 ### Dobře navržené části
 1. **Oddělení identity uživatele od profilu hráče**
-   - bezpečnostní a business data nejsou smíchána.
+   - bezpečnostní a business data nejsou promíchaná.
 
 2. **Samostatná tabulka registrací**
-   - registrace je plnohodnotná doménová entita.
+   - registrace funguje jako plnohodnotná doménová entita.
 
 3. **Auditní historie přes history tabulky a triggery**
-   - velmi dobré pro dohledatelnost změn.
+   - změny jsou dobře dohledatelné.
 
 4. **Notifikační modul navázaný na uživatele, hráče i zápasy**
-   - model je připraven na další rozvoj.
+   - model je připravený na další rozvoj.
 
 5. **Rozumné použití enumů**
-   - zvyšuje konzistenci dat a čitelnost business pravidel.
+   - zvyšuje konzistenci dat i čitelnost business pravidel.
 
 6. **1:1 settings tabulky**
-   - udržují hlavní entity přehledné a rozšiřitelné.
+   - hlavní entity zůstávají přehledné a rozšiřitelné.
 
 ---
 
@@ -554,7 +554,7 @@ U sloupců jako:
 - `matches.created_by_user_id`
 - `matches.last_modified_by_user_id`
 
-by bylo možné doplnit referenční integritu, pokud aplikace nevyžaduje zachování historických hodnot i po smazání uživatele.
+je možné do budoucna doplnit referenční integritu, pokud aplikace nebude potřebovat zachovat historické hodnoty i po smazání uživatele.
 
 ### 3. Zvážit indexy podle nejčastějších dotazů
 Například:
@@ -563,25 +563,26 @@ Například:
 - `match_registrations(team, position_in_match)`
 - `player_entity(player_status, team, type)`
 
-To by mohlo zlepšit výkon administračních přehledů a statistik.
+To může pomoci hlavně u administračních přehledů, filtrací a statistik.
 
 ### 4. Sjednotit názvosloví některých tabulek
 Například:
-- `player_entity` vs. ostatní tabulky bez suffixu `_entity`
+- `player_entity` oproti ostatním tabulkám bez suffixu `_entity`
 - `forgotten_password_reset_token_entity` je poměrně technický název
 
-Funkčně je to v pořádku, ale z pohledu čistoty schématu by časem stálo za úvahu názvy zjednodušit.
+Funkčně je to v pořádku, ale z pohledu čistoty schématu je to oblast, která se dá časem zpřehlednit.
 
 ---
 
 ## Shrnutí
 
-Tento databázový model je pro daný typ aplikace kvalitní a dostatečně promyšlený.
+Tento databázový model jsem navrhl jako robustní relační základ pro správu hobby hokejových zápasů, uživatelů, hráčů, registrací, notifikací a auditní historie.
 
-Jeho hlavní přednosti jsou:
+Za jeho hlavní přednosti považuji:
 - čisté oddělení odpovědností mezi entitami,
-- dobrá podpora doménové logiky hobby hokejových zápasů,
+- dobrou podporu doménové logiky hobby hokejových zápasů,
 - připravenost na notifikace a audit,
 - rozšiřitelnost bez nutnosti zásadního předělání schématu.
 
-Z pohledu README je možné tento model prezentovat jako **robustní relační návrh pro full-stack sportovní informační systém se správou uživatelů, hráčů, zápasů, registrací, statistik a notifikací**.
+Z pohledu README jej lze prezentovat jako **relační databázový model pro full-stack sportovní informační systém se správou uživatelů, hráčů, zápasů, registrací, statistik a notifikací**.
+

@@ -1,0 +1,13 @@
+.player-help-modal .modal-body {
+    line-height: 1.6;
+}
+
+.player-help-modal h6 {
+    margin-bottom: 0.5rem;
+}
+
+.player-help-modal ul,
+.player-help-modal ol {
+    margin-bottom: 1rem;
+    padding-left: 1.25rem;
+}

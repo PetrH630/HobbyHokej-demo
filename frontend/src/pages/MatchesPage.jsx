@@ -1,17 +1,22 @@
 // src/pages/matches.jsx
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useLocation } from "react-router-dom";
 import UpcomingMatches from "../components/matches/UpcomingMatches";
 import PastMatches from "../components/matches/PastMatches";
 import { useCurrentPlayer } from "../hooks/useCurrentPlayer";
 import SeasonSelect from "../components/seasons/seasonSelect";
 import { useSeason } from "../hooks/useSeason";
+import MatchesHelpModal from "../components/help/MatchesHelpModal";
+import MatchRegistrationHelpModal from "../components/help/MatchRegistrationHelpModal";
 
 const matches = () => {
   const { currentPlayer, loading } = useCurrentPlayer();
   const location = useLocation();
 
   const { seasons, currentSeasonId } = useSeason();
+
+  const [showHelp, setShowHelp] = useState(false);
+  const [showRegistrationHelp, setShowRegistrationHelp] = useState(false);
 
   useEffect(() => {
     const y = location.state?.restoreScrollY;
@@ -59,8 +64,26 @@ const matches = () => {
   return (
     <div>
       {/* horní řádek – vlevo výběr sezóny */}
-      <div className="d-flex justify-content-start mb-3">
+      <div className="d-flex justify-content-start mb-3 mt-2">
         <SeasonSelect />
+      </div>
+
+      <div className="mt-3">
+        <button
+          className="btn btn-link p-0"
+          onClick={() => setShowHelp(true)}
+        >
+          Nápověda
+        </button>        
+      </div>
+
+      <div className="mb-2">
+        <button
+          className="btn btn-link p-0"
+          onClick={() => setShowRegistrationHelp(true)}
+        >
+          Nápověda k registraci na zápas
+        </button>
       </div>
 
       {isSeasonFinished ? (
@@ -74,6 +97,15 @@ const matches = () => {
       <hr className="my-4" />
 
       {currentPlayer && <PastMatches />}
+
+      <MatchesHelpModal
+        show={showHelp}
+        onClose={() => setShowHelp(false)}
+      />
+      <MatchRegistrationHelpModal
+        show={showRegistrationHelp}
+        onClose={() => setShowRegistrationHelp(false)}
+      />
     </div>
   );
 };

@@ -1,0 +1,17 @@
+.login-help-modal .modal-body {
+    line-height: 1.6;
+}
+
+.login-help-modal h6 {
+    margin-bottom: 0.5rem;
+}
+
+.login-help-modal ul,
+.login-help-modal ol {
+    margin-bottom: 1rem;
+    padding-left: 1.25rem;
+}
+
+.login-help-modal table {
+    margin-bottom: 0;
+}

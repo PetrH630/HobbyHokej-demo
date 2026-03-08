@@ -101,6 +101,7 @@ const Navbar = () => {
                         Přehled
                     </NavLink>
                 </li>
+
                 <li className="nav-item">
                     <NavLink
                         to="/app/players"
@@ -146,6 +147,18 @@ const Navbar = () => {
                         onClick={closeMenu}
                     >
                         Mimo
+                    </NavLink>
+                </li>
+
+                <li className="nav-item">
+                    <NavLink
+                        to="/app/help"
+                        className={({ isActive }) =>
+                            "nav-link" + (isActive ? " activeLink" : "")
+                        }
+                        onClick={closeMenu}
+                    >
+                        Help
                     </NavLink>
                 </li>
             </RoleGuard>
@@ -230,6 +243,18 @@ const Navbar = () => {
                         </NavLink>
                     </li>
                 </RoleGuard>
+
+                <li className="nav-item">
+                    <NavLink
+                        to="/app/admin/help"
+                        className={({ isActive }) =>
+                            "nav-link admin-link" + (isActive ? " activeLink" : "")
+                        }
+                        onClick={closeMenu}
+                    >
+                        Help
+                    </NavLink>
+                </li>
             </RoleGuard>
         </ul>
     );
@@ -263,6 +288,7 @@ const Navbar = () => {
                             Hráč
                         </NavLink>
                     </li>
+
                     <li>
                         <NavLink
                             to="/app/matches"
@@ -274,6 +300,7 @@ const Navbar = () => {
                             Zápasy
                         </NavLink>
                     </li>
+
                     <li>
                         <NavLink
                             to="/app/settings"
@@ -285,6 +312,7 @@ const Navbar = () => {
                             Nastavení
                         </NavLink>
                     </li>
+
                     <li>
                         <NavLink
                             to="/app/my-inactivity"
@@ -294,6 +322,18 @@ const Navbar = () => {
                             onClick={closeMenu}
                         >
                             Mimo
+                        </NavLink>
+                    </li>
+
+                    <li>
+                        <NavLink
+                            to="/app/help"
+                            className={({ isActive }) =>
+                                "mobile-link" + (isActive ? " activeLink" : "")
+                            }
+                            onClick={closeMenu}
+                        >
+                            Help
                         </NavLink>
                     </li>
                 </ul>
@@ -332,6 +372,7 @@ const Navbar = () => {
                             Hráči
                         </NavLink>
                     </li>
+
                     <li>
                         <NavLink
                             to="/app/admin/matches"
@@ -344,6 +385,7 @@ const Navbar = () => {
                             Zápasy
                         </NavLink>
                     </li>
+
                     <li>
                         <NavLink
                             to="/app/admin/seasons"
@@ -356,6 +398,7 @@ const Navbar = () => {
                             Sezóny
                         </NavLink>
                     </li>
+
                     <li>
                         <NavLink
                             to="/app/admin/inactivity"
@@ -383,6 +426,19 @@ const Navbar = () => {
                             </NavLink>
                         </li>
                     </RoleGuard>
+
+                    <li>
+                        <NavLink
+                            to="/app/admin/help"
+                            className={({ isActive }) =>
+                                "mobile-link admin-link" +
+                                (isActive ? " activeLink" : "")
+                            }
+                            onClick={closeMenu}
+                        >
+                            Help
+                        </NavLink>
+                    </li>
                 </ul>
             </nav>
         </RoleGuard>
