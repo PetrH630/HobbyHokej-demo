@@ -27,13 +27,13 @@ https://hobbyhokej.phsoft.cz
 
 Testovací účty:
 
-email: admin@example.com  - Role Admin
+email: admin@example.com  - Role Admin  
 password: Admin123
 
 email: player1@example.com - Role Manager  
 password: Heslo123
 
-email: player2-10@example.com - Role Player  
+email: player2-10@example.com - Role Player     
 password: Heslo123
 
 aplikace umožnuje vytvořit vlastní účet
