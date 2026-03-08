@@ -21,6 +21,22 @@ registrací, evidenci výsledků a výpočet statistik.
 Projekt slouží jako **ukázka návrhu plnohodnotné vícevrstvé webové
 aplikace**.
 
+# Demo
+Live demo aplikace je dostupné zde:
+https://hobbyhokej.phsoft.cz
+
+Testovací účty:
+email: admin@example.com  - Role Admin
+password: Admin123
+
+email: player1@example.com - Role Manager  
+password: Heslo123
+
+email: player2-10@example.com - Role Player  
+password: Heslo123
+
+aplikace umožnuje vytvořit vlastní účet
+
 ------------------------------------------------------------------------
 
 # Obsah
