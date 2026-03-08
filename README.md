@@ -38,10 +38,7 @@ password: Heslo123
 
 aplikace umožnuje vytvořit vlastní účet
 
-------------------------------------------------------------------------
-
-# Obsah
-
+-----------------------------------------------------------------------
 # Obsah
 
 - [Popis projektu](#popis-projektu)
