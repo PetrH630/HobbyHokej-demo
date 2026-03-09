@@ -19,7 +19,7 @@ import { userApi } from "../api/userApi";
  * useAllPlayersAdminWithUsers
  *
  * Admin hook pro načtení hráčů včetně informací o propojených uživatelských účtech.
- * Používá se tam, kde je potřeba řešit mapování uživatel ↔ hráč.
+ * Používá se tam, kde je potřeba řešit mapování uživatel - hráč.
  */
 export const useAllPlayersAdminWithUsers = () => {
     const {
@@ -59,7 +59,7 @@ export const useAllPlayersAdminWithUsers = () => {
 
     useEffect(() => {
         loadUsers();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+   
     }, []);
 
     // Spojení hráčů s uživateli
@@ -70,9 +70,7 @@ export const useAllPlayersAdminWithUsers = () => {
         if (!users || users.length === 0) {
             // ještě nemáme uživatele, vrať hráče bez user
             return players.map((p) => ({ ...p, user: null }));
-        }
-
-        // 1) Mapa playerId -> user podle AppUserDTO.players (pokud backend posílá hráče u uživatele)
+        }     
         const playerIdToUser = new Map();
 
         users.forEach((u) => {
@@ -100,7 +98,6 @@ export const useAllPlayersAdminWithUsers = () => {
                 user = playerIdToUser.get(player.id);
             } else {
                 // 2) fallback – match podle jména + příjmení
-                //    (ty sám píšeš, že u uživatele nesmí být stejní hráči se stejným jménem + příjmením)
                 user =
                     users.find(
                         (u) =>

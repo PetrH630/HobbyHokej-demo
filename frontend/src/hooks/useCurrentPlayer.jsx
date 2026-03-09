@@ -100,7 +100,7 @@ export const CurrentPlayerProvider = ({ children }) => {
         <CurrentPlayerContext.Provider
             value={{
                 currentPlayer,
-                setCurrentPlayer: setCurrentPlayerState, // pro případné ruční použití
+                setCurrentPlayer: setCurrentPlayerState, 
                 players,
                 changeCurrentPlayer,
                 refreshCurrentPlayer,
@@ -116,7 +116,6 @@ export const CurrentPlayerProvider = ({ children }) => {
 export const useCurrentPlayer = () => {
     const ctx = useContext(CurrentPlayerContext);
 
-    // „safe fallback“ když provider náhodou neobklopuje komponentu
     if (!ctx) {
         return {
             currentPlayer: null,

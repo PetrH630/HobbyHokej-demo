@@ -126,7 +126,7 @@ const PlayerStats = ({ stats, loading, error, onReload, onSeasonChange }) => {
 
     const StatCard = ({ label, value, helper }) => (
         <div className="col-12 col-md-6 col-xl-3">
-            <div className="card h-100 shadow-sm">
+            <div className="card h-100 shadow-sm py-1">
                 <div className="card-body">
                     <div className="text-muted small">{label}</div>
                     <div className="display-6 mb-0">{loading ? "…" : value}</div>
@@ -165,7 +165,7 @@ const PlayerStats = ({ stats, loading, error, onReload, onSeasonChange }) => {
     };
 
     return (
-        <div className="card shadow-sm">
+        <div className="card shadow-sm py-1 px-1">
             <div className="card-header bg-white d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-2">
                 <div className="fw-semibold">
                     Statistiky hráče - pouze pro již proběhlé zápasy
@@ -232,20 +232,20 @@ const PlayerStats = ({ stats, loading, error, onReload, onSeasonChange }) => {
                 </div>
                 {/* výsledky */}
                 <div className="col-12">
-                    <div className="card border shadow-sm">
+                    <div className="card border shadow-sm py-1 px-1">
                         <div className="card-body">
 
-                            <div className="fw-semibold mb-2">Hrál {totals.registeredDark} {" x "}za <TeamDarkIcon className="match-reg-team-icon-dark" /></div>
-                            <div className="mb-2">
+                            <div className="fw-semibold mb-1">Hrál {totals.registeredDark} {" x "}za <TeamDarkIcon className="match-reg-team-icon-dark" /></div>
+                            <div className="mb-3">
                                 Výhry: {totals.darkWins} | Prohry: {totals.darkLosses} | Remízy: {totals.darkDraws}
                             </div>
 
-                            <div className="fw-semibold mb-2">Hrál {totals.registeredLight} {" x "}za <TeamLightIcon className="match-reg-team-icon-light" /></div>
-                            <div className="mb-2">
+                            <div className="fw-semibold mb-1">Hrál {totals.registeredLight} {" x "}za <TeamLightIcon className="match-reg-team-icon-light" /></div>
+                            <div className="mb-3">
                                 Výhry: {totals.lightWins} | Prohry: {totals.lightLosses} | Remízy: {totals.lightDraws}
                             </div>
 
-                            <div className="fw-semibold mt-3">
+                            <div className="fw-semibold mt-4">
                                 Score: <TeamDarkIcon className="match-reg-team-icon-dark" /> {totals.sumScoreDark} : {totals.sumScoreLight} <TeamLightIcon className="match-reg-team-icon-light" />
                             </div>
 
@@ -268,7 +268,7 @@ const PlayerStats = ({ stats, loading, error, onReload, onSeasonChange }) => {
                 <Row label="Čekal na místo" value={totals.reserved} total={totals.denominator} />
                 <Row label="Nereagoval" value={totals.noResponse} total={totals.denominator} />
 
-                <div className="alert alert-light border mt-3 mb-0">
+                <div className="alert alert-light border mt-3 mb-0 py-1">
                     <div className="d-flex justify-content-between">
                         <div>
                             <div className="fw-semibold">Neomluvená neúčast</div>

@@ -31,7 +31,7 @@ const SeasonSelect = ({ onSeasonChange }) => {
             <span className="fw-semibold">Sezóna:</span>
 
             <select
-                className="form-select form-select-sm w-auto"
+                className="form-select form-select-sm w-auto season-select"
                 style={{ minWidth: "max-content" }}
                 value={value}
                 onChange={handleChange}

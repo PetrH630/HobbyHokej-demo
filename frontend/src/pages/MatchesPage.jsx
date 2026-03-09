@@ -41,7 +41,6 @@ const matches = () => {
   const isSeasonFinished = useMemo(() => {
     if (!currentSeason) return false;
 
-    // snaž se chytit typické názvy fieldů
     const endRaw =
       currentSeason.endDate ||
       currentSeason.end ||

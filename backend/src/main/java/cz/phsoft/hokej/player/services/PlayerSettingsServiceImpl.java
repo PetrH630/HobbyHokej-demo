@@ -160,7 +160,7 @@ public class PlayerSettingsServiceImpl implements PlayerSettingsService {
         settings.setNotifyOnPayment(false);
 
         // připomínky
-        settings.setNotifyReminders(false);
+        settings.setNotifyReminders(true);
         settings.setReminderHoursBefore(24);
 
         // herní preference – výchozí: žádné automatické přesuny

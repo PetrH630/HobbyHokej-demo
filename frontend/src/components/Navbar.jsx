@@ -14,15 +14,27 @@ import "./Navbar.css";
 /**
  * Navbar
  *
- * Navigační lišta aplikace včetně ovládání mobilního menu a přepínání kontextu.
+ * Navigační lišta aplikace včetně ovládání mobilního menu
+ * a přepínání mezi hráčskou a správcovskou částí aplikace.
  *
- * @param {Object} props vstupní hodnoty komponenty.
+ * Administrátor vidí přímo odkazy správy bez přepínacího tlačítka.
+ * Manager může mezi režimy přepínat.
+ *
+ * @returns {JSX.Element} navigační lišta aplikace
  */
 const Navbar = () => {
-    const [showMenu, setShowMenu] = useState(false);
-    const [mobileShowAdmin, setMobileShowAdmin] = useState(false);
-
     const { user, logout } = useAuth();
+
+    const isAdmin =
+        user?.roles?.includes("ROLE_ADMIN") || user?.role === "ROLE_ADMIN";
+
+    const isManager =
+        !isAdmin &&
+        (user?.roles?.includes("ROLE_MANAGER") || user?.role === "ROLE_MANAGER");
+
+    const [showMenu, setShowMenu] = useState(false);
+    const [mobileShowAdmin, setMobileShowAdmin] = useState(isAdmin);
+
     const {
         currentPlayer,
         players = [],
@@ -35,17 +47,23 @@ const Navbar = () => {
 
     const isAdminSection = location.pathname.startsWith("/app/admin");
 
-    
+    /**
+     * Přepíná stav mobilního menu.
+     */
     const toggleMenu = () => {
         setShowMenu((prev) => !prev);
     };
 
-    
+    /**
+     * Zavře mobilní menu.
+     */
     const closeMenu = () => {
         setShowMenu(false);
     };
 
-    
+    /**
+     * Odhlásí uživatele a přesměruje ho na přihlašovací stránku.
+     */
     const handleLogout = async () => {
         try {
             await logout();
@@ -55,14 +73,20 @@ const Navbar = () => {
         }
     };
 
-    
+    /**
+     * Změní aktuálně zvoleného hráče.
+     *
+     * @param {React.ChangeEvent<HTMLSelectElement>} e změnová událost selectu
+     */
     const handlePlayerChange = async (e) => {
         const value = e.target.value;
         if (!value) return;
         await changeCurrentPlayer(Number(value));
     };
 
-    
+    /**
+     * Přepne managera mezi hráčskou a správcovskou částí aplikace.
+     */
     const handleAdminToggle = () => {
         closeMenu();
 
@@ -74,17 +98,12 @@ const Navbar = () => {
         navigate("/app/admin");
     };
 
-    
+    /**
+     * Přepne režim mobilního menu mezi hráčem a správou.
+     */
     const toggleMobileMode = () => {
         setMobileShowAdmin((prev) => !prev);
     };
-
-    const formatPlayerLabel = (p, max = 16) => {
-        const full = `${p.name ?? ""} ${p.surname ?? ""}`.trim();
-        if (full.length <= max) return full;
-        return full.slice(0, max - 1).trimEnd() + "…";
-    };
-
 
     const PlayerLinksInline = () => (
         <ul className="navbar-nav flex-row gap-3 mb-0">
@@ -164,7 +183,6 @@ const Navbar = () => {
             </RoleGuard>
         </ul>
     );
-
 
     const AdminLinksInline = () => (
         <ul className="navbar-nav flex-row gap-3 mb-0">
@@ -259,7 +277,9 @@ const Navbar = () => {
         </ul>
     );
 
-    // odkazy pro hráče – MOBIL (bez Notifikací)
+    /**
+     * Odkazy pro hráče v mobilním menu.
+     */
     const PlayerLinksMobile = () => (
         <RoleGuard roles={["ROLE_PLAYER", "ROLE_MANAGER"]}>
             <nav className="mb-3">
@@ -341,7 +361,9 @@ const Navbar = () => {
         </RoleGuard>
     );
 
-    // odkazy pro Admin/Manager – MOBIL
+    /**
+     * Odkazy pro administraci v mobilním menu.
+     */
     const AdminLinksMobile = () => (
         <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
             <nav className="mb-3">
@@ -448,7 +470,6 @@ const Navbar = () => {
         <>
             <nav className="navbar navbar-light bg-light main-navbar">
                 <div className="container d-flex align-items-center justify-content-between">
-
                     <div className="d-flex align-items-center flex-shrink-0">
                         <NavLink
                             to="/app"
@@ -464,28 +485,30 @@ const Navbar = () => {
                         </NavLink>
                     </div>
 
-                    {/* STŘED – odkazy uprostřed (desktop) */}
                     <div className="d-none d-lg-flex flex-grow-1 justify-content-center">
                         <div className="d-flex align-items-center gap-3">
-                            {/* Tlačítko Správa / Zavřít správce – jen ADMIN / MANAGER */}
-                            <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
+                            {isManager && (
                                 <button
                                     type="button"
                                     className="btn btn-outline-secondary btn-sm me-2"
                                     onClick={handleAdminToggle}
                                 >
-                                    {isAdminSection ? "Zavřít správce" : "Správce"}
+                                    {isAdminSection ? "na Hráče" : "na Správce"}
                                 </button>
-                            </RoleGuard>
+                            )}
 
-                            {/* Podle URL zobrazíme hráčské nebo admin odkazy */}
-                            {isAdminSection ? <AdminLinksInline /> : <PlayerLinksInline />}
+                            {isAdmin ? (
+                                <AdminLinksInline />
+                            ) : isAdminSection ? (
+                                <AdminLinksInline />
+                            ) : (
+                                <PlayerLinksInline />
+                            )}
                         </div>
                     </div>
 
                     {user && (
                         <div className="d-flex d-lg-none flex-column align-items-start mx-2 user-block-small">
-
                             <div className="d-flex align-items-center">
                                 <div className="icon-col me-2">
                                     <RoleGuard roles={["ROLE_PLAYER"]}>
@@ -522,7 +545,11 @@ const Navbar = () => {
                                             >
                                                 <option value="">Vyber hráče…</option>
                                                 {players.map((p) => (
-                                                    <option key={p.id} value={p.id} title={`${p.name} ${p.surname}`}>
+                                                    <option
+                                                        key={p.id}
+                                                        value={p.id}
+                                                        title={`${p.name} ${p.surname}`}
+                                                    >
                                                         {p.name} {p.surname}
                                                     </option>
                                                 ))}
@@ -534,14 +561,10 @@ const Navbar = () => {
                         </div>
                     )}
 
-                    {/* PRAVÁ ČÁST  */}
                     <div className="d-flex flex-column flex-lg-row align-items-center flex-shrink-0">
-                        {/* Velká zařízení – uživatel vpravo */}
                         {user && (
                             <div className="d-none d-lg-flex align-items-center gap-3 user-block me-2">
-                                {/* Vlevo: uživatel + hráč pod sebou */}
                                 <div className="d-flex flex-column gap-1">
-                                    {/* Řádek 1: uživatel */}
                                     <div className="d-flex align-items-center user-line">
                                         <div className="icon-col me-2">
                                             <RoleGuard roles={["ROLE_PLAYER"]}>
@@ -589,7 +612,6 @@ const Navbar = () => {
                                     </RoleGuard>
                                 </div>
 
-                                {/* Zvoneček s notifikacemi – jen desktop */}
                                 {isAdminSection ? (
                                     <AdminNotificationBell />
                                 ) : (
@@ -615,7 +637,6 @@ const Navbar = () => {
                             </div>
                         )}
 
-                        {/* Malá zařízení – hamburger vpravo dole */}
                         <button
                             className="navbar-toggler d-lg-none"
                             type="button"
@@ -636,8 +657,7 @@ const Navbar = () => {
 
             <div className={"mobile-menu" + (showMenu ? " open" : "")}>
                 <div className="mobile-menu-inner">
-
-                    <RoleGuard roles={["ROLE_ADMIN", "ROLE_MANAGER"]}>
+                    {isManager && (
                         <button
                             type="button"
                             className="btn btn-outline-secondary w-100 mb-3"
@@ -645,9 +665,15 @@ const Navbar = () => {
                         >
                             {mobileShowAdmin ? "na Hráče" : "na Správce"}
                         </button>
-                    </RoleGuard>
+                    )}
 
-                    {mobileShowAdmin ? <AdminLinksMobile /> : <PlayerLinksMobile />}
+                    {isAdmin ? (
+                        <AdminLinksMobile />
+                    ) : mobileShowAdmin ? (
+                        <AdminLinksMobile />
+                    ) : (
+                        <PlayerLinksMobile />
+                    )}
 
                     {user && (
                         <button

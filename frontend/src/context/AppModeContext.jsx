@@ -47,7 +47,7 @@ export const AppModeProvider = ({ children }) => {
             return;
         }
 
-        // přihlášený uživatel → načteme režim z backendu
+        // přihlášený uživatel - načteme režim z backendu
         const loadMode = async () => {
             try {
                 setLoading(true);

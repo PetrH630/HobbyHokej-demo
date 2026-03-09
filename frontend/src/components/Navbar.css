@@ -185,6 +185,16 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    background-color: #c5f2f8;
+    color: rgb(0, 0, 0);
+    border-color: #070707;
+}
+
+.player-select:focus {
+    background-color: #c5f2f8;
+    border-color: rgb(0, 0, 0);
+    box-shadow: 0 0 0 0.2rem rgba(32, 201, 151, 0.25);
+    color: rgb(0, 0, 0);
 }
 
 

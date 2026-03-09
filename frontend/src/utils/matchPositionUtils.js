@@ -139,9 +139,9 @@ export const getIcePositionsForMode = (modeKey) => {
  *
  * Využívá:
  * - match.maxPlayers → pro výpočet slotsPerTeam (= maxPlayers / 2),
- * - getIcePositionsForMode(match.matchMode) → pořadí pozic,
- * - buildPositionCapacityForMode → kapacitu na jednotlivých pozicích,
- * - match.registrations → kolik hráčů už je na daných pozicích.
+ * - getIcePositionsForMode(match.matchMode) - pořadí pozic,
+ * - buildPositionCapacityForMode - kapacitu na jednotlivých pozicích,
+ * - match.registrations - kolik hráčů už je na daných pozicích.
  *
  * Vrací:
  * - capacityByPosition: kapacita na pozici,

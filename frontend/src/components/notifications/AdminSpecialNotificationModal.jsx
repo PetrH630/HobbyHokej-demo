@@ -5,14 +5,18 @@ import { sendSpecialNotification } from "../../api/notificationsApi";
 /**
  * AdminSpecialNotificationModal
  *
- * Bootstrap modal komponenta pro práci s modálním dialogem v aplikaci.
+ * Modální dialog pro odeslání speciální zprávy vybraným příjemcům.
  *
- * Umožňuje zavření stiskem klávesy Escape.
+ * Umožňuje výběr příjemců, zadání nadpisu a textu zprávy
+ * a volbu distribučních kanálů.
  *
- * Props:
- * @param {boolean} props.show určuje, zda je dialog otevřený.
- * @param {Function} props.onClose callback pro předání akce do nadřazené vrstvy.
- * @param {Object} props.onSent vstupní hodnota komponenty.
+ * Po úspěšném odeslání se zobrazí náhled právě odeslané zprávy.
+ *
+ * @param {Object} props vstupní hodnoty komponenty
+ * @param {boolean} props.show určuje, zda je dialog otevřený
+ * @param {Function} props.onClose callback pro zavření dialogu
+ * @param {Function} props.onSent callback volaný po úspěšném odeslání
+ * @returns {JSX.Element|null} modální dialog nebo null
  */
 const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
     const { targets, loading, error, reload } = useSpecialNotificationTargets(show);
@@ -29,18 +33,20 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
     const [submitting, setSubmitting] = useState(false);
 
     const [demoPreview, setDemoPreview] = useState(null);
-
-
+    const [sentPreview, setSentPreview] = useState(null);
     const [sent, setSent] = useState(false);
 
-
+    /**
+     * Vytváří jednoznačný klíč příjemce.
+     *
+     * @param {Object} target příjemce
+     * @returns {string} unikátní klíč
+     */
     const makeKey = (target) =>
         `${target.userId ?? "null"}-${target.playerId ?? "null"}`;
 
-
     useEffect(() => {
         if (!show) {
-
             setSelectedKeys(new Set());
             setTitle("");
             setMessage("");
@@ -49,16 +55,16 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
             setSubmitError(null);
             setSubmitSuccess(null);
             setDemoPreview(null);
+            setSentPreview(null);
             setSent(false);
         } else {
-
             setSubmitError(null);
             setSubmitSuccess(null);
             setDemoPreview(null);
+            setSentPreview(null);
             setSent(false);
         }
     }, [show]);
-
 
     const selectedTargets = useMemo(
         () => targets.filter((t) => selectedKeys.has(makeKey(t))),
@@ -78,7 +84,11 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
         !submitting &&
         !sent;
 
-    
+    /**
+     * Přepne výběr jednoho příjemce.
+     *
+     * @param {Object} target příjemce
+     */
     const handleToggleOne = (target) => {
         const key = makeKey(target);
         setSelectedKeys((prev) => {
@@ -92,25 +102,30 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
         });
     };
 
-    
+    /**
+     * Přepne výběr všech příjemců.
+     */
     const handleToggleAll = () => {
         if (allSelected) {
-
             setSelectedKeys(new Set());
         } else {
-
             const all = new Set(targets.map((t) => makeKey(t)));
             setSelectedKeys(all);
         }
     };
 
-    
+    /**
+     * Odešle speciální zprávu vybraným příjemcům.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} e submit událost formuláře
+     */
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         setSubmitError(null);
         setSubmitSuccess(null);
         setDemoPreview(null);
+        setSentPreview(null);
 
         if (!hasSelection) {
             setSubmitError("Vyber prosím alespoň jednoho příjemce.");
@@ -134,17 +149,27 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
         };
 
         setSubmitting(true);
+
         try {
             const demoResult = await sendSpecialNotification(payload);
 
-            if (demoResult) {
+            setSentPreview({
+                title: payload.title,
+                message: payload.message,
+                sendEmail: payload.sendEmail,
+                sendSms: payload.sendSms,
+                recipients: selectedTargets.map((t) => ({
+                    key: makeKey(t),
+                    displayName: t.displayName,
+                })),
+            });
 
+            if (demoResult) {
                 setDemoPreview(demoResult);
                 setSubmitSuccess(
                     "Zpráva byla odeslána (DEMO režim – e-maily a SMS se fyzicky neodeslaly)."
                 );
             } else {
-
                 setSubmitSuccess("Zpráva byla odeslána vybraným příjemcům.");
             }
 
@@ -155,17 +180,16 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
             }
         } catch (err) {
             console.error("Chyba při odesílání speciální zprávy:", err);
-            const message =
+            const errorMessage =
                 err?.response?.data?.message ||
                 err?.message ||
                 "Nepodařilo se odeslat speciální zprávu.";
-            setSubmitError(message);
+            setSubmitError(errorMessage);
         } finally {
             setSubmitting(false);
         }
     };
 
-    
     const handleCloseClick = () => {
         if (submitting) {
             return;
@@ -176,7 +200,6 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
     if (!show) {
         return null;
     }
-
 
     const emailPreview =
         demoPreview &&
@@ -209,7 +232,6 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                         </div>
 
                         <div className="modal-body">
-                            {/* Chyby z načítání cílů */}
                             {error && (
                                 <div className="alert alert-danger">
                                     {error}
@@ -223,7 +245,6 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                 </div>
                             )}
 
-                            {/* Chyba při odeslání */}
                             {submitError && (
                                 <div className="alert alert-danger">
                                     {submitError}
@@ -237,7 +258,6 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                             )}
 
                             <div className="row">
-                                {/* Seznam příjemců */}
                                 <div className="col-12 col-lg-6 mb-3">
                                     <div className="d-flex justify-content-between align-items-center mb-2">
                                         <h6 className="mb-0">Příjemci</h6>
@@ -259,9 +279,7 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                         </div>
                                     </div>
 
-                                    {loading && (
-                                        <p>Načítám seznam příjemců…</p>
-                                    )}
+                                    {loading && <p>Načítám seznam příjemců…</p>}
 
                                     {!loading && targets.length === 0 && (
                                         <p className="text-muted">
@@ -277,6 +295,7 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                             {targets.map((target) => {
                                                 const key = makeKey(target);
                                                 const checked = selectedKeys.has(key);
+
                                                 return (
                                                     <div
                                                         key={key}
@@ -287,9 +306,7 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                                             type="checkbox"
                                                             id={`special-target-${key}`}
                                                             checked={checked}
-                                                            onChange={() =>
-                                                                handleToggleOne(target)
-                                                            }
+                                                            onChange={() => handleToggleOne(target)}
                                                             disabled={submitting || sent}
                                                         />
                                                         <label
@@ -316,7 +333,6 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                     </div>
                                 </div>
 
-                                {/* Formulář zprávy */}
                                 <div className="col-12 col-lg-6 mb-3">
                                     <form onSubmit={handleSubmit}>
                                         <div className="mb-3">
@@ -331,9 +347,7 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                                 id="special-title"
                                                 className="form-control"
                                                 value={title}
-                                                onChange={(e) =>
-                                                    setTitle(e.target.value)
-                                                }
+                                                onChange={(e) => setTitle(e.target.value)}
                                                 disabled={submitting || sent}
                                                 maxLength={200}
                                                 placeholder="Např. Změna času tréninku"
@@ -352,11 +366,9 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                                 className="form-control"
                                                 rows={6}
                                                 value={message}
-                                                onChange={(e) =>
-                                                    setMessage(e.target.value)
-                                                }
+                                                onChange={(e) => setMessage(e.target.value)}
                                                 disabled={submitting || sent}
-                                                placeholder="Sem napiš text, který se zobrazí jako in-app notifikace, v e-mailu i v SMS (podle zvolených kanálů)."
+                                                placeholder="Sem napiš text, který se zobrazí jako in-app notifikace, v e-mailu i v SMS podle zvolených kanálů."
                                             />
                                         </div>
 
@@ -367,11 +379,7 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                                     type="checkbox"
                                                     id="special-send-email"
                                                     checked={sendEmail}
-                                                    onChange={(e) =>
-                                                        setSendEmail(
-                                                            e.target.checked
-                                                        )
-                                                    }
+                                                    onChange={(e) => setSendEmail(e.target.checked)}
                                                     disabled={submitting || sent}
                                                 />
                                                 <label
@@ -381,17 +389,14 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                                     Odeslat také e-mailem
                                                 </label>
                                             </div>
+
                                             <div className="form-check">
                                                 <input
                                                     className="form-check-input"
                                                     type="checkbox"
                                                     id="special-send-sms"
                                                     checked={sendSms}
-                                                    onChange={(e) =>
-                                                        setSendSms(
-                                                            e.target.checked
-                                                        )
-                                                    }
+                                                    onChange={(e) => setSendSms(e.target.checked)}
                                                     disabled={submitting || sent}
                                                 />
                                                 <label
@@ -401,9 +406,10 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                                     Odeslat také SMS
                                                 </label>
                                             </div>
+
                                             <div className="form-text">
                                                 In-app notifikace se vždy uloží,
-                                                bez ohledu na volbu e-mailu / SMS.
+                                                bez ohledu na volbu e-mailu nebo SMS.
                                             </div>
                                         </div>
 
@@ -432,46 +438,44 @@ const AdminSpecialNotificationModal = ({ show, onClose, onSent }) => {
                                 </div>
                             </div>
 
-                            {demoPreview && (
+                            {sentPreview && (
                                 <div className="mt-3">
                                     <h6>Zpráva byla odeslána (DEMO náhled)</h6>
 
-                                    {emailPreview && (
-                                        <>
-                                            <div className="small text-muted mb-2">
-                                                Ukázka e-mailu tak, jak ho uvidí příjemci.
-                                            </div>
-                                            <div className="border rounded bg-light p-2 mb-3">
-                                                {emailPreview.subject && (
-                                                    <div className="fw-semibold mb-2">
-                                                        {emailPreview.subject}
-                                                    </div>
-                                                )}
-                                                {/* pokud je obsah HTML, vykreslíme ho jako HTML */}
-                                                {emailPreview.html ? (
-                                                    <div
-                                                        className="bg-white p-2 rounded"
-                                                        dangerouslySetInnerHTML={{
-                                                            __html: emailPreview.body,
-                                                        }}
-                                                    />
-                                                ) : (
-                                                    <pre className="bg-white p-2 rounded mb-0">
-                                                        {emailPreview.body}
-                                                    </pre>
-                                                )}
-                                            </div>
-                                        </>
-                                    )}
+                                    <div className="small text-muted mb-2">
+                                        Ukázka e-mailu tak, jak ho uvidí příjemci.
+                                    </div>
 
-                                    {selectedTargets.length > 0 && (
+                                    <div className="border rounded bg-light p-2 mb-3">
+                                        <div className="fw-semibold mb-2">
+                                            {sentPreview.title}
+                                        </div>
+
+                                        <div className="bg-white p-2 rounded">
+                                            <div style={{ whiteSpace: "pre-wrap" }}>
+                                                {sentPreview.message}
+                                            </div>
+                                        </div>
+
+                                        <div className="small text-muted mt-2">
+                                            Kanály:
+                                            {sentPreview.sendEmail ? " e-mail" : ""}
+                                            {sentPreview.sendEmail && sentPreview.sendSms ? " + " : ""}
+                                            {sentPreview.sendSms ? "SMS" : ""}
+                                            {!sentPreview.sendEmail && !sentPreview.sendSms
+                                                ? " pouze in-app notifikace"
+                                                : ""}
+                                        </div>
+                                    </div>                                    
+
+                                    {sentPreview.recipients.length > 0 && (
                                         <div>
                                             <div className="fw-semibold mb-1">
                                                 Příjemci:
                                             </div>
                                             <ul className="small mb-0">
-                                                {selectedTargets.map((t) => (
-                                                    <li key={makeKey(t)}>
+                                                {sentPreview.recipients.map((t) => (
+                                                    <li key={t.key}>
                                                         {t.displayName}
                                                     </li>
                                                 ))}

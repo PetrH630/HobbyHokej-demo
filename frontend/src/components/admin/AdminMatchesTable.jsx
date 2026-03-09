@@ -215,7 +215,7 @@ const AdminMatchesTable = ({
         <div className="d-flex flex-column gap-3">
             {/* ===== FILTR ===== */}
             <div className="mb-2">
-                {/* 📱 MOBILE – Dropdown */}
+                {/* MOBILE – Dropdown */}
                 <div className="d-sm-none">
                     <div className="dropdown w-100">
                         <button
@@ -294,7 +294,7 @@ const AdminMatchesTable = ({
                     </div>
                 </div>
 
-                {/* 💻 DESKTOP – Button group */}
+                {/*DESKTOP – Button group */}
                 <div className="d-none d-sm-flex justify-content-center">
                     <div className="btn-group" role="group" aria-label="Filtr zápasů">
                         <button

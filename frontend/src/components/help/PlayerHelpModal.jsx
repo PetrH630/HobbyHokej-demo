@@ -84,6 +84,8 @@ const PlayerHelpModal = ({ show, onClose }) => {
                                     <li>V systému je vytvořen nový hráčský profil.</li>
                                     <li>Hráče lze následně vybrat jako aktuálního.</li>
                                     <li>Po výběru hráče lze zobrazovat zápasy a používat další hráčské funkce.</li>
+                                    <li><strong>Hráč je po vytvoření ve standartním nastavení jako "Základní". Takže uvidí pouze 1 nadcházející zápas, a až 3 dny před zápasem (VIP a standart mají přednost v přihlášení k zápasu) Toto nastavení může změnit manažer nebo admin v nastavení hráče</strong></li>
+
                                 </ul>
                             </section>
 

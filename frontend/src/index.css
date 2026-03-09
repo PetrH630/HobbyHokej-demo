@@ -156,3 +156,9 @@ svg {
 .table-responsive {
   width: 100%;
 }
+
+.season-select{
+  background-color: #ddf0f3;
+    color: rgb(0, 0, 0);
+    border-color: #000000;
+}

@@ -82,7 +82,7 @@ const NotificationCard = ({ notification, onMarkRead }) => {
                             </div>
                         )}
 
-                        {/* ✅ TLAČÍTKO POD TEXTEM NA MALÉM ZAŘÍZENÍ */}
+                        {/* TLAČÍTKO POD TEXTEM NA MALÉM ZAŘÍZENÍ */}
                         {!read && onMarkRead && (
                             <div className="d-sm-none mt-2">
                                 <button
@@ -108,7 +108,7 @@ const NotificationCard = ({ notification, onMarkRead }) => {
                             : createdAt}
                     </div>
 
-                    {/* ✅ TLAČÍTKO VPRAVO NA ≥ sm */}
+                    {/* TLAČÍTKO VPRAVO NA ≥ sm */}
                     {!read && onMarkRead && (
                         <div className="d-none d-sm-block">
                             <button

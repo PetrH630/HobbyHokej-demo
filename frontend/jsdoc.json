@@ -3,23 +3,58 @@
         "include": [
             "src"
         ],
-        "includePattern": ".+\\.(js|jsx|ts|tsx)$",
-        "excludePattern": "(node_modules/|dist/|build/)"
+        "includePattern": ".+\\.(js|jsx)$",
+        "exclude": [
+            "node_modules",
+            "dist",
+            "docs",
+            "coverage"
+        ],
+        "excludePattern": "(^|\\/|\\\\)_"
     },
-    "plugins": [],
     "opts": {
-        "destination": "docs",
+        "destination": "./docs",
         "recurse": true,
-        "template": "node_modules/docdash"
+        "readme": "./README.md",
+        "template": "./node_modules/docdash"
     },
+    "plugins": [
+        "plugins/markdown"
+    ],
     "templates": {
         "default": {
-            "includeDate": false
-        },
-        "docdash": {
-            "static": true,
-            "sort": true,
-            "search": true
+            "includeDate": false,
+            "outputSourceFiles": true,
+            "useLongnameInNav": true
         }
+    },
+    "docdash": {
+        "static": false,
+        "sort": true,
+        "collapse": false,
+        "search": false,
+        "typedefs": true,
+        "removeQuotes": "none",
+        "commonNav": false,
+        "sectionOrder": [
+            "Classes",
+            "Modules",
+            "Namespaces",
+            "Mixins",
+            "Tutorials",
+            "Interfaces",
+            "Global"
+        ],
+        "menu": {
+            "Github repo": {
+                "href": "https://github.com/PetrH630/HobbyHokej-demo",
+                "target": "_blank",
+                "class": "menu-item",
+                "id": "repository_link"
+            }
+        }
+    },
+    "markdown": {
+        "idInHeadings": true
     }
 }

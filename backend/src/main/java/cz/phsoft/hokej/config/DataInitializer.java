@@ -275,14 +275,14 @@ public class DataInitializer {
         SeasonEntity season2024_2025 = new SeasonEntity();
         season2024_2025.setName("2024/2025");
         season2024_2025.setStartDate(LocalDate.of(2024, 11, 1));
-        season2024_2025.setEndDate(LocalDate.of(2025, 3, 31));
+        season2024_2025.setEndDate(LocalDate.of(2025, 4, 30));
         season2024_2025.setActive(false);
         season2024_2025.setCreatedByUserId(2L);
 
         SeasonEntity season2025_2026 = new SeasonEntity();
         season2025_2026.setName("2025/2026");
         season2025_2026.setStartDate(LocalDate.of(2025, 11, 1));
-        season2025_2026.setEndDate(LocalDate.of(2026, 5, 31));
+        season2025_2026.setEndDate(LocalDate.of(2026, 6, 30));
         season2025_2026.setActive(true);
         season2025_2026.setCreatedByUserId(2L);
 
@@ -325,7 +325,7 @@ public class DataInitializer {
 
             LocalDateTime firstMatchDate = startSeasonDate
                     .with(TemporalAdjusters.nextOrSame(DayOfWeek.FRIDAY))
-                    .atTime(18, 45);
+                    .atTime(18, 00);
 
             int fridaysCount = countFridays(startSeasonDate, endSeasonDate);
 
@@ -335,7 +335,7 @@ public class DataInitializer {
 
                 MatchEntity match = new MatchEntity();
                 match.setDateTime(matchDateTime);
-                match.setLocation("NĚJAKÁ HALA");
+                match.setLocation("Zimní stadion");
                 match.setDescription("");
                 match.setMaxPlayers(MatchMode.THREE_ON_THREE_NO_GOALIE.getPlayersPerTeam() * 2);
                 match.setPrice(2200);

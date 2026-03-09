@@ -207,7 +207,7 @@ const AdminPlayersInactivityPage = () => {
 
             {/* ===== FILTR ===== */}
             <div className="mb-4">
-                {/* 📱 MOBILE – Dropdown */}
+                {/*MOBILE – Dropdown */}
                 <div className="d-sm-none">
                     <div className="dropdown w-100">
                         <button
@@ -251,7 +251,7 @@ const AdminPlayersInactivityPage = () => {
                     </div>
                 </div>
 
-                {/* 💻 DESKTOP – Button group */}
+                {/*DESKTOP – Button group */}
                 <div className="d-none d-sm-flex justify-content-center">
                     <div
                         className="btn-group"

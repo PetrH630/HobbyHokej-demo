@@ -12,6 +12,7 @@ import {
     Happy,
     Sad,
 } from "../../icons";
+
 /**
  * MatchesHelpModal
  *
@@ -45,7 +46,10 @@ const MatchesHelpModal = ({ show, onClose }) => {
                 role="dialog"
                 aria-modal="true"
             >
-                <div className="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+                <div
+                    className="modal-dialog modal-dialog-scrollable modal-lg"
+                    role="document"
+                >
                     <div className="modal-content matches-help-modal">
                         <div className="modal-header">
                             <h5 className="modal-title">Nápověda k zápasům</h5>
@@ -67,7 +71,10 @@ const MatchesHelpModal = ({ show, onClose }) => {
 
                                 <h6 className="mt-3">Postup</h6>
                                 <ol>
-                                    <li>V horní části stránky otevřete pole <strong>Sezóna</strong>.</li>
+                                    <li>
+                                        V horní části stránky otevřete pole{" "}
+                                        <strong>Sezóna</strong>.
+                                    </li>
                                     <li>Vyberte požadovanou sezónu ze seznamu.</li>
                                 </ol>
 
@@ -75,7 +82,8 @@ const MatchesHelpModal = ({ show, onClose }) => {
                                 <ul>
                                     <li>Zobrazí se zápasy pro zvolenou sezónu.</li>
                                     <li>
-                                        Pokud je sezóna již ukončena, zobrazí se pouze historie zápasů.
+                                        Pokud je sezóna již ukončena, zobrazí se pouze historie
+                                        zápasů.
                                     </li>
                                 </ul>
                             </section>
@@ -83,8 +91,8 @@ const MatchesHelpModal = ({ show, onClose }) => {
                             <section className="mb-4">
                                 <h6 className="fw-bold">2. Nadcházející zápasy</h6>
                                 <p>
-                                    V této části jsou zobrazeny všechny budoucí zápasy pro aktuálně
-                                    vybraného hráče.
+                                    V této části jsou zobrazeny všechny budoucí zápasy pro
+                                    aktuálně vybraného hráče.
                                 </p>
 
                                 <h6 className="mt-3">Co zde uvidíte</h6>
@@ -100,23 +108,33 @@ const MatchesHelpModal = ({ show, onClose }) => {
 
                                 <h6 className="mt-3">Důležité informace</h6>
                                 <ul>
-                                    <li>První aktivní zápas v seznamu může být zvýrazněn jako <strong>Nejbližší zápas</strong>.</li>
-                                    <li>U budoucích zápasů se zobrazuje i počet dnů do začátku zápasu.</li>
-                                    <li>Zrušený zápas je označen samostatným stavem a nelze jej otevřít.</li>
+                                    <li>
+                                        První aktivní zápas v seznamu může být zvýrazněn jako{" "}
+                                        <strong>Nejbližší zápas</strong>.
+                                    </li>
+                                    <li>
+                                        U budoucích zápasů se zobrazuje i počet dnů do začátku
+                                        zápasu.
+                                    </li>
+                                    <li>
+                                        Zrušený zápas je označen samostatným stavem a nelze jej
+                                        otevřít.
+                                    </li>
                                 </ul>
 
                                 <h6 className="mt-3">Kliknutí na zápas</h6>
                                 <p>
-                                    Kliknutím na kartu aktivního zápasu otevřete detail zápasu, kde lze
-                                    zobrazit další informace a případně upravit svou registraci.
+                                    Kliknutím na kartu aktivního zápasu otevřete detail zápasu, kde
+                                    lze zobrazit další informace a případně upravit svou
+                                    registraci.
                                 </p>
                             </section>
 
                             <section className="mb-4">
                                 <h6 className="fw-bold">3. Uplynulé zápasy</h6>
                                 <p>
-                                    Ve spodní části stránky je zobrazena historie již proběhlých zápasů
-                                    pro aktuálně vybraného hráče.
+                                    Ve spodní části stránky je zobrazena historie již proběhlých
+                                    zápasů pro aktuálně vybraného hráče.
                                 </p>
 
                                 <h6 className="mt-3">Co zde uvidíte</h6>
@@ -129,9 +147,9 @@ const MatchesHelpModal = ({ show, onClose }) => {
 
                                 <h6 className="mt-3">Kliknutí na zápas</h6>
                                 <p>
-                                    Detail uplynulého zápasu lze otevřít pouze tehdy, pokud jste byli
-                                    na zápas registrováni. Pokud jste na zápase nebyli, může být karta
-                                    zablokována.
+                                    Detail uplynulého zápasu lze otevřít pouze tehdy, pokud jste
+                                    byli na zápas registrováni. Pokud jste na zápase nebyli, může
+                                    být karta zablokována.
                                 </p>
                             </section>
 
@@ -143,22 +161,37 @@ const MatchesHelpModal = ({ show, onClose }) => {
 
                                 <h6 className="mt-3">Dostupné filtry</h6>
                                 <ul>
-                                    <li><strong>Vše</strong> – zobrazí všechny uplynulé zápasy</li>
-                                    <li><strong>Byl</strong> – zobrazí zápasy, kde jste byli registrováni</li>
-                                    <li><strong>Odhlášen / omluven</strong> – zobrazí zápasy, ze kterých jste se odhlásili nebo omluvili</li>
-                                    <li><strong>Nereagoval / možná</strong> – zobrazí zápasy bez odpovědi nebo s nejistou účastí</li>
+                                    <li>
+                                        <strong>Vše</strong> – zobrazí všechny uplynulé zápasy
+                                    </li>
+                                    <li>
+                                        <strong>Byl</strong> – zobrazí zápasy, kde jste byli
+                                        registrováni
+                                    </li>
+                                    <li>
+                                        <strong>Odhlášen / omluven</strong> – zobrazí zápasy, ze
+                                        kterých jste se odhlásili nebo omluvili
+                                    </li>
+                                    <li>
+                                        <strong>Nereagoval / možná</strong> – zobrazí zápasy bez
+                                        odpovědi nebo s nejistou účastí
+                                    </li>
                                 </ul>
 
                                 <h6 className="mt-3">Výsledek</h6>
                                 <p>
-                                    Po změně filtru se seznam historie ihned upraví podle zvoleného typu.
+                                    Po změně filtru se seznam historie ihned upraví podle zvoleného
+                                    typu.
                                 </p>
                             </section>
 
                             <section className="mb-4">
-                                <h6 className="fw-bold">5. Význam stavů registrace hráče</h6>
+                                <h6 className="fw-bold">
+                                    5. Význam stavů registrace hráče
+                                </h6>
                                 <p>
-                                    Každá karta zápasu obsahuje stav, který vyjadřuje váš vztah k zápasu.
+                                    Každá karta zápasu obsahuje stav, který vyjadřuje váš vztah k
+                                    zápasu.
                                 </p>
 
                                 <div className="table-responsive">
@@ -171,35 +204,59 @@ const MatchesHelpModal = ({ show, onClose }) => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td className="registered-bg-color"><Happy /></td>
-                                                <td> byl jste a váš tým vyhrál.</td>
+                                                <td className="help-status-cell registered-bg-color">
+                                                    <Happy />
+                                                </td>
+                                                <td>Byl jste a váš tým vyhrál.</td>
                                             </tr>
                                             <tr>
-                                                <td className="registered-bg-color"><Sad /></td>
-                                                <td> byl jste a váš tým prohrál.</td>
+                                                <td className="help-status-cell registered-bg-color">
+                                                    <Sad />
+                                                </td>
+                                                <td>Byl jste a váš tým prohrál.</td>
                                             </tr>
                                             <tr>
-                                                <td className="unregistered-bg-color"><UnregisteredIcon className="unregistered-icon"/> ODHLÁŠEN</td>
+                                                <td className="help-status-cell unregistered-bg-color">
+                                                    <UnregisteredIcon className="unregistered-icon" />
+                                                    <span>ODHLÁŠEN</span>
+                                                </td>
                                                 <td>Ze zápasu jste se odhlásil.</td>
                                             </tr>
                                             <tr>
-                                                <td className="excused-bg-color"><ExcusedIcon className="excused-icon" /> NEMOHL</td>
+                                                <td className="help-status-cell excused-bg-color">
+                                                    <ExcusedIcon className="excused-icon" />
+                                                    <span>NEMOHL</span>
+                                                </td>
                                                 <td>Omluvil jste se ze zápasu.</td>
                                             </tr>
                                             <tr>
-                                                <td className="reserved-bg-color"><ReservedIcon className="reserved-icon" /> BYLO PLNO</td>
-                                                <td>Čekáte na místo, protože kapacita byla naplněna.</td>
+                                                <td className="help-status-cell reserved-bg-color">
+                                                    <ReservedIcon className="reserved-icon" />
+                                                    <span>BYLO PLNO</span>
+                                                </td>
+                                                <td>
+                                                    Čekáte na místo, protože kapacita byla naplněna.
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td className="noresponse-bg-color"><NoResponseIcon className="maybe-icon" /> NEBYL</td>
+                                                <td className="help-status-cell noresponse-bg-color">
+                                                    <NoResponseIcon className="maybe-icon" />
+                                                    <span>NEBYL</span>
+                                                </td>
                                                 <td>Dal jste možná.</td>
                                             </tr>
                                             <tr>
-                                                <td className="no-excused-bg-color"><NoResponseIcon className="no-response-icon" /> NEREAGOVAL</td>
+                                                <td className="help-status-cell no-excused-bg-color">
+                                                    <NoResponseIcon className="no-response-icon" />
+                                                    <span>NEREAGOVAL</span>
+                                                </td>
                                                 <td>Na zápas jste zatím nijak nereagoval.</td>
                                             </tr>
                                             <tr>
-                                                <td ><NoExcusedIcon className="no-excused-icon" /> NEPŘIŠEL</td>
+                                                <td className="help-status-cell">
+                                                    <NoExcusedIcon className="no-excused-icon" />
+                                                    <span>NEPŘIŠEL</span>
+                                                </td>
                                                 <td>Na zápas jste nepřišel bez omluvy.</td>
                                             </tr>
                                         </tbody>
@@ -210,7 +267,8 @@ const MatchesHelpModal = ({ show, onClose }) => {
                             <section className="mb-4">
                                 <h6 className="fw-bold">6. Význam stavů samotného zápasu</h6>
                                 <p>
-                                    Kromě vašeho stavu registrace může mít vlastní stav i samotný zápas.
+                                    Kromě vašeho stavu registrace může mít vlastní stav i samotný
+                                    zápas.
                                 </p>
 
                                 <div className="table-responsive">
@@ -223,23 +281,35 @@ const MatchesHelpModal = ({ show, onClose }) => {
                                         </thead>
                                         <tbody>
                                             <tr>
-                                                <td>Plánovaný</td>
+                                                <td className="help-status-cell">
+                                                    <span>Plánovaný</span>
+                                                </td>
                                                 <td>Zápas je standardně naplánovaný.</td>
                                             </tr>
                                             <tr>
-                                                <td>Změněný</td>
+                                                <td className="help-status-cell">
+                                                    <span>Změněný</span>
+                                                </td>
                                                 <td>U zápasu došlo ke změně některých údajů.</td>
                                             </tr>
                                             <tr>
-                                                <td>Obnovený</td>
-                                                <td>Zápas byl po předchozí změně znovu potvrzen.</td>
+                                                <td className="help-status-cell">
+                                                    <span>Obnovený</span>
+                                                </td>
+                                                <td>
+                                                    Zápas byl po předchozí změně znovu potvrzen.
+                                                </td>
                                             </tr>
                                             <tr>
-                                                <td>Zrušený</td>
+                                                <td className="help-status-cell">
+                                                    <span>Zrušený</span>
+                                                </td>
                                                 <td>Zápas se neuskuteční.</td>
                                             </tr>
                                             <tr>
-                                                <td>Odehraný</td>
+                                                <td className="help-status-cell">
+                                                    <span>Odehraný</span>
+                                                </td>
                                                 <td>Zápas již proběhl.</td>
                                             </tr>
                                         </tbody>
@@ -248,14 +318,27 @@ const MatchesHelpModal = ({ show, onClose }) => {
                             </section>
 
                             <section>
-                                <h6 className="fw-bold">7. Co dělat, když se zápasy nezobrazují</h6>
+                                <h6 className="fw-bold">
+                                    7. Co dělat, když se zápasy nezobrazují
+                                </h6>
                                 <ul>
                                     <li>zkontrolujte, zda máte vybraného aktuálního hráče</li>
                                     <li>zkontrolujte, zda je zvolená správná sezóna</li>
-                                    <li>ověřte, zda v dané sezóně existují vytvořené zápasy</li>
                                     <li>
-                                        pokud jste veden jako dlouhodobě mimo hru, některé budoucí zápasy
-                                        se nemusí zobrazit
+                                        ověřte, zda v dané sezóně existují vytvořené zápasy
+                                    </li>
+                                    <li>
+                                        pokud jste veden jako dlouhodobě mimo hru, některé budoucí
+                                        zápasy se nemusí zobrazit
+                                    </li>
+                                    <li>
+                                        <strong>
+                                            Možná jste veden jako typ hráče „Základní“. Zobrazí se
+                                            pouze 1 nadcházející zápas, a to až 3 dny před zápasem.
+                                            VIP a Standard mají přednost v přihlášení k zápasu. Toto
+                                            nastavení může změnit manažer nebo admin v nastavení
+                                            hráče.
+                                        </strong>
                                     </li>
                                 </ul>
                             </section>

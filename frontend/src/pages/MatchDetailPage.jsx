@@ -46,7 +46,6 @@ const MatchDetailPage = () => {
 
     const [showRegistrationHelp, setShowRegistrationHelp] = useState(false);
 
-    // zapamatujeme si, se kterým hráčem jsme na stránku přišli
     const [initialPlayerId, setInitialPlayerId] = useState(null);
 
     useEffect(() => {
@@ -70,7 +69,7 @@ const MatchDetailPage = () => {
     const playerMatchStatus = match?.playerMatchStatus ?? "NO_RESPONSE";
     const matchStatus = match?.matchStatus ?? null;
 
-    // EXCUSE modal stav
+
     const [showExcuseModal, setShowExcuseModal] = useState(false);
     const [selectedReason, setSelectedReason] = useState(ExcuseReason.JINE);
     const [excuseNote, setExcuseNote] = useState("");
@@ -93,7 +92,7 @@ const MatchDetailPage = () => {
 
     /**
      * DEMO: před akcí vyčistit staré notifikace, aby se "nelepily".
-     * V produkci endpoint neexistuje → tryClearDemoNotifications to bezpečně ignoruje.
+     * V produkci endpoint neexistuje - tryClearDemoNotifications to bezpečně ignoruje.
      */
     const clearDemoBeforeAction = useCallback(async () => {
         if (!demoMode) return;

@@ -1,4 +1,3 @@
-// src/components/admin/AdminPlayerEditModal.jsx
 import { useEffect, useState } from "react";
 import PlayerProfileForm from "../settings/PlayerProfileForm";
 import { validatePlayerProfile } from "../../validation/playerValidation";
@@ -14,28 +13,24 @@ import { validatePlayerProfile } from "../../validation/playerValidation";
  * @param {PlayerDTO} props.player Data hráče používaná pro zobrazení nebo administraci.
  * @param {boolean} props.show určuje, zda je dialog otevřený.
  * @param {Function} props.onClose callback pro předání akce do nadřazené vrstvy.
- * @param {Function} props.onSave vstupní hodnota komponenty.
+ * @param {Function} props.onSave callback pro uložení změn hráče.
  * @param {boolean} props.saving Příznak, že probíhá ukládání a akce mají být dočasně blokovány.
  */
-
 const AdminPlayerEditModal = ({ player, show, onClose, onSave, saving }) => {
-    if (!show || !player) {
-        return null;
-    }
-
     const [values, setValues] = useState({
-        id: player.id ?? null,
-        name: player.name || "",
-        surname: player.surname || "",
-        nickname: player.nickname || "",
-        phoneNumber: player.phoneNumber || "",
-        team: player.team || "",
-        type: player.type || "",
+        id: player?.id ?? null,
+        name: player?.name || "",
+        surname: player?.surname || "",
+        nickname: player?.nickname || "",
+        phoneNumber: player?.phoneNumber || "",
+        team: player?.team || "",
+        type: player?.type || "",
+        primaryPosition: player?.primaryPosition || "",
+        secondaryPosition: player?.secondaryPosition || "",
     });
 
     const [errors, setErrors] = useState({});
 
-    // když se změní player, načti hodnoty znovu
     useEffect(() => {
         if (player) {
             setValues({
@@ -46,6 +41,8 @@ const AdminPlayerEditModal = ({ player, show, onClose, onSave, saving }) => {
                 phoneNumber: player.phoneNumber || "",
                 team: player.team || "",
                 type: player.type || "",
+                primaryPosition: player.primaryPosition || "",
+                secondaryPosition: player.secondaryPosition || "",
             });
             setErrors({});
         }
@@ -62,12 +59,10 @@ const AdminPlayerEditModal = ({ player, show, onClose, onSave, saving }) => {
         });
     };
 
-    
-/**
- * Zpracuje odeslání formuláře a zavolá příslušný callback nadřazené komponenty.
- */
-
-const handleSubmit = (e) => {
+    /**
+     * Zpracuje odeslání formuláře a zavolá příslušný callback nadřazené komponenty.
+     */
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         const validationErrors = validatePlayerProfile(values);
@@ -88,23 +83,28 @@ const handleSubmit = (e) => {
                     : null,
             team: values.team || null,
             type: values.type || null,
+            primaryPosition: values.primaryPosition || null,
+            secondaryPosition: values.secondaryPosition || null,
         };
 
         onSave(payload);
     };
 
-    
-/**
- * Zajistí konzistentní zavření modalu a vrácení lokálního stavu do výchozího nastavení.
- */
-
-const handleClose = () => {
+    /**
+     * Zajistí konzistentní zavření modalu a vrácení lokálního stavu do výchozího nastavení.
+     */
+    const handleClose = () => {
         if (!saving) {
             onClose();
         }
     };
 
+    if (!show || !player) {
+        return null;
+    }
+    console.log(player);
     return (
+        
         <>
             <div
                 className="modal fade show d-block"

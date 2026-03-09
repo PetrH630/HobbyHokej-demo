@@ -26,21 +26,13 @@ const mapRegistrationToPlayer = (reg) => {
         // identifikace hráče
         id: reg.playerId ?? player.id ?? reg.id ?? null,
         playerId: reg.playerId ?? player.id ?? null,
-
-        // pokud bys měl userId na PlayerDTO, můžeš ho tady použít
         userId: player.userId ?? null,
-
-        // prezentační jméno
         fullName,
-
-        // tým a status z registrace
         team: reg.team ?? player.team ?? null,
         status: reg.status ?? null,
 
         // pozice v konkrétním zápase
-        positionInMatch: reg.positionInMatch ?? null,
-
-        // případně další údaje, pokud je budeš chtít někde zobrazovat
+        positionInMatch: reg.positionInMatch ?? null,    
         excuseReason: reg.excuseReason ?? null,
         excuseNote: reg.excuseNote ?? null,
     };
@@ -53,7 +45,7 @@ const mapRegistrationToPlayer = (reg) => {
  * registeredDarkPlayers, reservedPlayers, ...).
  *
  * Navíc:
- * - namapujeme registrations → match.registrations (FE-friendly objekty),
+ * - namapujeme registrations - match.registrations (FE-friendly objekty),
  * - případně bychom tady mohli dělat další drobné úpravy.
  */
 const transformMatchDetail = (dto) => {
@@ -67,10 +59,10 @@ const transformMatchDetail = (dto) => {
         // všechno z backendu zachováme
         ...dto,
 
-        // a navíc přidáme zpracované registrace
+        // přidáme zpracované registrace
         registrations,
 
-        // pro jistotu explicitně předáme matchMode (už je v dto, jen ho necháme)
+        // pro jistotu 
         matchMode: dto.matchMode ?? null,
     };
 };

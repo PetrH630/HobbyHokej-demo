@@ -201,6 +201,23 @@ dist/
 
 ---
 
+# Dokumentace
+
+-   frontend/README.md
+-   frontend/docs/ARCHITECTURE.md
+-   frontend/docs/COMPONENTS.md
+-   frontend/docs/HOOKS.md
+-   frontend/docs/MATCH_DOMAIN_MODEL.md
+-   frontend/docs/API.md
+-   frontend/docs/ADMIN_SYSTEM.md
+-   frontend/docs/NOTIFICATION_SYSTEM.md
+-   frontend/docs/PLAYER_REGISTRATION_FLOW.md
+-   frontend/docs/STATE_FLOW.md
+-   frontend/docs/FRONTEND_SCENARIOS
+-   frontend/docs/index.html
+
+---
+
 # Autor
 
 Petr Hlista

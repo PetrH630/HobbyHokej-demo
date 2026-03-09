@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import AdminPlayerCard from "./AdminPlayerCard";
 import { usePlayerInactivityPeriodsAdmin } from "../../hooks/usePlayerInactivityPeriodsAdmin";
 
@@ -10,17 +10,22 @@ const FILTERS = {
     INACTIVE: "INACTIVE",
 };
 
-// Pomocná funkce – filtr podle statusu + neaktivity
+/**
+ * Určí, zda hráč projde filtrem podle statusu a aktuální neaktivity.
+ *
+ * @param {Object} player hráč
+ * @param {boolean} isInactive příznak aktuální neaktivity
+ * @param {string} filter aktivní filtr
+ * @returns {boolean} true, pokud hráč projde filtrem
+ */
 const playerPassesFilter = (player, isInactive, filter) => {
     const status = player.playerStatus;
 
     switch (filter) {
         case FILTERS.APPROVED:
-            // aktivní = schválený a právě není v neaktivitě
             return status === "APPROVED" && !isInactive;
 
         case FILTERS.INACTIVE:
-            // filtr čistě na aktuálně neaktivní hráče
             return isInactive === true;
 
         case FILTERS.PENDING:
@@ -36,21 +41,60 @@ const playerPassesFilter = (player, isInactive, filter) => {
 };
 
 /**
+ * Určí, zda hráč odpovídá fulltextovému hledání.
+ *
+ * Hledání probíhá nad jménem, příjmením, celým jménem,
+ * e-mailem, přezdívkou a telefonem.
+ *
+ * @param {Object} player hráč
+ * @param {string} searchTerm hledaný text
+ * @returns {boolean} true, pokud hráč odpovídá hledání
+ */
+const playerMatchesSearch = (player, searchTerm) => {
+    const term = searchTerm.trim().toLocaleLowerCase("cs");
+
+    if (!term) {
+        return true;
+    }
+
+    const name = String(player.name || "").toLocaleLowerCase("cs");
+    const surname = String(player.surname || "").toLocaleLowerCase("cs");
+    const fullName = `${name} ${surname}`.trim();
+    const reversedFullName = `${surname} ${name}`.trim();
+    const email = String(player.email || player.userEmail || "").toLocaleLowerCase("cs");
+    const phone = String(player.phone || player.phoneNumber || "").toLocaleLowerCase("cs");
+    const nickname = String(player.nickname || "").toLocaleLowerCase("cs");
+
+    return (
+        name.includes(term) ||
+        surname.includes(term) ||
+        fullName.includes(term) ||
+        reversedFullName.includes(term) ||
+        email.includes(term) ||
+        phone.includes(term) ||
+        nickname.includes(term)
+    );
+};
+
+/**
  * AdminPlayersTable
  *
- * React komponenta používaná ve frontend aplikaci.
+ * Komponenta zobrazuje seznam hráčů pro administraci.
+ * Umožňuje filtrování podle statusu, neaktivity a fulltextové hledání.
  *
- * Props:
- * @param {Object} props.players data hráče nebo identifikátor aktuálního hráče.
- * @param {boolean} props.loading Příznak, že probíhá načítání dat a UI má zobrazit stav načítání.
- * @param {string} props.error Chybová zpráva určená k zobrazení uživateli.
- * @param {Function} props.onApprove vstupní hodnota komponenty.
- * @param {Function} props.onReject vstupní hodnota komponenty.
- * @param {Function} props.onEdit vstupní hodnota komponenty.
- * @param {Function} props.onDelete vstupní hodnota komponenty.
- * @param {Function} props.onChangeUser vstupní hodnota komponenty.
+ * Badge u filtrů se přepočítávají i podle aktuálně zadaného hledání.
+ *
+ * @param {Object} props vstupní hodnoty komponenty
+ * @param {Array} props.players seznam hráčů
+ * @param {boolean} props.loading příznak načítání dat
+ * @param {string} props.error chybová zpráva
+ * @param {Function} props.onApprove callback pro schválení hráče
+ * @param {Function} props.onReject callback pro zamítnutí hráče
+ * @param {Function} props.onEdit callback pro úpravu hráče
+ * @param {Function} props.onDelete callback pro smazání hráče
+ * @param {Function} props.onChangeUser callback pro změnu uživatele
+ * @returns {JSX.Element} seznam hráčů
  */
-
 const AdminPlayersTable = ({
     players,
     loading,
@@ -62,8 +106,8 @@ const AdminPlayersTable = ({
     onChangeUser,
 }) => {
     const [filter, setFilter] = useState(FILTERS.ALL);
+    const [searchTerm, setSearchTerm] = useState("");
 
-    // načtení všech období neaktivity
     const {
         periods,
         loading: inactivityLoading,
@@ -71,37 +115,17 @@ const AdminPlayersTable = ({
         reload: reloadInactivity,
     } = usePlayerInactivityPeriodsAdmin();
 
-    // když se načítají hráči nebo neaktivita → loader
-    if (loading || inactivityLoading) {
-        return <p>Načítám hráče…</p>;
-    }
+    const safePlayers = Array.isArray(players) ? players : [];
+    const safePeriods = Array.isArray(periods) ? periods : [];
 
-    if (error) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                {error}
-            </div>
-        );
-    }
+    /**
+     * Připraví mapu hráčů, kteří jsou právě teď v období neaktivity.
+     */
+    const inactivityMap = useMemo(() => {
+        const now = new Date();
+        const map = new Map();
 
-    if (inactivityError) {
-        return (
-            <div className="alert alert-danger" role="alert">
-                {inactivityError}
-            </div>
-        );
-    }
-
-    if (!players || players.length === 0) {
-        return <p>V systému zatím nejsou žádní hráči.</p>;
-    }
-
-    // připravíme mapu playerId -> isInactiveNow (abychom to nepočítali dokola)
-    const now = new Date();
-    const inactivityMap = new Map();
-
-    if (periods && periods.length > 0) {
-        periods.forEach((p) => {
+        safePeriods.forEach((p) => {
             const playerId = p.playerId;
             if (!playerId) return;
 
@@ -109,7 +133,6 @@ const AdminPlayersTable = ({
             const rawTo = p.inactiveTo;
             if (!rawFrom || !rawTo) return;
 
-            // LocalDateTime může být "2026-02-10T10:00:00" nebo "2026-02-10 10:00:00"
             const from = new Date(
                 typeof rawFrom === "string" ? rawFrom.replace(" ", "T") : rawFrom
             );
@@ -117,52 +140,82 @@ const AdminPlayersTable = ({
                 typeof rawTo === "string" ? rawTo.replace(" ", "T") : rawTo
             );
 
-            if (isNaN(from.getTime()) || isNaN(to.getTime())) return;
+            if (Number.isNaN(from.getTime()) || Number.isNaN(to.getTime())) {
+                return;
+            }
 
             const isInThisInterval = from <= now && to >= now;
 
             if (isInThisInterval) {
-                inactivityMap.set(playerId, true);
+                map.set(playerId, true);
             }
         });
-    }
 
-    
-/**
- * Určí, zda je hráč v okamžiku zobrazení v období neaktivity.
- */
+        return map;
+    }, [safePeriods]);
 
-const isPlayerInactiveNow = (playerId) => inactivityMap.get(playerId) === true;
+    /**
+     * Určí, zda je hráč aktuálně neaktivní.
+     *
+     * @param {number|string} playerId identifikátor hráče
+     * @returns {boolean} true, pokud je hráč právě v neaktivitě
+     */
+    const isPlayerInactiveNow = (playerId) => inactivityMap.get(playerId) === true;
 
-    // základní řazení podle příjmení
-    const sortedPlayers = players
-        .slice()
-        .sort((a, b) =>
-            (a.surname || "").localeCompare(b.surname || "", "cs", {
-                sensitivity: "base",
-            })
+    /**
+     * Seřadí hráče podle příjmení.
+     */
+    const sortedPlayers = useMemo(() => {
+        return safePlayers
+            .slice()
+            .sort((a, b) =>
+                (a.surname || "").localeCompare(b.surname || "", "cs", {
+                    sensitivity: "base",
+                })
+            );
+    }, [safePlayers]);
+
+    /**
+     * Základní množina hráčů po aplikaci fulltextu.
+     * Z této množiny se následně počítají badge i výsledný seznam.
+     */
+    const searchedPlayers = useMemo(() => {
+        return sortedPlayers.filter((player) =>
+            playerMatchesSearch(player, searchTerm)
         );
+    }, [sortedPlayers, searchTerm]);
 
-    // počty pro badge u jednotlivých filtrů
-    const counts = {
-        all: sortedPlayers.length,
-        active: sortedPlayers.filter((p) =>
-            playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.APPROVED)
-        ).length,
-        inactive: sortedPlayers.filter((p) =>
-            playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.INACTIVE)
-        ).length,
-        pending: sortedPlayers.filter((p) =>
-            playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.PENDING)
-        ).length,
-        rejected: sortedPlayers.filter((p) =>
-            playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.REJECTED)
-        ).length,
-    };
+    /**
+     * Připraví počty pro jednotlivé filtry.
+     * Počty se přepočítávají i podle aktuálně zadaného hledání.
+     */
+    const counts = useMemo(() => {
+        return {
+            all: searchedPlayers.length,
+            active: searchedPlayers.filter((p) =>
+                playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.APPROVED)
+            ).length,
+            inactive: searchedPlayers.filter((p) =>
+                playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.INACTIVE)
+            ).length,
+            pending: searchedPlayers.filter((p) =>
+                playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.PENDING)
+            ).length,
+            rejected: searchedPlayers.filter((p) =>
+                playerPassesFilter(p, isPlayerInactiveNow(p.id), FILTERS.REJECTED)
+            ).length,
+        };
+    }, [searchedPlayers, inactivityMap]);
 
-    const filteredPlayers = sortedPlayers.filter((p) =>
-        playerPassesFilter(p, isPlayerInactiveNow(p.id), filter)
-    );
+    /**
+     * Vyfiltruje hráče podle zvoleného status filtru.
+     * Fulltext je již aplikován v searchedPlayers.
+     */
+    const filteredPlayers = useMemo(() => {
+        return searchedPlayers.filter((p) =>
+            playerPassesFilter(p, isPlayerInactiveNow(p.id), filter)
+        );
+    }, [searchedPlayers, inactivityMap, filter]);
 
     const getFilterLabel = (f) => {
         switch (f) {
@@ -196,11 +249,50 @@ const isPlayerInactiveNow = (playerId) => inactivityMap.get(playerId) === true;
         }
     };
 
+    if (loading || inactivityLoading) {
+        return <p>Načítám hráče…</p>;
+    }
+
+    if (error) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                {error}
+            </div>
+        );
+    }
+
+    if (inactivityError) {
+        return (
+            <div className="alert alert-danger" role="alert">
+                {inactivityError}
+            </div>
+        );
+    }
+
+    if (safePlayers.length === 0) {
+        return <p>V systému zatím nejsou žádní hráči.</p>;
+    }
+
     return (
         <div className="d-flex flex-column gap-3">
-            {/* ===== FILTR ===== */}
             <div className="mb-2">
-                {/* 📱 MOBILE – Dropdown */}
+                <label htmlFor="players-search" className="form-label mb-1">
+                    Hledat hráče
+                </label>
+                <input
+                    id="players-search"
+                    type="text"
+                    className="form-control"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    placeholder="Zadej jméno, příjmení, e-mail, telefon…"
+                />
+                <div className="form-text">
+                    Fulltextové vyhledávání.
+                </div>
+            </div>
+
+            <div className="mb-2">
                 <div className="d-sm-none">
                     <div className="dropdown w-100">
                         <button
@@ -260,7 +352,6 @@ const isPlayerInactiveNow = (playerId) => inactivityMap.get(playerId) === true;
                     </div>
                 </div>
 
-                {/* 💻 DESKTOP – Button group */}
                 <div className="d-none d-sm-flex justify-content-center">
                     <div className="btn-group" role="group" aria-label="Filtr hráčů">
                         <button
@@ -341,10 +432,9 @@ const isPlayerInactiveNow = (playerId) => inactivityMap.get(playerId) === true;
                 </div>
             </div>
 
-            {/* Info, když filtr nic nevrátí */}
             {filteredPlayers.length === 0 && (
                 <p className="text-center mb-3">
-                    Pro zvolený filtr nejsou žádní hráči.
+                    Pro zvolený filtr a hledání nejsou žádní hráči.
                 </p>
             )}
 

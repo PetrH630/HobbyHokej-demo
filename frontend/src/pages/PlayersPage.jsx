@@ -1,7 +1,7 @@
 import React from 'react'
 import Players from "../components/players/Players"
 import BackButton from "../components/BackButton";
-
+import PlayerHelpModal from "../components/help/PlayerHelpModal";
 /**
  * PlayersPage
  *
@@ -14,7 +14,6 @@ const PlayersPage = () => {
   return (
     <div>
       <Players />
-      
     </div>
     
     

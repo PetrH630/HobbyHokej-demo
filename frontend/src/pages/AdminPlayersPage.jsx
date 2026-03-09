@@ -159,7 +159,7 @@ const AdminPlayersPage = () => {
                 <p className="text-muted mb-3">
                     Zde může administrátor (a částečně manažer) spravovat všechny
                     hráče v systému. Akce schválit / zamítnout / upravit / smazat /
-                    změnit uživatele jsou dostupné pouze uživatelům s rolí ADMIN.
+                    změnit uživatele jsou dostupné pouze uživatelům s rolí ADMIN/MANAGER.
                 </p>
 
                 <AdminPlayersTable
