@@ -1,0 +1,60 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title PlayerInactivityPeriodService - evidence neaktivity hráče
+
+interface PlayerInactivityPeriodService {
+  + getAll() : List<PlayerInactivityPeriodDTO>
+  + getById(id: Long) : PlayerInactivityPeriodDTO
+  + getByPlayer(playerId: Long) : List<PlayerInactivityPeriodDTO>
+  + create(dto: PlayerInactivityPeriodDTO) : PlayerInactivityPeriodDTO
+  + update(id: Long, dto: PlayerInactivityPeriodDTO) : PlayerInactivityPeriodDTO
+  + delete(id: Long) : void
+  + isActive(player: PlayerEntity, dateTime: LocalDateTime) : boolean
+}
+
+class PlayerInactivityPeriodServiceImpl {
+  - inactivityRepository : PlayerInactivityPeriodRepository
+  - playerRepository : PlayerRepository
+  - mapper : PlayerInactivityPeriodMapper
+  + getAll() : List<PlayerInactivityPeriodDTO>
+  + getById(id: Long) : PlayerInactivityPeriodDTO
+  + getByPlayer(playerId: Long) : List<PlayerInactivityPeriodDTO>
+  + create(dto: PlayerInactivityPeriodDTO) : PlayerInactivityPeriodDTO
+  + update(id: Long, dto: PlayerInactivityPeriodDTO) : PlayerInactivityPeriodDTO
+  + delete(id: Long) : void
+  + isActive(player: PlayerEntity, dateTime: LocalDateTime) : boolean
+}
+
+class PlayerInactivityPeriodRepository
+class PlayerRepository
+class PlayerInactivityPeriodMapper
+class PlayerEntity
+class PlayerInactivityPeriodEntity
+class PlayerInactivityPeriodDTO
+class InactivityPeriodNotFoundException <<exception>>
+class InactivityPeriodOverlapException <<exception>>
+class InvalidInactivityPeriodDateException <<exception>>
+class PlayerNotFoundException <<exception>>
+class LocalDateTime
+
+PlayerInactivityPeriodServiceImpl ..|> PlayerInactivityPeriodService
+PlayerInactivityPeriodServiceImpl --> PlayerInactivityPeriodRepository : CRUD období
+PlayerInactivityPeriodServiceImpl --> PlayerRepository : validace hráče
+PlayerInactivityPeriodServiceImpl --> PlayerInactivityPeriodMapper : DTO <-> entita
+PlayerInactivityPeriodServiceImpl ..> PlayerEntity
+PlayerInactivityPeriodServiceImpl ..> PlayerInactivityPeriodEntity
+PlayerInactivityPeriodServiceImpl ..> InactivityPeriodNotFoundException
+PlayerInactivityPeriodServiceImpl ..> InactivityPeriodOverlapException
+PlayerInactivityPeriodServiceImpl ..> InvalidInactivityPeriodDateException
+PlayerInactivityPeriodServiceImpl ..> PlayerNotFoundException
+
+note right of PlayerInactivityPeriodServiceImpl
+Služba řeší jak CRUD období neaktivity,
+tak i runtime kontrolu dostupnosti hráče
+pro konkrétní datum a čas.
+end note
+@enduml

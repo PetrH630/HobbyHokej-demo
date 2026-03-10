@@ -1,0 +1,28 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title CurrentSeasonService - aktuální sezóna v session
+
+interface CurrentSeasonService {
+  + getCurrentSeasonIdOrDefault() : Long
+  + setCurrentSeasonId(seasonId: Long) : void
+  + clearCurrentSeason() : void
+}
+
+class CurrentSeasonServiceImpl {
+  - session : HttpSession
+  - seasonService : SeasonService
+}
+
+interface HttpSession
+interface SeasonService
+class SessionKeys
+
+CurrentSeasonServiceImpl ..|> CurrentSeasonService
+CurrentSeasonServiceImpl --> HttpSession : store current season id
+CurrentSeasonServiceImpl --> SeasonService : fallback active season
+CurrentSeasonServiceImpl ..> SessionKeys : session key constant
+@enduml

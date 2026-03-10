@@ -1,0 +1,26 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title MatchHistoryService - historie zápasů
+
+interface MatchHistoryService {
+  + getHistoryForMatch(matchId: Long) : List<MatchHistoryDTO>
+}
+
+class MatchHistoryServiceImpl {
+  - repository : MatchHistoryRepository
+  - mapper : MatchHistoryMapper
+}
+
+class MatchHistoryRepository
+class MatchHistoryMapper
+class MatchHistoryEntity
+class MatchHistoryDTO
+
+MatchHistoryServiceImpl ..|> MatchHistoryService
+MatchHistoryServiceImpl --> MatchHistoryRepository : načtení historie
+MatchHistoryServiceImpl --> MatchHistoryMapper : entity -> DTO
+@enduml

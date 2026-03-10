@@ -1,0 +1,57 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title MatchCommandService - změnové operace zápasů
+
+interface MatchCommandService {
+  + createMatch(dto: MatchDTO) : MatchDTO
+  + updateMatch(id: Long, dto: MatchDTO) : MatchDTO
+  + deleteMatch(id: Long) : SuccessResponseDTO
+  + cancelMatch(matchId: Long, reason: MatchCancelReason) : SuccessResponseDTO
+  + unCancelMatch(matchId: Long) : SuccessResponseDTO
+  + updateMatchScore(matchId: Long, scoreLight: Integer, scoreDark: Integer) : MatchDTO
+}
+
+class MatchCommandServiceImpl {
+  - matchRepository : MatchRepository
+  - matchRegistrationRepository : MatchRegistrationRepository
+  - matchMapper : MatchMapper
+  - seasonService : SeasonService
+  - currentSeasonService : CurrentSeasonService
+  - notificationService : NotificationService
+  - appUserRepository : AppUserRepository
+  - matchCapacityService : MatchCapacityService
+  - clock : Clock
+  - matchAllocationEngine : MatchAllocationEngine
+}
+
+class MatchRepository
+class MatchRegistrationRepository
+class MatchMapper
+class SeasonService
+class CurrentSeasonService
+class NotificationService
+class AppUserRepository
+interface MatchCapacityService
+interface MatchAllocationEngine
+class Clock
+class MatchDTO
+class MatchEntity
+class MatchCancelReason <<enum>>
+class SuccessResponseDTO
+
+MatchCommandServiceImpl ..|> MatchCommandService
+MatchCommandServiceImpl --> MatchRepository : CRUD zápasů
+MatchCommandServiceImpl --> MatchRegistrationRepository : práce s registracemi
+MatchCommandServiceImpl --> MatchMapper : DTO <-> entita
+MatchCommandServiceImpl --> SeasonService : sezónní validace
+MatchCommandServiceImpl --> CurrentSeasonService : current season kontext
+MatchCommandServiceImpl --> NotificationService : notifikace změn / zrušení
+MatchCommandServiceImpl --> AppUserRepository : audit / autor změny
+MatchCommandServiceImpl --> MatchCapacityService : reakce na změnu kapacity
+MatchCommandServiceImpl --> Clock : časové validace
+MatchCommandServiceImpl --> MatchAllocationEngine : přepočet alokace po změnách
+@enduml

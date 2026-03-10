@@ -1,6 +1,6 @@
 // src/components/admin/AdminMatchModal.jsx
 import { useEffect, useState } from "react";
-import MatchForm from "../matches/MatchForm";
+import DateTimePicker from "../forms/DateTimePicker";
 import { validateMatch } from "../../validation/matchValidation";
 import { tryClearDemoNotifications } from "../../api/demoApi";
 import {
@@ -30,19 +30,20 @@ const toBackendDateTime = (valueString) => {
 /**
  * AdminMatchModal
  *
- * Bootstrap modal komponenta pro práci s modálním dialogem v aplikaci.
+ * Bootstrap modal komponenta pro práci s modálním dialogem.
  *
- * Umožňuje zavření stiskem klávesy Escape.
+ * Umožňuje vytvoření nového zápasu i úpravu existujícího zápasu.
+ * Obsahuje lokální stav formuláře, validaci vstupu a převod datumu
+ * mezi formátem pickeru a backendovým formátem.
  *
  * Props:
  * @param {MatchDTO} props.match Data vybraného zápasu načtená z backendu.
  * @param {boolean} props.show určuje, zda je dialog otevřený.
  * @param {Function} props.onClose callback pro předání akce do nadřazené vrstvy.
- * @param {Function} props.onSave vstupní hodnota komponenty.
+ * @param {Function} props.onSave callback pro předání uložených dat nadřazené vrstvě.
  * @param {boolean} props.saving Příznak, že probíhá ukládání a akce mají být dočasně blokovány.
  * @param {string} props.serverError Chybová zpráva vrácená ze serveru.
  */
-
 const AdminMatchModal = ({
     match,
     show,
@@ -51,8 +52,6 @@ const AdminMatchModal = ({
     saving,
     serverError,
 }) => {
-    if (!show) return null;
-
     const isNew = !match?.id;
 
     const [values, setValues] = useState({
@@ -78,6 +77,8 @@ const AdminMatchModal = ({
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
+        if (!show) return;
+
         if (match) {
             setValues({
                 id: match.id ?? null,
@@ -114,8 +115,9 @@ const AdminMatchModal = ({
                 matchMode: null,
             });
         }
+
         setErrors({});
-    }, [match]);
+    }, [match, show]);
 
     /*
      * Automatické přepočítání maxPlayers při změně matchMode.
@@ -130,13 +132,11 @@ const AdminMatchModal = ({
         const calculated = calculateMaxPlayers(values.matchMode);
 
         if (isNew) {
-            // nový zápas – vždy přepočítat
             setValues((prev) => ({
                 ...prev,
                 maxPlayers: calculated,
             }));
         } else if (values.matchMode !== match?.matchMode) {
-            // editace – přepočítat jen při změně režimu
             setValues((prev) => ({
                 ...prev,
                 maxPlayers: calculated,
@@ -155,16 +155,20 @@ const AdminMatchModal = ({
         });
     };
 
-    
-/**
- * Zpracuje odeslání formuláře a zavolá příslušný callback nadřazené komponenty.
- */
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        handleChange({ [name]: value });
+    };
 
-const handleSubmit = async (e) => {
+    /**
+     * Zpracuje odeslání formuláře a zavolá příslušný callback nadřazené komponenty.
+     */
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const validationErrors = validateMatch(values);
         setErrors(validationErrors);
+
         if (Object.keys(validationErrors).length > 0) return;
 
         await tryClearDemoNotifications();
@@ -186,18 +190,33 @@ const handleSubmit = async (e) => {
         onSave(payload);
     };
 
-    
-/**
- * Zajistí konzistentní zavření modalu a vrácení lokálního stavu do výchozího nastavení.
- */
-
-const handleClose = () => {
+    /**
+     * Zajistí konzistentní zavření modalu a vrácení lokálního stavu do výchozího nastavení.
+     */
+    const handleClose = () => {
         if (!saving) onClose();
     };
 
+    if (!show) return null;
+
+    const dateTimeClass =
+        "form-control border-primary" + (errors.dateTime ? " is-invalid" : "");
+    const locationClass =
+        "form-control border-primary" + (errors.location ? " is-invalid" : "");
+    const descriptionClass =
+        "form-control border-primary" + (errors.description ? " is-invalid" : "");
+    const maxPlayersClass =
+        "form-control border-primary" + (errors.maxPlayers ? " is-invalid" : "");
+    const priceClass = "form-control border-primary" + (errors.price ? " is-invalid" : "");
+
     return (
         <>
-            <div className="modal fade show d-block">
+            <div
+                className="modal fade show d-block"
+                tabIndex="-1"
+                role="dialog"
+                aria-modal="true"
+            >
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <form onSubmit={handleSubmit} noValidate>
@@ -212,6 +231,7 @@ const handleClose = () => {
                                     className="btn-close"
                                     onClick={handleClose}
                                     disabled={saving}
+                                    aria-label="Zavřít"
                                 />
                             </div>
 
@@ -222,42 +242,166 @@ const handleClose = () => {
                                     </div>
                                 )}
 
-                                <MatchForm
-                                    values={values}
-                                    onChange={handleChange}
-                                    errors={errors}
-                                />
+                                <div>
 
-                                {/* MATCH MODE SELECT */}
-                                <div className="mb-3 mt-3">
-                                    <label className="form-label">
-                                        Herní systém
-                                    </label>
-                                    <select
-                                        className="form-select"
-                                        value={values.matchMode || ""}
-                                        onChange={(e) =>
-                                            handleChange({
-                                                matchMode:
-                                                    e.target.value || null,
-                                            })
-                                        }
-                                        disabled={saving}
-                                    >
-                                        <option value="">
-                                            -- Vyber herní systém --
-                                        </option>
+                                    <div className="mb-3">
+                                        <label
+                                            className="form-label"
+                                            htmlFor="match-dateTime"
+                                        >
+                                            Datum a čas zápasu
+                                        </label>
 
-                                        {MATCH_MODE_OPTIONS.map((option) => (
-                                            <option
-                                                key={option.value}
-                                                value={option.value}
-                                            >
-                                                {option.label}
+                                        <DateTimePicker
+                                            id="match-dateTime"
+                                            name="dateTime"
+                                            value={values.dateTime || ""}
+                                            onChange={(valueString) =>
+                                                handleChange({
+                                                    dateTime: valueString,
+                                                })
+                                            }
+                                            placeholder="Vyber datum a čas…"
+                                            required
+                                            className={dateTimeClass}
+                                        />
+                                        {errors.dateTime && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.dateTime}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="mb-3">
+                                        <label
+                                            className="form-label"
+                                            htmlFor="match-location"
+                                        >
+                                            Místo konání
+                                        </label>
+                                        <input
+                                            type="text"
+                                            id="match-location"
+                                            name="location"
+                                            className={locationClass}
+                                            value={values.location || ""}
+                                            onChange={handleInputChange}
+                                            placeholder="Např. Hala Polárka"
+                                            disabled={saving}
+                                        />
+                                        {errors.location && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.location}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="mb-3">
+                                        <label
+                                            className="form-label"
+                                            htmlFor="match-description"
+                                        >
+                                            Popis (volitelné)
+                                        </label>
+                                        <textarea
+                                            id="match-description"
+                                            name="description"
+                                            className={descriptionClass}
+                                            value={values.description || ""}
+                                            onChange={handleInputChange}
+                                            rows={1}
+                                            placeholder="Např. přátelské utkání…"
+                                            disabled={saving}
+                                        />
+                                        {errors.description && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.description}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="mb-3 mt-3">
+                                        <label
+                                            className="form-label"
+                                            htmlFor="match-matchMode"
+                                        >
+                                            Herní systém
+                                        </label>
+                                        <select
+                                            id="match-matchMode"
+                                            className="form-select border-primary"
+                                            value={values.matchMode || ""}
+                                            onChange={(e) =>
+                                                handleChange({
+                                                    matchMode:
+                                                        e.target.value || null,
+                                                })
+                                            }
+                                            disabled={saving}
+                                        >
+                                            <option value="">
+                                                -- Vyber herní systém --
                                             </option>
-                                        ))}
-                                    </select>
+
+                                            {MATCH_MODE_OPTIONS.map((option) => (
+                                                <option
+                                                    key={option.value}
+                                                    value={option.value}
+                                                >
+                                                    {option.label}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+                                    <div className="mb-3">
+                                        <label
+                                            className="form-label"
+                                            htmlFor="match-maxPlayers"
+                                        >
+                                            Maximální počet hráčů (celkem)
+                                        </label>
+                                        <input
+                                            type="number"
+                                            id="match-maxPlayers"
+                                            name="maxPlayers"
+                                            className={maxPlayersClass}
+                                            value={values.maxPlayers ?? ""}
+                                            onChange={handleInputChange}
+                                            min={1}
+                                            disabled={saving}
+                                        />
+                                        {errors.maxPlayers && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.maxPlayers}
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <div className="mb-3">
+                                        <label
+                                            className="form-label"
+                                            htmlFor="match-price"
+                                        >
+                                            Cena (celkem za pronájem)
+                                        </label>
+                                        <input
+                                            type="number"
+                                            id="match-price"
+                                            name="price"
+                                            className={priceClass}
+                                            value={values.price ?? ""}
+                                            onChange={handleInputChange}
+                                            min={0}
+                                            disabled={saving}
+                                        />
+                                        {errors.price && (
+                                            <div className="invalid-feedback d-block">
+                                                {errors.price}
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
+
+
 
                                 {!isNew && (
                                     <div className="mt-3">

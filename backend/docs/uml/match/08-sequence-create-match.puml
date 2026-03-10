@@ -1,0 +1,26 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - create match
+
+actor Controller
+participant "MatchServiceImpl" as Facade
+participant "MatchCommandServiceImpl" as Command
+participant "SeasonService" as SeasonService
+participant "MatchMapper" as Mapper
+participant "MatchRepository" as MatchRepo
+participant "NotificationService" as Notification
+
+Controller -> Facade : createMatch(dto)
+Facade -> Command : createMatch(dto)
+Command -> SeasonService : validate / resolve season
+Command -> Mapper : toEntity(dto)
+Mapper --> Command : MatchEntity
+Command -> MatchRepo : save(match)
+MatchRepo --> Command : saved MatchEntity
+Command -> Notification : notify interested parties / admins
+Command -> Mapper : toDTO(saved)
+Mapper --> Command : MatchDTO
+Command --> Facade : MatchDTO
+Facade --> Controller : MatchDTO
+@enduml

@@ -1,0 +1,68 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title MatchRegistrationCommandService - změnové operace registrací
+
+interface MatchRegistrationCommandService {
+  + upsertRegistration(playerId: Long, request: MatchRegistrationRequest) : MatchRegistrationDTO
+  + markNoExcused(matchId: Long, playerId: Long, adminNote: String) : MatchRegistrationDTO
+  + cancelNoExcused(matchId: Long, playerId: Long, excuseReason: ExcuseReason, excuseNote: String) : MatchRegistrationDTO
+  + changeRegistrationTeam(playerId: Long, matchId: Long) : MatchRegistrationDTO
+  + changeRegistrationPosition(playerId: Long, matchId: Long, positionInMatch: PlayerPosition) : MatchRegistrationDTO
+  + updateStatus(matchId: Long, playerId: Long, status: PlayerMatchStatus) : MatchRegistrationDTO
+  + recalcStatusesForMatch(matchId: Long) : void
+  + promoteReservedCandidatesForCapacityIncrease(matchId: Long, freedTeam: Team, freedPosition: PlayerPosition, slotsCount: int) : void
+  + sendSmsToRegisteredPlayers(matchId: Long) : void
+}
+
+class MatchRegistrationCommandServiceImpl {
+  - registrationRepository : MatchRegistrationRepository
+  - matchRepository : MatchRepository
+  - playerRepository : PlayerRepository
+  - matchRegistrationMapper : MatchRegistrationMapper
+  - smsService : SmsService
+  - smsMessageBuilder : SmsMessageBuilder
+  - notificationService : NotificationService
+  - matchAllocationEngine : MatchAllocationEngine
+}
+
+class MatchRegistrationRepository
+class MatchRepository
+class PlayerRepository
+class MatchRegistrationMapper
+class SmsService
+class SmsMessageBuilder
+class NotificationService
+class MatchAllocationEngine
+class MatchEntity
+class PlayerEntity
+class MatchRegistrationEntity
+class MatchRegistrationDTO
+class MatchRegistrationRequest
+class PlayerMatchStatus <<enum>>
+class PlayerPosition <<enum>>
+class Team <<enum>>
+class ExcuseReason <<enum>>
+
+MatchRegistrationCommandServiceImpl ..|> MatchRegistrationCommandService
+MatchRegistrationCommandServiceImpl --> MatchRegistrationRepository : save / update registrace
+MatchRegistrationCommandServiceImpl --> MatchRepository : validace zápasu
+MatchRegistrationCommandServiceImpl --> PlayerRepository : validace hráče
+MatchRegistrationCommandServiceImpl --> MatchRegistrationMapper : DTO <-> entita
+MatchRegistrationCommandServiceImpl --> SmsService : hromadné SMS
+MatchRegistrationCommandServiceImpl --> SmsMessageBuilder : tvorba textu SMS
+MatchRegistrationCommandServiceImpl --> NotificationService : notifikace změn
+MatchRegistrationCommandServiceImpl --> MatchAllocationEngine : přepočet alokace
+MatchRegistrationCommandServiceImpl ..> MatchEntity
+MatchRegistrationCommandServiceImpl ..> PlayerEntity
+MatchRegistrationCommandServiceImpl ..> MatchRegistrationEntity
+MatchRegistrationCommandServiceImpl ..> MatchRegistrationRequest
+MatchRegistrationCommandServiceImpl ..> MatchRegistrationDTO
+MatchRegistrationCommandServiceImpl ..> PlayerMatchStatus
+MatchRegistrationCommandServiceImpl ..> PlayerPosition
+MatchRegistrationCommandServiceImpl ..> Team
+MatchRegistrationCommandServiceImpl ..> ExcuseReason
+@enduml

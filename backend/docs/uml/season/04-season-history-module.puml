@@ -1,0 +1,28 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title SeasonHistoryService - historie sezón
+
+interface SeasonHistoryService {
+  + getHistoryForSeason(seasonId: Long) : List<SeasonHistoryDTO>
+}
+
+class SeasonHistoryServiceImpl {
+  - repository : SeasonHistoryRepository
+  - mapper : SeasonHistoryMapper
+}
+
+class SeasonHistoryRepository
+class SeasonHistoryMapper
+class SeasonHistoryEntity
+class SeasonHistoryDTO
+
+SeasonHistoryServiceImpl ..|> SeasonHistoryService
+SeasonHistoryServiceImpl --> SeasonHistoryRepository : načtení historie
+SeasonHistoryServiceImpl --> SeasonHistoryMapper : entity -> DTO
+SeasonHistoryServiceImpl ..> SeasonHistoryEntity
+SeasonHistoryServiceImpl ..> SeasonHistoryDTO
+@enduml

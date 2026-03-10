@@ -1,0 +1,42 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - getPlayerStats
+
+actor Controller
+participant "PlayerStatsServiceImpl" as Stats
+participant "PlayerRepository" as PlayerRepo
+participant "CurrentSeasonService" as CurrentSeason
+participant "SeasonService" as SeasonService
+participant "MatchRepository" as MatchRepo
+participant "PlayerInactivityPeriodService" as Inactivity
+participant "MatchRegistrationService" as Registration
+
+Controller -> Stats : getPlayerStats(playerId)
+Stats -> PlayerRepo : findById(playerId)
+PlayerRepo --> Stats : PlayerEntity / exception
+
+Stats -> CurrentSeason : getCurrentSeasonId()
+alt current season id missing
+  Stats -> SeasonService : getActiveSeason()
+  SeasonService --> Stats : active season
+else current season id found
+  CurrentSeason --> Stats : seasonId
+end
+
+Stats -> MatchRepo : find past matches for current season
+MatchRepo --> Stats : List<MatchEntity>
+Stats -> Stats : filter canceled matches
+Stats -> Stats : filter by player creation date
+
+loop for each candidate match
+  Stats -> Inactivity : isActive(player, match.dateTime)
+  Inactivity --> Stats : true / false
+end
+
+Stats -> Registration : getRegistrationsForMatches(matchIds)
+Registration --> Stats : List<MatchRegistrationDTO>
+Stats -> Stats : aggregate counts by PlayerMatchStatus
+Stats -> Stats : compute registeredByTeam and match results
+Stats --> Controller : PlayerStatsDTO
+@enduml

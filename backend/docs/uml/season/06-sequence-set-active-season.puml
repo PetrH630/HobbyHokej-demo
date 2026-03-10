@@ -1,0 +1,16 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - set active season
+
+actor Controller
+participant "SeasonServiceImpl" as SeasonService
+participant "SeasonRepository" as SeasonRepo
+
+Controller -> SeasonService : setActiveSeason(seasonId)
+SeasonService -> SeasonRepo : findById(seasonId)
+SeasonRepo --> SeasonService : season / exception
+SeasonService -> SeasonRepo : clear current active flag
+SeasonService -> SeasonRepo : save(target active=true)
+SeasonService --> Controller : ok
+@enduml

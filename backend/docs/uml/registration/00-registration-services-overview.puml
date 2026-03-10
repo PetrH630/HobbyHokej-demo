@@ -1,0 +1,70 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Registration services - architektonický přehled
+
+package "Facade" {
+  interface MatchRegistrationService
+  class MatchRegistrationServiceImpl <<facade>>
+}
+
+package "CQRS + historie" {
+  interface MatchRegistrationCommandService
+  class MatchRegistrationCommandServiceImpl <<command>>
+  interface MatchRegistrationQueryService
+  class MatchRegistrationQueryServiceImpl <<query>>
+  interface MatchRegistrationHistoryService
+  class MatchRegistrationHistoryServiceImpl <<history>>
+}
+
+package "Persistence / externí moduly" {
+  interface MatchRegistrationRepository
+  interface MatchRegistrationHistoryRepository
+  interface MatchRepository
+  interface PlayerRepository
+  class MatchRegistrationMapper
+  class MatchRegistrationHistoryMapper
+  class PlayerMapper
+  class NotificationService
+  class SmsService
+  class SmsMessageBuilder
+  class MatchAllocationEngine
+  class CurrentPlayerService
+  class SeasonService
+  class CurrentSeasonService
+}
+
+MatchRegistrationServiceImpl ..|> MatchRegistrationService
+MatchRegistrationCommandServiceImpl ..|> MatchRegistrationCommandService
+MatchRegistrationQueryServiceImpl ..|> MatchRegistrationQueryService
+MatchRegistrationHistoryServiceImpl ..|> MatchRegistrationHistoryService
+
+MatchRegistrationServiceImpl --> MatchRegistrationCommandService : změny stavu
+MatchRegistrationServiceImpl --> MatchRegistrationQueryService : čtení dat
+
+MatchRegistrationCommandServiceImpl --> MatchRegistrationRepository
+MatchRegistrationCommandServiceImpl --> MatchRepository
+MatchRegistrationCommandServiceImpl --> PlayerRepository
+MatchRegistrationCommandServiceImpl --> MatchRegistrationMapper
+MatchRegistrationCommandServiceImpl --> SmsService
+MatchRegistrationCommandServiceImpl --> SmsMessageBuilder
+MatchRegistrationCommandServiceImpl --> NotificationService
+MatchRegistrationCommandServiceImpl --> MatchAllocationEngine
+
+MatchRegistrationQueryServiceImpl --> MatchRegistrationRepository
+MatchRegistrationQueryServiceImpl --> MatchRepository
+MatchRegistrationQueryServiceImpl --> PlayerRepository
+MatchRegistrationQueryServiceImpl --> MatchRegistrationMapper
+MatchRegistrationQueryServiceImpl --> PlayerMapper
+MatchRegistrationQueryServiceImpl --> SeasonService
+MatchRegistrationQueryServiceImpl --> CurrentSeasonService
+
+MatchRegistrationHistoryServiceImpl --> MatchRegistrationHistoryRepository
+MatchRegistrationHistoryServiceImpl --> MatchRegistrationHistoryMapper
+MatchRegistrationHistoryServiceImpl --> CurrentPlayerService
+MatchRegistrationHistoryServiceImpl --> MatchRepository
+@enduml

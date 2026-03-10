@@ -1,0 +1,50 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - autoSelectCurrentPlayerForUser
+
+actor Controller
+participant "PlayerServiceImpl" as Facade
+participant "PlayerCommandServiceImpl" as Command
+participant "AppUserSettingsService" as UserSettings
+participant "PlayerRepository" as PlayerRepo
+participant "CurrentPlayerService" as CurrentPlayer
+
+Controller -> Facade : autoSelectCurrentPlayerForUser(userEmail)
+Facade -> Command : autoSelectCurrentPlayerForUser(userEmail)
+Command -> UserSettings : getSettingsForUser(userEmail)
+UserSettings --> Command : userSettingsDto
+Command -> Command : resolve PlayerSelectionMode
+
+alt FIRST_PLAYER
+  Command -> PlayerRepo : findByUser_EmailOrderByIdAsc(userEmail)
+  PlayerRepo --> Command : players
+  alt no players
+    Command -> CurrentPlayer : clear()
+    Command --> Facade : PlayerNotFoundException
+  else first player not APPROVED
+    Command --> Facade : InvalidPlayerStatusException
+  else approved player found
+    Command -> CurrentPlayer : setCurrentPlayerId(firstPlayer.id)
+    CurrentPlayer --> Command : ok
+    Command --> Facade : SuccessResponseDTO
+  end
+else ALWAYS_CHOOSE
+  Command -> PlayerRepo : findByUser_EmailOrderByIdAsc(userEmail)
+  PlayerRepo --> Command : players
+  Command -> Command : filter APPROVED
+  alt 0 approved players
+    Command -> CurrentPlayer : clear()
+    Command --> Facade : PlayerNotFoundException
+  else exactly 1 approved player
+    Command -> CurrentPlayer : setCurrentPlayerId(onlyPlayer.id)
+    CurrentPlayer --> Command : ok
+    Command --> Facade : SuccessResponseDTO
+  else multiple approved players
+    Command -> CurrentPlayer : clear()
+    Command --> Facade : SuccessResponseDTO(manual selection required)
+  end
+end
+
+Facade --> Controller : result / exception
+@enduml

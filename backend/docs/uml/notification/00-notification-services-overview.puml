@@ -1,0 +1,89 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Notification services - architektonický přehled
+
+package "Orchestrace a preference" {
+  interface NotificationService
+  class NotificationServiceImpl <<orchestrator>>
+  interface NotificationPreferencesService
+  class NotificationPreferencesServiceImpl <<preference>>
+  interface InAppNotificationService
+  class InAppNotificationServiceImpl <<in-app>>
+}
+
+package "Read / special / schedulery" {
+  interface NotificationQueryService
+  class NotificationQueryServiceImpl <<query>>
+  interface SpecialNotificationService
+  class SpecialNotificationServiceImpl <<special>>
+  class MatchReminderScheduler <<scheduler>>
+  class NoResponseReminderScheduler <<scheduler>>
+  class NotificationCleanupService <<scheduler>>
+}
+
+package "Buildery a podpůrné objekty" {
+  class InAppNotificationBuilder
+  class NotificationContext
+  class NotificationDecision
+  class DemoModeService
+  class DemoNotificationStore
+}
+
+package "Persistence / externí integrace" {
+  interface NotificationRepository
+  interface AppUserRepository
+  interface PlayerRepository
+  interface PlayerSettingsRepository
+  interface MatchRepository
+  interface MatchRegistrationRepository
+  class NotificationMapper
+  class EmailService
+  class SmsService
+  class EmailMessageBuilder
+  class SmsMessageBuilder
+  class Clock
+}
+
+NotificationServiceImpl ..|> NotificationService
+NotificationPreferencesServiceImpl ..|> NotificationPreferencesService
+InAppNotificationServiceImpl ..|> InAppNotificationService
+NotificationQueryServiceImpl ..|> NotificationQueryService
+SpecialNotificationServiceImpl ..|> SpecialNotificationService
+
+NotificationServiceImpl --> NotificationPreferencesService : rozhodnutí kanálů
+NotificationServiceImpl --> InAppNotificationService : uložení do aplikace
+NotificationServiceImpl --> EmailService
+NotificationServiceImpl --> SmsService
+NotificationServiceImpl --> DemoModeService
+NotificationServiceImpl --> DemoNotificationStore
+
+InAppNotificationServiceImpl --> NotificationRepository
+InAppNotificationServiceImpl --> InAppNotificationBuilder
+InAppNotificationServiceImpl --> Clock
+
+NotificationQueryServiceImpl --> NotificationRepository
+NotificationQueryServiceImpl --> NotificationMapper
+NotificationQueryServiceImpl --> AppUserRepository
+NotificationQueryServiceImpl --> Clock
+
+SpecialNotificationServiceImpl --> AppUserRepository
+SpecialNotificationServiceImpl --> PlayerRepository
+SpecialNotificationServiceImpl --> PlayerSettingsRepository
+SpecialNotificationServiceImpl --> InAppNotificationService
+SpecialNotificationServiceImpl --> EmailService
+SpecialNotificationServiceImpl --> SmsService
+SpecialNotificationServiceImpl --> DemoModeService
+SpecialNotificationServiceImpl --> DemoNotificationStore
+
+MatchReminderScheduler --> MatchRepository
+MatchReminderScheduler --> MatchRegistrationRepository
+MatchReminderScheduler --> NotificationService
+NoResponseReminderScheduler --> MatchRepository
+NoResponseReminderScheduler --> MatchRegistrationRepository
+NoResponseReminderScheduler --> NotificationService
+@enduml

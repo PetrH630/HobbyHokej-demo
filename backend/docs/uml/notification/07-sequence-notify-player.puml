@@ -1,0 +1,31 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - notify player
+
+actor Caller
+participant "NotificationServiceImpl" as Notification
+participant "NotificationPreferencesService" as Preferences
+participant "InAppNotificationService" as InApp
+participant "EmailService" as Email
+participant "SmsService" as Sms
+participant "DemoModeService" as DemoMode
+participant "DemoNotificationStore" as DemoStore
+
+Caller -> Notification : notifyPlayer(player, type, context)
+Notification -> Preferences : evaluate(player, type)
+Preferences --> Notification : NotificationDecision
+Notification -> InApp : storeForPlayer(player, type, context)
+alt demo mode
+  Notification -> DemoMode : isDemoMode()
+  Notification -> DemoStore : addEmail/addSms(...)
+else standard mode
+  alt email enabled
+    Notification -> Email : send(...)
+  end
+  alt sms enabled
+    Notification -> Sms : send(...)
+  end
+end
+Notification --> Caller : ok
+@enduml

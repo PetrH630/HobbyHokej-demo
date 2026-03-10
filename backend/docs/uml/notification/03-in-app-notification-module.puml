@@ -1,0 +1,33 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title InAppNotificationService - ukládání in-app notifikací
+
+interface InAppNotificationService {
+  + storeForPlayer(player: PlayerEntity, type: NotificationType, context: Object) : void
+  + storeForUser(user: AppUserEntity, type: NotificationType, context: Object) : void
+  + storeSpecialMessage(user: AppUserEntity, player: PlayerEntity, messageShort: String, messageFull: String) : void
+}
+
+class InAppNotificationServiceImpl {
+  - notificationRepository : NotificationRepository
+  - inAppNotificationBuilder : InAppNotificationBuilder
+  - clock : Clock
+}
+
+class NotificationRepository
+class InAppNotificationBuilder
+class NotificationEntity
+class NotificationType <<enum>>
+class Clock
+
+InAppNotificationServiceImpl ..|> InAppNotificationService
+InAppNotificationServiceImpl --> NotificationRepository : persistence
+InAppNotificationServiceImpl --> InAppNotificationBuilder : build content
+InAppNotificationServiceImpl --> Clock : createdAt / timestamps
+InAppNotificationServiceImpl ..> NotificationEntity
+InAppNotificationServiceImpl ..> NotificationType
+@enduml

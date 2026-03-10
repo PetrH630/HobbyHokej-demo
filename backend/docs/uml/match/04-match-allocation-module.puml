@@ -1,0 +1,41 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Match allocation - engine a kapacity
+
+interface MatchAllocationEngine {
+  + recomputeForMatch(matchId: Long) : void
+  + handleCapacityIncrease(match: MatchEntity, totalNewSlots: int) : void
+  + handleMatchModeChange(match: MatchEntity, oldMatchMode: MatchMode) : void
+}
+
+class MatchAllocationEngineImpl {
+  - matchRepository : MatchRepository
+  - registrationRepository : MatchRegistrationRepository
+  - matchRegistrationQueryService : MatchRegistrationQueryService
+}
+
+interface MatchCapacityService {
+  + handleCapacityChange(match: MatchEntity, oldMaxPlayers: Integer) : void
+}
+
+class MatchCapacityServiceImpl {
+  - matchAllocationEngine : MatchAllocationEngine
+}
+
+class MatchRepository
+class MatchRegistrationRepository
+class MatchRegistrationQueryService
+class MatchEntity
+class MatchMode <<enum>>
+
+MatchAllocationEngineImpl ..|> MatchAllocationEngine
+MatchCapacityServiceImpl ..|> MatchCapacityService
+MatchAllocationEngineImpl --> MatchRepository : načtení zápasu
+MatchAllocationEngineImpl --> MatchRegistrationRepository : registrace a změna stavů
+MatchAllocationEngineImpl --> MatchRegistrationQueryService : read model registrací
+MatchCapacityServiceImpl --> MatchAllocationEngine : delegace přepočtu
+@enduml

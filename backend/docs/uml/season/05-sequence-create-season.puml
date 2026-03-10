@@ -1,0 +1,21 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - create season
+
+actor Controller
+participant "SeasonServiceImpl" as SeasonService
+participant "SeasonRepository" as SeasonRepo
+participant "SeasonMapper" as Mapper
+
+Controller -> SeasonService : createSeason(seasonDTO)
+SeasonService -> SeasonRepo : check overlap/duplicate
+SeasonRepo --> SeasonService : ok / exception
+SeasonService -> Mapper : toEntity(seasonDTO)
+Mapper --> SeasonService : SeasonEntity
+SeasonService -> SeasonRepo : save(season)
+SeasonRepo --> SeasonService : saved season
+SeasonService -> Mapper : toDTO(saved)
+Mapper --> SeasonService : SeasonDTO
+SeasonService --> Controller : SeasonDTO
+@enduml

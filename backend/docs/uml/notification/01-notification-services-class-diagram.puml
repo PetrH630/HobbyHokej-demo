@@ -1,0 +1,86 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Notification services - třídní diagram
+
+interface NotificationService {
+  + notifyPlayer(player: PlayerEntity, type: NotificationType, context: Object) : void
+  + notifyUser(user: AppUserEntity, type: NotificationType, context: Object) : void
+}
+class NotificationServiceImpl {
+  - appUserRepository : AppUserRepository
+  - emailService : EmailService
+  - smsService : SmsService
+  - smsMessageBuilder : SmsMessageBuilder
+  - emailMessageBuilder : EmailMessageBuilder
+  - notificationPreferencesService : NotificationPreferencesService
+  - inAppNotificationService : InAppNotificationService
+  - demoModeService : DemoModeService
+  - demoNotificationStore : DemoNotificationStore
+}
+
+interface NotificationPreferencesService {
+  + evaluate(player: PlayerEntity, type: NotificationType) : NotificationDecision
+}
+class NotificationPreferencesServiceImpl
+
+interface InAppNotificationService {
+  + storeForPlayer(player: PlayerEntity, type: NotificationType, context: Object) : void
+  + storeForUser(user: AppUserEntity, type: NotificationType, context: Object) : void
+}
+class InAppNotificationServiceImpl {
+  - notificationRepository : NotificationRepository
+  - inAppNotificationBuilder : InAppNotificationBuilder
+  - clock : Clock
+}
+
+interface NotificationQueryService {
+  + getBadge(authentication: Authentication) : NotificationBadgeDTO
+  + getSinceLastLogin(authentication: Authentication) : List<NotificationDTO>
+  + getRecent(authentication: Authentication, limit: int) : List<NotificationDTO>
+  + markAsRead(authentication: Authentication, id: Long) : void
+  + markAllAsRead(authentication: Authentication) : void
+  + getAllNotifications(limit: int) : List<NotificationDTO>
+}
+class NotificationQueryServiceImpl {
+  - notificationRepository : NotificationRepository
+  - notificationMapper : NotificationMapper
+  - appUserRepository : AppUserRepository
+  - clock : Clock
+}
+
+interface SpecialNotificationService {
+  + sendSpecialNotification(request: SpecialNotificationRequestDTO) : void
+  + getSpecialNotificationTargets() : List<SpecialNotificationTargetDTO>
+}
+class SpecialNotificationServiceImpl {
+  - appUserRepository : AppUserRepository
+  - playerRepository : PlayerRepository
+  - playerSettingsRepository : PlayerSettingsRepository
+  - inAppNotificationService : InAppNotificationService
+  - emailService : EmailService
+  - smsService : SmsService
+  - emailMessageBuilder : EmailMessageBuilder
+  - smsMessageBuilder : SmsMessageBuilder
+  - demoModeService : DemoModeService
+  - demoNotificationStore : DemoNotificationStore
+}
+
+class MatchReminderScheduler
+class NoResponseReminderScheduler
+class NotificationCleanupService
+class DemoModeService
+class DemoNotificationStore
+class InAppNotificationBuilder
+class NotificationContext
+class NotificationDecision
+
+NotificationServiceImpl ..|> NotificationService
+NotificationPreferencesServiceImpl ..|> NotificationPreferencesService
+InAppNotificationServiceImpl ..|> InAppNotificationService
+NotificationQueryServiceImpl ..|> NotificationQueryService
+SpecialNotificationServiceImpl ..|> SpecialNotificationService
+@enduml

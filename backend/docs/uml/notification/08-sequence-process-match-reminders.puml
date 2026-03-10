@@ -1,0 +1,23 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - process match reminders
+
+actor SchedulerTrigger as Trigger
+participant "MatchReminderScheduler" as Scheduler
+participant "MatchRepository" as MatchRepo
+participant "MatchRegistrationRepository" as RegRepo
+participant "NotificationService" as Notification
+
+Trigger -> Scheduler : processMatchReminders()
+Scheduler -> MatchRepo : find upcoming matches in horizon
+MatchRepo --> Scheduler : matches
+loop each candidate match
+  Scheduler -> RegRepo : find registrations for match
+  RegRepo --> Scheduler : registrations
+  loop each registered player
+    Scheduler -> Notification : notifyPlayer(player, MATCH_REMINDER, context)
+  end
+end
+Scheduler --> Trigger : done
+@enduml

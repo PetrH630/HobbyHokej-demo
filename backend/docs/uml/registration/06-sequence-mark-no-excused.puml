@@ -1,0 +1,21 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - mark no excused
+
+actor AdminController as Controller
+participant "MatchRegistrationServiceImpl" as Facade
+participant "MatchRegistrationCommandServiceImpl" as Command
+participant "MatchRegistrationRepository" as RegRepo
+participant "NotificationService" as Notification
+
+Controller -> Facade : markNoExcused(matchId, playerId, adminNote)
+Facade -> Command : markNoExcused(matchId, playerId, adminNote)
+Command -> RegRepo : find registration(matchId, playerId)
+RegRepo --> Command : registration / exception
+Command -> Command : set status = NO_EXCUSED
+Command -> RegRepo : save(registration)
+Command -> Notification : notifyPlayer(player, PLAYER_MARKED_NO_EXCUSED, context)
+Command --> Facade : MatchRegistrationDTO
+Facade --> Controller : MatchRegistrationDTO
+@enduml

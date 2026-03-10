@@ -1,0 +1,31 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title MatchPositionService - pozice a přehledy týmů
+
+interface MatchPositionService {
+  + getPositionOverviewForMatch(matchId: Long) : MatchPositionOverviewDTO
+  + getPositionOverviewForMatchAndTeam(matchId: Long, team: Team) : MatchTeamPositionOverviewDTO
+}
+
+class MatchPositionServiceImpl {
+  - matchRepository : MatchRepository
+  - registrationService : MatchRegistrationService
+  - playerRepository : PlayerRepository
+}
+
+class MatchRepository
+class MatchRegistrationService
+class PlayerRepository
+class MatchPositionOverviewDTO
+class MatchTeamPositionOverviewDTO
+class Team <<enum>>
+
+MatchPositionServiceImpl ..|> MatchPositionService
+MatchPositionServiceImpl --> MatchRepository : ověření zápasu
+MatchPositionServiceImpl --> MatchRegistrationService : registrace hráčů
+MatchPositionServiceImpl --> PlayerRepository : hráčské pozice a metadata
+@enduml

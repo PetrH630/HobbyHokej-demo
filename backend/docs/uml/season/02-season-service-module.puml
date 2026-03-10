@@ -1,0 +1,41 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title SeasonService - správa sezón
+
+interface SeasonService {
+  + createSeason(seasonDTO: SeasonDTO) : SeasonDTO
+  + updateSeason(id: Long, seasonDTO: SeasonDTO) : SeasonDTO
+  + getActiveSeason() : SeasonEntity
+  + getActiveSeasonOrNull() : SeasonDTO
+  + getSeasonById(id: Long) : SeasonDTO
+  + getAllSeasons() : List<SeasonDTO>
+  + setActiveSeason(seasonId: Long) : void
+}
+
+class SeasonServiceImpl {
+  - seasonRepository : SeasonRepository
+  - mapper : SeasonMapper
+  - appUserRepository : AppUserRepository
+}
+
+class SeasonRepository
+class SeasonMapper
+class AppUserRepository
+class SeasonEntity
+class SeasonDTO
+class SeasonNotFoundException <<exception>>
+class DuplicateSeasonException <<exception>>
+
+SeasonServiceImpl ..|> SeasonService
+SeasonServiceImpl --> SeasonRepository : CRUD sezón
+SeasonServiceImpl --> SeasonMapper : DTO <-> entita
+SeasonServiceImpl --> AppUserRepository : informace o uživateli / auditu
+SeasonServiceImpl ..> SeasonEntity
+SeasonServiceImpl ..> SeasonDTO
+SeasonServiceImpl ..> SeasonNotFoundException
+SeasonServiceImpl ..> DuplicateSeasonException
+@enduml

@@ -1,0 +1,42 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Season services - architektonický přehled
+
+package "Business a facade" {
+  interface SeasonService
+  class SeasonServiceImpl <<facade>>
+}
+
+package "Podpůrné služby" {
+  interface CurrentSeasonService
+  class CurrentSeasonServiceImpl <<session-context>>
+  interface SeasonHistoryService
+  class SeasonHistoryServiceImpl <<history>>
+}
+
+package "Persistence / externí moduly" {
+  interface SeasonRepository
+  interface SeasonHistoryRepository
+  class SeasonMapper
+  class SeasonHistoryMapper
+  interface AppUserRepository
+  interface HttpSession
+}
+
+SeasonServiceImpl ..|> SeasonService
+CurrentSeasonServiceImpl ..|> CurrentSeasonService
+SeasonHistoryServiceImpl ..|> SeasonHistoryService
+
+SeasonServiceImpl --> SeasonRepository
+SeasonServiceImpl --> SeasonMapper
+SeasonServiceImpl --> AppUserRepository
+CurrentSeasonServiceImpl --> HttpSession
+CurrentSeasonServiceImpl --> SeasonService : fallback na active season
+SeasonHistoryServiceImpl --> SeasonHistoryRepository
+SeasonHistoryServiceImpl --> SeasonHistoryMapper
+@enduml

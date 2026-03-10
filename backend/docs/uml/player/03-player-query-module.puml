@@ -1,0 +1,40 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title PlayerQueryService - čtecí část modulu hráčů
+
+interface PlayerQueryService {
+  + getAllPlayers() : List<PlayerDTO>
+  + getPlayerById(id: Long) : PlayerDTO
+  + getPlayersByUser(email: String) : List<PlayerDTO>
+}
+
+class PlayerQueryServiceImpl {
+  - playerRepository : PlayerRepository
+  - playerMapper : PlayerMapper
+  + getAllPlayers() : List<PlayerDTO>
+  + getPlayerById(id: Long) : PlayerDTO
+  + getPlayersByUser(email: String) : List<PlayerDTO>
+}
+
+class PlayerRepository
+class PlayerMapper
+class PlayerEntity
+class PlayerDTO
+class PlayerNotFoundException <<exception>>
+
+PlayerQueryServiceImpl ..|> PlayerQueryService
+PlayerQueryServiceImpl --> PlayerRepository : načtení dat
+PlayerQueryServiceImpl --> PlayerMapper : mapování na DTO
+PlayerQueryServiceImpl ..> PlayerEntity
+PlayerQueryServiceImpl ..> PlayerNotFoundException
+
+note right of PlayerQueryServiceImpl
+Čistá read-only service.
+Bez vedlejších efektů a bez změn stavu.
+Vhodná pro administraci i frontendové přehledy.
+end note
+@enduml

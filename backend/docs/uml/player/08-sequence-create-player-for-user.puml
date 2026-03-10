@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - createPlayerForUser
+
+actor Controller
+participant "PlayerServiceImpl" as Facade
+participant "PlayerCommandServiceImpl" as Command
+participant "AppUserRepository" as UserRepo
+participant "PlayerMapper" as Mapper
+participant "PlayerRepository" as PlayerRepo
+participant "NotificationService" as Notification
+
+Controller -> Facade : createPlayerForUser(dto, userEmail)
+Facade -> Command : createPlayerForUser(dto, userEmail)
+Command -> UserRepo : findByEmail(userEmail)
+UserRepo --> Command : AppUserEntity / exception
+Command -> Command : ensureUniqueNameSurname(name, surname, null)
+Command -> Mapper : toEntity(dto)
+Mapper --> Command : PlayerEntity
+Command -> Command : player.setUser(user)
+Command -> PlayerRepo : save(player)
+PlayerRepo --> Command : saved PlayerEntity
+Command -> Notification : notifyPlayer(saved, PLAYER_CREATED, saved)
+Command -> Mapper : toDTO(saved)
+Mapper --> Command : PlayerDTO
+Command --> Facade : PlayerDTO
+Facade --> Controller : PlayerDTO
+@enduml

@@ -1,0 +1,28 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - upsert registration
+
+actor Controller
+participant "MatchRegistrationServiceImpl" as Facade
+participant "MatchRegistrationCommandServiceImpl" as Command
+participant "MatchRepository" as MatchRepo
+participant "PlayerRepository" as PlayerRepo
+participant "MatchRegistrationRepository" as RegRepo
+participant "MatchAllocationEngine" as Allocation
+participant "NotificationService" as Notification
+
+Controller -> Facade : upsertRegistration(playerId, request)
+Facade -> Command : upsertRegistration(playerId, request)
+Command -> MatchRepo : findById(request.matchId)
+MatchRepo --> Command : MatchEntity / exception
+Command -> PlayerRepo : findById(playerId)
+PlayerRepo --> Command : PlayerEntity / exception
+Command -> RegRepo : find existing registration
+Command -> RegRepo : save(new/updated registration)
+RegRepo --> Command : saved MatchRegistrationEntity
+Command -> Allocation : recomputeForMatch(matchId)
+Command -> Notification : notifyPlayer(player, REGISTRATION_CHANGED, context)
+Command --> Facade : MatchRegistrationDTO
+Facade --> Controller : MatchRegistrationDTO
+@enduml

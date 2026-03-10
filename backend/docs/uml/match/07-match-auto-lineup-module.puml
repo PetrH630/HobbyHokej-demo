@@ -1,0 +1,35 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Match auto-lineup - automatické sestavy
+
+interface MatchAutoLineupService {
+  + autoArrangeStartingLineup(matchId: Long) : void
+}
+
+class MatchAutoLineupServiceImpl {
+  - matchRepository : MatchRepository
+  - registrationRepository : MatchRegistrationRepository
+}
+
+class MatchAutoLineupScheduler {
+  - matchRepository : MatchRepository
+  - matchAutoLineupService : MatchAutoLineupService
+  - clock : Clock
+  + autoLineupOneHourBefore() : void
+}
+
+class MatchRepository
+class MatchRegistrationRepository
+class Clock
+
+MatchAutoLineupServiceImpl ..|> MatchAutoLineupService
+MatchAutoLineupServiceImpl --> MatchRepository : načtení zápasu
+MatchAutoLineupServiceImpl --> MatchRegistrationRepository : registrovaní hráči
+MatchAutoLineupScheduler --> MatchRepository : výběr kandidátních zápasů
+MatchAutoLineupScheduler --> MatchAutoLineupService : provedení lineupu
+MatchAutoLineupScheduler --> Clock : plánovací okno
+@enduml

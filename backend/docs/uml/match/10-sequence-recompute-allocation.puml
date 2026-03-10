@@ -1,0 +1,22 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - recompute allocation
+
+actor Caller
+participant "MatchAllocationEngineImpl" as Allocation
+participant "MatchRepository" as MatchRepo
+participant "MatchRegistrationRepository" as RegRepo
+participant "MatchRegistrationQueryService" as Query
+
+Caller -> Allocation : recomputeForMatch(matchId)
+Allocation -> MatchRepo : findById(matchId)
+MatchRepo --> Allocation : MatchEntity
+Allocation -> RegRepo : load registrations
+RegRepo --> Allocation : registrations
+Allocation -> Query : getRegistrationsForMatch(matchId)
+Query --> Allocation : read-model registrations
+Allocation -> Allocation : recompute starters / reserved / no response
+Allocation -> RegRepo : save updated statuses
+Allocation --> Caller : done
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title MatchRegistrationHistoryService - historie registrací
+
+interface MatchRegistrationHistoryService {
+  + getHistoryForCurrentPlayerAndMatch(matchId: Long) : List<MatchRegistrationHistoryDTO>
+  + getHistoryForPlayerAndMatch(matchId: Long, playerId: Long) : List<MatchRegistrationHistoryDTO>
+}
+
+class MatchRegistrationHistoryServiceImpl {
+  - historyRepository : MatchRegistrationHistoryRepository
+  - historyMapper : MatchRegistrationHistoryMapper
+  - currentPlayerService : CurrentPlayerService
+  - matchRepository : MatchRepository
+}
+
+class MatchRegistrationHistoryRepository
+class MatchRegistrationHistoryMapper
+class CurrentPlayerService
+class MatchRepository
+class MatchRegistrationHistoryDTO
+
+MatchRegistrationHistoryServiceImpl ..|> MatchRegistrationHistoryService
+MatchRegistrationHistoryServiceImpl --> MatchRegistrationHistoryRepository : čtení auditní historie
+MatchRegistrationHistoryServiceImpl --> MatchRegistrationHistoryMapper : mapování na DTO
+MatchRegistrationHistoryServiceImpl --> CurrentPlayerService : kontext /me
+MatchRegistrationHistoryServiceImpl --> MatchRepository : validace zápasu
+@enduml

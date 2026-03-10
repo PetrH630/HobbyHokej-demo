@@ -1,0 +1,107 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Match services - třídní diagram
+
+interface MatchService {
+  + getAllMatches() : List<MatchDTO>
+  + getUpcomingMatches() : List<MatchDTO>
+  + getPastMatches() : List<MatchDTO>
+  + getNextMatch() : MatchDTO
+  + getMatchById(id: Long) : MatchDTO
+  + createMatch(dto: MatchDTO) : MatchDTO
+  + updateMatch(id: Long, dto: MatchDTO) : MatchDTO
+  + deleteMatch(id: Long) : SuccessResponseDTO
+  + cancelMatch(matchId: Long, reason: MatchCancelReason) : SuccessResponseDTO
+  + unCancelMatch(matchId: Long) : SuccessResponseDTO
+  + updateMatchScore(matchId: Long, scoreLight: Integer, scoreDark: Integer) : MatchDTO
+  + getMatchDetail(id: Long) : MatchDetailDTO
+  + getAvailableMatchesForPlayer(playerId: Long) : List<MatchDTO>
+  + getPlayerIdByEmail(email: String) : Long
+  + getUpcomingMatchesOverviewForPlayer(playerId: Long) : List<MatchOverviewDTO>
+  + getUpcomingMatchesForPlayer(playerId: Long) : List<MatchDTO>
+  + getAllPassedMatchesForPlayer(playerId: Long) : List<MatchOverviewDTO>
+}
+class MatchServiceImpl {
+  - matchQueryService : MatchQueryService
+  - matchCommandService : MatchCommandService
+}
+
+interface MatchCommandService
+class MatchCommandServiceImpl {
+  - matchRepository : MatchRepository
+  - matchRegistrationRepository : MatchRegistrationRepository
+  - matchMapper : MatchMapper
+  - seasonService : SeasonService
+  - currentSeasonService : CurrentSeasonService
+  - notificationService : NotificationService
+  - appUserRepository : AppUserRepository
+  - matchCapacityService : MatchCapacityService
+  - clock : Clock
+  - matchAllocationEngine : MatchAllocationEngine
+}
+
+interface MatchQueryService
+class MatchQueryServiceImpl {
+  - matchRepository : MatchRepository
+  - matchRegistrationRepository : MatchRegistrationRepository
+  - matchMapper : MatchMapper
+  - matchRegistrationService : MatchRegistrationService
+  - playerRepository : PlayerRepository
+  - playerInactivityPeriodService : PlayerInactivityPeriodService
+  - playerMapper : PlayerMapper
+  - currentPlayerService : CurrentPlayerService
+  - seasonService : SeasonService
+  - currentSeasonService : CurrentSeasonService
+  - clock : Clock
+}
+
+interface MatchPositionService
+class MatchPositionServiceImpl {
+  - matchRepository : MatchRepository
+  - registrationService : MatchRegistrationService
+  - playerRepository : PlayerRepository
+}
+
+interface MatchHistoryService
+class MatchHistoryServiceImpl {
+  - repository : MatchHistoryRepository
+  - mapper : MatchHistoryMapper
+}
+
+interface MatchAllocationEngine
+class MatchAllocationEngineImpl {
+  - matchRepository : MatchRepository
+  - registrationRepository : MatchRegistrationRepository
+  - matchRegistrationQueryService : MatchRegistrationQueryService
+}
+
+interface MatchCapacityService
+class MatchCapacityServiceImpl {
+  - matchAllocationEngine : MatchAllocationEngine
+}
+
+interface MatchAutoLineupService
+class MatchAutoLineupServiceImpl {
+  - matchRepository : MatchRepository
+  - registrationRepository : MatchRegistrationRepository
+}
+
+class MatchAutoLineupScheduler {
+  - matchRepository : MatchRepository
+  - matchAutoLineupService : MatchAutoLineupService
+  - clock : Clock
+}
+
+MatchServiceImpl ..|> MatchService
+MatchCommandServiceImpl ..|> MatchCommandService
+MatchQueryServiceImpl ..|> MatchQueryService
+MatchPositionServiceImpl ..|> MatchPositionService
+MatchHistoryServiceImpl ..|> MatchHistoryService
+MatchAllocationEngineImpl ..|> MatchAllocationEngine
+MatchCapacityServiceImpl ..|> MatchCapacityService
+MatchAutoLineupServiceImpl ..|> MatchAutoLineupService
+@enduml

@@ -1,0 +1,51 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title SpecialNotificationService - speciální a hromadné zprávy
+
+interface SpecialNotificationService {
+  + sendSpecialNotification(request: SpecialNotificationRequestDTO) : void
+  + getSpecialNotificationTargets() : List<SpecialNotificationTargetDTO>
+}
+
+class SpecialNotificationServiceImpl {
+  - appUserRepository : AppUserRepository
+  - playerRepository : PlayerRepository
+  - playerSettingsRepository : PlayerSettingsRepository
+  - inAppNotificationService : InAppNotificationService
+  - emailService : EmailService
+  - smsService : SmsService
+  - emailMessageBuilder : EmailMessageBuilder
+  - smsMessageBuilder : SmsMessageBuilder
+  - demoModeService : DemoModeService
+  - demoNotificationStore : DemoNotificationStore
+}
+
+class AppUserRepository
+class PlayerRepository
+class PlayerSettingsRepository
+interface InAppNotificationService
+class EmailService
+class SmsService
+class EmailMessageBuilder
+class SmsMessageBuilder
+class DemoModeService
+class DemoNotificationStore
+class SpecialNotificationRequestDTO
+class SpecialNotificationTargetDTO
+
+SpecialNotificationServiceImpl ..|> SpecialNotificationService
+SpecialNotificationServiceImpl --> AppUserRepository : cílení na uživatele
+SpecialNotificationServiceImpl --> PlayerRepository : cílení na hráče
+SpecialNotificationServiceImpl --> PlayerSettingsRepository : preference kanálů
+SpecialNotificationServiceImpl --> InAppNotificationService : uložit do aplikace
+SpecialNotificationServiceImpl --> EmailService : email kanál
+SpecialNotificationServiceImpl --> SmsService : sms kanál
+SpecialNotificationServiceImpl --> EmailMessageBuilder
+SpecialNotificationServiceImpl --> SmsMessageBuilder
+SpecialNotificationServiceImpl --> DemoModeService
+SpecialNotificationServiceImpl --> DemoNotificationStore
+@enduml

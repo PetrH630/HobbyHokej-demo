@@ -1,0 +1,23 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - get registrations for match
+
+actor Controller
+participant "MatchRegistrationServiceImpl" as Facade
+participant "MatchRegistrationQueryServiceImpl" as Query
+participant "MatchRepository" as MatchRepo
+participant "MatchRegistrationRepository" as RegRepo
+participant "MatchRegistrationMapper" as Mapper
+
+Controller -> Facade : getRegistrationsForMatch(matchId)
+Facade -> Query : getRegistrationsForMatch(matchId)
+Query -> MatchRepo : findById(matchId)
+MatchRepo --> Query : MatchEntity / exception
+Query -> RegRepo : findByMatchId(matchId)
+RegRepo --> Query : registrations
+Query -> Mapper : toDTO(list)
+Mapper --> Query : List<MatchRegistrationDTO>
+Query --> Facade : List<MatchRegistrationDTO>
+Facade --> Controller : List<MatchRegistrationDTO>
+@enduml

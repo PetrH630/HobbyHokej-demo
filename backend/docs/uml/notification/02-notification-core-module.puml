@@ -1,0 +1,52 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title NotificationService - hlavní orchestrátor notifikací
+
+interface NotificationService {
+  + notifyPlayer(player: PlayerEntity, type: NotificationType, context: Object) : void
+  + notifyUser(user: AppUserEntity, type: NotificationType, context: Object) : void
+}
+
+class NotificationServiceImpl {
+  - appUserRepository : AppUserRepository
+  - emailService : EmailService
+  - smsService : SmsService
+  - smsMessageBuilder : SmsMessageBuilder
+  - emailMessageBuilder : EmailMessageBuilder
+  - notificationPreferencesService : NotificationPreferencesService
+  - inAppNotificationService : InAppNotificationService
+  - demoModeService : DemoModeService
+  - demoNotificationStore : DemoNotificationStore
+}
+
+class AppUserRepository
+class EmailService
+class SmsService
+class SmsMessageBuilder
+class EmailMessageBuilder
+interface NotificationPreferencesService
+interface InAppNotificationService
+class DemoModeService
+class DemoNotificationStore
+class NotificationType <<enum>>
+class NotificationDecision
+class NotificationContext
+
+NotificationServiceImpl ..|> NotificationService
+NotificationServiceImpl --> AppUserRepository : resolve user by player
+NotificationServiceImpl --> EmailService : email delivery
+NotificationServiceImpl --> SmsService : SMS delivery
+NotificationServiceImpl --> SmsMessageBuilder : text SMS
+NotificationServiceImpl --> EmailMessageBuilder : text email
+NotificationServiceImpl --> NotificationPreferencesService : evaluace preference
+NotificationServiceImpl --> InAppNotificationService : uložení do aplikace
+NotificationServiceImpl --> DemoModeService : demo branch
+NotificationServiceImpl --> DemoNotificationStore : capture demo output
+NotificationServiceImpl ..> NotificationType
+NotificationServiceImpl ..> NotificationDecision
+NotificationServiceImpl ..> NotificationContext
+@enduml

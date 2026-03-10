@@ -1,0 +1,47 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Reminder schedulery - zápasové remindery a cleanup
+
+class MatchReminderScheduler {
+  - matchRepository : MatchRepository
+  - matchRegistrationRepository : MatchRegistrationRepository
+  - notificationService : NotificationService
+  - clock : Clock
+  - horizonHours : int
+  - reminderHoursBefore : int
+  - toleranceMinutes : int
+  + processMatchReminders() : void
+}
+
+class NoResponseReminderScheduler {
+  - matchRepository : MatchRepository
+  - matchRegistrationRepository : MatchRegistrationRepository
+  - notificationService : NotificationService
+  - clock : Clock
+  + processNoResponseReminders() : void
+  + previewNoResponseReminders() : List<NoResponseReminderPreviewDTO>
+}
+
+class NotificationCleanupService {
+  + cleanupOldNotifications() : void
+}
+
+class MatchRepository
+class MatchRegistrationRepository
+interface NotificationService
+class Clock
+class NoResponseReminderPreviewDTO
+
+MatchReminderScheduler --> MatchRepository
+MatchReminderScheduler --> MatchRegistrationRepository
+MatchReminderScheduler --> NotificationService
+MatchReminderScheduler --> Clock
+NoResponseReminderScheduler --> MatchRepository
+NoResponseReminderScheduler --> MatchRegistrationRepository
+NoResponseReminderScheduler --> NotificationService
+NoResponseReminderScheduler --> Clock
+@enduml

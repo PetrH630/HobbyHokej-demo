@@ -1,0 +1,81 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title AppUserService - hlavní business služba uživatelů
+
+interface AppUserService {
+  + register(dto: RegisterUserDTO) : void
+  + activateUser(token: String) : boolean
+  + activateUserByAdmin(id: Long) : void
+  + updateUser(email: String, dto: AppUserDTO) : void
+  + getCurrentUser(email: String) : AppUserDTO
+  + getAllUsers() : List<AppUserDTO>
+  + changePassword(email: String, oldPassword: String, newPassword: String, newPasswordConfirm: String) : void
+  + resetPassword(userId: Long) : void
+  + deactivateUserByAdmin(id: Long) : void
+  + getUserById(id: Long) : AppUserDTO
+  + requestForgottenPasswordReset(email: String) : void
+  + getForgottenPasswordResetEmail(token: String) : String
+  + forgottenPasswordReset(dto: ForgottenPasswordResetDTO) : void
+  + onSuccessfulLogin(email: String) : void
+}
+
+class AppUserServiceImpl {
+  - userRepository : AppUserRepository
+  - passwordEncoder : PasswordEncoder
+  - appUserMapper : AppUserMapper
+  - emailService : EmailService
+  - tokenRepository : EmailVerificationTokenRepository
+  - appUserSettingsService : AppUserSettingsService
+  - notificationService : NotificationService
+  - forgottenPasswordResetTokenRepository : ForgottenPasswordResetTokenRepository
+  - demoModeGuard : DemoModeGuard
+  - clock : Clock
+}
+
+class AppUserRepository
+class PasswordEncoder
+class AppUserMapper
+class EmailService
+class EmailVerificationTokenRepository
+interface AppUserSettingsService
+class NotificationService
+class ForgottenPasswordResetTokenRepository
+class DemoModeGuard
+class Clock
+class AppUserEntity
+class AppUserDTO
+class RegisterUserDTO
+class ForgottenPasswordResetDTO
+class UserActivationContext
+class ForgottenPasswordResetContext
+class UserAlreadyExistsException <<exception>>
+class InvalidPasswordException <<exception>>
+class TokenExpiredException <<exception>>
+class UserNotFoundException <<exception>>
+
+AppUserServiceImpl ..|> AppUserService
+AppUserServiceImpl --> AppUserRepository : CRUD uživatele
+AppUserServiceImpl --> PasswordEncoder : hash / verify hesla
+AppUserServiceImpl --> AppUserMapper : DTO <-> entita
+AppUserServiceImpl --> EmailService : aktivační a reset emaily
+AppUserServiceImpl --> EmailVerificationTokenRepository : token aktivace
+AppUserServiceImpl --> AppUserSettingsService : výchozí nastavení
+AppUserServiceImpl --> NotificationService : interní notifikace
+AppUserServiceImpl --> ForgottenPasswordResetTokenRepository : token resetu
+AppUserServiceImpl --> DemoModeGuard : blokace změn v demo režimu
+AppUserServiceImpl --> Clock : časové kontroly
+AppUserServiceImpl ..> AppUserEntity
+AppUserServiceImpl ..> AppUserDTO
+AppUserServiceImpl ..> RegisterUserDTO
+AppUserServiceImpl ..> ForgottenPasswordResetDTO
+AppUserServiceImpl ..> UserActivationContext
+AppUserServiceImpl ..> ForgottenPasswordResetContext
+AppUserServiceImpl ..> UserAlreadyExistsException
+AppUserServiceImpl ..> InvalidPasswordException
+AppUserServiceImpl ..> TokenExpiredException
+AppUserServiceImpl ..> UserNotFoundException
+@enduml

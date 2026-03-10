@@ -1,0 +1,74 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Match services - architektonický přehled
+
+package "Facade" {
+  interface MatchService
+  class MatchServiceImpl <<facade>>
+}
+
+package "CQRS a provozní služby" {
+  interface MatchCommandService
+  class MatchCommandServiceImpl <<command>>
+  interface MatchQueryService
+  class MatchQueryServiceImpl <<query>>
+  interface MatchPositionService
+  class MatchPositionServiceImpl <<positions>>
+  interface MatchHistoryService
+  class MatchHistoryServiceImpl <<history>>
+}
+
+package "Alokace a lineup" {
+  interface MatchAllocationEngine
+  class MatchAllocationEngineImpl <<allocation>>
+  interface MatchCapacityService
+  class MatchCapacityServiceImpl <<capacity>>
+  interface MatchAutoLineupService
+  class MatchAutoLineupServiceImpl <<lineup>>
+  class MatchAutoLineupScheduler <<scheduler>>
+}
+
+package "Persistence / externí moduly" {
+  interface MatchRepository
+  interface MatchRegistrationRepository
+  interface MatchHistoryRepository
+  interface PlayerRepository
+  class MatchMapper
+  class MatchHistoryMapper
+  class PlayerMapper
+  class MatchRegistrationService
+  class MatchRegistrationQueryService
+  class NotificationService
+  class SeasonService
+  class CurrentSeasonService
+  class CurrentPlayerService
+  class PlayerInactivityPeriodService
+  class AppUserRepository
+  class Clock
+}
+
+MatchServiceImpl ..|> MatchService
+MatchCommandServiceImpl ..|> MatchCommandService
+MatchQueryServiceImpl ..|> MatchQueryService
+MatchPositionServiceImpl ..|> MatchPositionService
+MatchHistoryServiceImpl ..|> MatchHistoryService
+MatchAllocationEngineImpl ..|> MatchAllocationEngine
+MatchCapacityServiceImpl ..|> MatchCapacityService
+MatchAutoLineupServiceImpl ..|> MatchAutoLineupService
+
+MatchServiceImpl --> MatchCommandService
+MatchServiceImpl --> MatchQueryService
+MatchCommandServiceImpl --> MatchCapacityService
+MatchCommandServiceImpl --> MatchAllocationEngine
+MatchQueryServiceImpl --> MatchRegistrationService
+MatchQueryServiceImpl --> CurrentPlayerService
+MatchQueryServiceImpl --> CurrentSeasonService
+MatchPositionServiceImpl --> MatchRegistrationService
+MatchCapacityServiceImpl --> MatchAllocationEngine
+MatchAutoLineupScheduler --> MatchAutoLineupService
+@enduml

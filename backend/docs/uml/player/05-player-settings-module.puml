@@ -1,0 +1,46 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title PlayerSettingsService - nastavení hráče
+
+interface PlayerSettingsService {
+  + getSettingsForPlayer(playerId: Long) : PlayerSettingsDTO
+  + updateSettingsForPlayer(playerId: Long, dto: PlayerSettingsDTO) : PlayerSettingsDTO
+  + createDefaultSettingsForPlayer(player: PlayerEntity) : PlayerSettingsEntity
+}
+
+class PlayerSettingsServiceImpl {
+  - playerRepository : PlayerRepository
+  - playerSettingsRepository : PlayerSettingsRepository
+  - mapper : PlayerSettingsMapper
+  + getSettingsForPlayer(playerId: Long) : PlayerSettingsDTO
+  + updateSettingsForPlayer(playerId: Long, dto: PlayerSettingsDTO) : PlayerSettingsDTO
+  + createDefaultSettingsForPlayer(player: PlayerEntity) : PlayerSettingsEntity
+  - findPlayerOrThrow(playerId: Long) : PlayerEntity
+}
+
+class PlayerRepository
+class PlayerSettingsRepository
+class PlayerSettingsMapper
+class PlayerEntity
+class PlayerSettingsEntity
+class PlayerSettingsDTO
+class PlayerNotFoundException <<exception>>
+
+PlayerSettingsServiceImpl ..|> PlayerSettingsService
+PlayerSettingsServiceImpl --> PlayerRepository : ověření hráče
+PlayerSettingsServiceImpl --> PlayerSettingsRepository : persistence nastavení
+PlayerSettingsServiceImpl --> PlayerSettingsMapper : DTO <-> entita
+PlayerSettingsServiceImpl ..> PlayerEntity
+PlayerSettingsServiceImpl ..> PlayerSettingsEntity
+PlayerSettingsServiceImpl ..> PlayerNotFoundException
+
+note right of PlayerSettingsServiceImpl
+Pokud nastavení neexistuje,
+služba umí vytvořit defaultní konfiguraci,
+až poté aplikuje změny z DTO.
+end note
+@enduml

@@ -1,0 +1,45 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title MatchRegistrationQueryService - čtecí část registrací
+
+interface MatchRegistrationQueryService {
+  + getRegistrationsForMatch(matchId: Long) : List<MatchRegistrationDTO>
+  + getRegistrationsForMatches(matchIds: List<Long>) : List<MatchRegistrationDTO>
+  + getAllRegistrations() : List<MatchRegistrationDTO>
+  + getRegistrationsForPlayer(playerId: Long) : List<MatchRegistrationDTO>
+  + getNoResponsePlayers(matchId: Long) : List<PlayerDTO>
+}
+
+class MatchRegistrationQueryServiceImpl {
+  - registrationRepository : MatchRegistrationRepository
+  - matchRepository : MatchRepository
+  - playerRepository : PlayerRepository
+  - matchRegistrationMapper : MatchRegistrationMapper
+  - playerMapper : PlayerMapper
+  - seasonService : SeasonService
+  - currentSeasonService : CurrentSeasonService
+}
+
+class MatchRegistrationRepository
+class MatchRepository
+class PlayerRepository
+class MatchRegistrationMapper
+class PlayerMapper
+class SeasonService
+class CurrentSeasonService
+class MatchRegistrationDTO
+class PlayerDTO
+
+MatchRegistrationQueryServiceImpl ..|> MatchRegistrationQueryService
+MatchRegistrationQueryServiceImpl --> MatchRegistrationRepository : načtení registrací
+MatchRegistrationQueryServiceImpl --> MatchRepository : ověření zápasu
+MatchRegistrationQueryServiceImpl --> PlayerRepository : ověření hráče
+MatchRegistrationQueryServiceImpl --> MatchRegistrationMapper : mapování na DTO
+MatchRegistrationQueryServiceImpl --> PlayerMapper : mapování no-response hráčů
+MatchRegistrationQueryServiceImpl --> SeasonService : sezónní filtry
+MatchRegistrationQueryServiceImpl --> CurrentSeasonService : current season kontext
+@enduml

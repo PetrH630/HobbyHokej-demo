@@ -1,0 +1,50 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title CurrentPlayerService - správa aktuálního hráče v session
+
+interface CurrentPlayerService {
+  + getCurrentPlayerId() : Long
+  + setCurrentPlayerId(playerId: Long) : void
+  + requireCurrentPlayer() : void
+  + clear() : void
+}
+
+class CurrentPlayerServiceImpl {
+  - session : HttpSession
+  - playerRepository : PlayerRepository
+  + getCurrentPlayerId() : Long
+  + setCurrentPlayerId(playerId: Long) : void
+  + requireCurrentPlayer() : void
+  + clear() : void
+  - findPlayerOrThrow(playerId: Long) : PlayerEntity
+  - validatePlayerSelectable(player: PlayerEntity) : void
+}
+
+interface HttpSession
+class PlayerRepository
+class PlayerEntity
+class PlayerStatus <<enum>>
+class SessionKeys
+class CurrentPlayerNotSelectedException <<exception>>
+class InvalidPlayerStatusException <<exception>>
+class PlayerNotFoundException <<exception>>
+
+CurrentPlayerServiceImpl ..|> CurrentPlayerService
+CurrentPlayerServiceImpl --> HttpSession : ukládá currentPlayerId
+CurrentPlayerServiceImpl --> PlayerRepository : validace existence
+CurrentPlayerServiceImpl ..> PlayerEntity
+CurrentPlayerServiceImpl ..> PlayerStatus : vyžaduje APPROVED
+CurrentPlayerServiceImpl ..> SessionKeys : konstanta session klíče
+CurrentPlayerServiceImpl ..> CurrentPlayerNotSelectedException
+CurrentPlayerServiceImpl ..> InvalidPlayerStatusException
+CurrentPlayerServiceImpl ..> PlayerNotFoundException
+
+note right of CurrentPlayerServiceImpl
+Třída drží pouze kontext výběru hráče.
+Neřeší autorizaci ani zápasovou logiku.
+end note
+@enduml

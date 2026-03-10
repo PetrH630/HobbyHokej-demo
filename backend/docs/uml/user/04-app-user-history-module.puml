@@ -1,0 +1,29 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title AppUserHistoryService - auditní historie uživatele
+
+interface AppUserHistoryService {
+  + getHistoryForUser(email: String) : List<AppUserHistoryDTO>
+  + getHistoryForUser(id: Long) : List<AppUserHistoryDTO>
+}
+
+class AppUserHistoryServiceImpl {
+  - repository : AppUserHistoryRepository
+  - mapper : AppUserHistoryMapper
+}
+
+class AppUserHistoryRepository
+class AppUserHistoryMapper
+class AppUserHistoryEntity
+class AppUserHistoryDTO
+
+AppUserHistoryServiceImpl ..|> AppUserHistoryService
+AppUserHistoryServiceImpl --> AppUserHistoryRepository : čtení historie
+AppUserHistoryServiceImpl --> AppUserHistoryMapper : mapování na DTO
+AppUserHistoryServiceImpl ..> AppUserHistoryEntity
+AppUserHistoryServiceImpl ..> AppUserHistoryDTO
+@enduml

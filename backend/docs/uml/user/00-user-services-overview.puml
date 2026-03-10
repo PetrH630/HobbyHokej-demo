@@ -1,0 +1,59 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+left to right direction
+
+title User services - architektonický přehled
+
+package "Controller / vyšší aplikační vrstva" {
+  interface AppUserService
+  class AppUserServiceImpl <<facade>>
+}
+
+package "Podpůrné služby modulu uživatelů" {
+  interface AppUserSettingsService
+  class AppUserSettingsServiceImpl <<settings>>
+  interface AppUserHistoryService
+  class AppUserHistoryServiceImpl <<history>>
+}
+
+package "Persistence / integrace" {
+  interface AppUserRepository
+  interface AppUserSettingsRepository
+  interface AppUserHistoryRepository
+  interface EmailVerificationTokenRepository
+  interface ForgottenPasswordResetTokenRepository
+  class AppUserMapper
+  class AppUserSettingsMapper
+  class AppUserHistoryMapper
+  class EmailService
+  class NotificationService
+  interface PasswordEncoder
+  class DemoModeGuard
+  class Clock
+}
+
+AppUserServiceImpl ..|> AppUserService
+AppUserSettingsServiceImpl ..|> AppUserSettingsService
+AppUserHistoryServiceImpl ..|> AppUserHistoryService
+
+AppUserServiceImpl --> AppUserRepository
+AppUserServiceImpl --> PasswordEncoder
+AppUserServiceImpl --> AppUserMapper
+AppUserServiceImpl --> EmailService
+AppUserServiceImpl --> EmailVerificationTokenRepository
+AppUserServiceImpl --> AppUserSettingsService : default settings
+AppUserServiceImpl --> NotificationService : systémové notifikace
+AppUserServiceImpl --> ForgottenPasswordResetTokenRepository
+AppUserServiceImpl --> DemoModeGuard
+AppUserServiceImpl --> Clock
+
+AppUserSettingsServiceImpl --> AppUserRepository
+AppUserSettingsServiceImpl --> AppUserSettingsRepository
+AppUserSettingsServiceImpl --> AppUserSettingsMapper
+
+AppUserHistoryServiceImpl --> AppUserHistoryRepository
+AppUserHistoryServiceImpl --> AppUserHistoryMapper
+@enduml

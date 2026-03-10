@@ -1,0 +1,61 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title MatchQueryService - čtecí část zápasů
+
+interface MatchQueryService {
+  + getAllMatches() : List<MatchDTO>
+  + getUpcomingMatches() : List<MatchDTO>
+  + getPastMatches() : List<MatchDTO>
+  + getNextMatch() : MatchDTO
+  + getMatchById(id: Long) : MatchDTO
+  + getMatchDetail(id: Long) : MatchDetailDTO
+  + getAvailableMatchesForPlayer(playerId: Long) : List<MatchDTO>
+  + getPlayerIdByEmail(email: String) : Long
+  + getUpcomingMatchesOverviewForPlayer(playerId: Long) : List<MatchOverviewDTO>
+  + getUpcomingMatchesForPlayer(playerId: Long) : List<MatchDTO>
+  + getAllPassedMatchesForPlayer(playerId: Long) : List<MatchOverviewDTO>
+}
+
+class MatchQueryServiceImpl {
+  - matchRepository : MatchRepository
+  - matchRegistrationRepository : MatchRegistrationRepository
+  - matchMapper : MatchMapper
+  - matchRegistrationService : MatchRegistrationService
+  - playerRepository : PlayerRepository
+  - playerInactivityPeriodService : PlayerInactivityPeriodService
+  - playerMapper : PlayerMapper
+  - currentPlayerService : CurrentPlayerService
+  - seasonService : SeasonService
+  - currentSeasonService : CurrentSeasonService
+  - clock : Clock
+}
+
+class MatchRepository
+class MatchRegistrationRepository
+class MatchMapper
+class MatchRegistrationService
+class PlayerRepository
+class PlayerInactivityPeriodService
+class PlayerMapper
+class CurrentPlayerService
+class SeasonService
+class CurrentSeasonService
+class Clock
+
+MatchQueryServiceImpl ..|> MatchQueryService
+MatchQueryServiceImpl --> MatchRepository : čtení zápasů
+MatchQueryServiceImpl --> MatchRegistrationRepository : registrace pro přehledy
+MatchQueryServiceImpl --> MatchMapper : entity -> DTO
+MatchQueryServiceImpl --> MatchRegistrationService : detail a overview data
+MatchQueryServiceImpl --> PlayerRepository : resolve hráče
+MatchQueryServiceImpl --> PlayerInactivityPeriodService : filtry dostupnosti
+MatchQueryServiceImpl --> PlayerMapper : mapování hráčů v detailu
+MatchQueryServiceImpl --> CurrentPlayerService : /me kontext
+MatchQueryServiceImpl --> SeasonService : sezónní filtry
+MatchQueryServiceImpl --> CurrentSeasonService : current season id
+MatchQueryServiceImpl --> Clock : porovnání podle času
+@enduml

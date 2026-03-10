@@ -1,0 +1,38 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title NotificationQueryService - badge a seznam notifikací
+
+interface NotificationQueryService {
+  + getBadge(authentication: Authentication) : NotificationBadgeDTO
+  + getSinceLastLogin(authentication: Authentication) : List<NotificationDTO>
+  + getRecent(authentication: Authentication, limit: int) : List<NotificationDTO>
+  + markAsRead(authentication: Authentication, id: Long) : void
+  + markAllAsRead(authentication: Authentication) : void
+  + getAllNotifications(limit: int) : List<NotificationDTO>
+}
+
+class NotificationQueryServiceImpl {
+  - notificationRepository : NotificationRepository
+  - notificationMapper : NotificationMapper
+  - appUserRepository : AppUserRepository
+  - clock : Clock
+}
+
+class NotificationRepository
+class NotificationMapper
+class AppUserRepository
+class NotificationBadgeDTO
+class NotificationDTO
+class Authentication
+class Clock
+
+NotificationQueryServiceImpl ..|> NotificationQueryService
+NotificationQueryServiceImpl --> NotificationRepository : čtení / update read flag
+NotificationQueryServiceImpl --> NotificationMapper : entity -> DTO
+NotificationQueryServiceImpl --> AppUserRepository : resolve aktuální uživatel
+NotificationQueryServiceImpl --> Clock : výpočet od posledního přihlášení
+@enduml

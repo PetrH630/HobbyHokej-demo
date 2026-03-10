@@ -1,0 +1,20 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - activate user by token
+
+actor Controller
+participant "AppUserServiceImpl" as UserService
+participant "EmailVerificationTokenRepository" as TokenRepo
+participant "AppUserRepository" as UserRepo
+participant "NotificationService" as Notification
+
+Controller -> UserService : activateUser(token)
+UserService -> TokenRepo : findByToken(token)
+TokenRepo --> UserService : token / exception
+UserService -> UserService : validate expiry and usage
+UserService -> UserRepo : save(user.activated=true)
+UserRepo --> UserService : saved user
+UserService -> Notification : notifyUser(user, USER_ACTIVATED, context)
+UserService --> Controller : true
+@enduml

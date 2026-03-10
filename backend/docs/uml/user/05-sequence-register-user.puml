@@ -1,0 +1,28 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - register user
+
+actor Controller
+participant "AppUserServiceImpl" as UserService
+participant "AppUserRepository" as UserRepo
+participant "PasswordEncoder" as Encoder
+participant "AppUserMapper" as Mapper
+participant "EmailVerificationTokenRepository" as TokenRepo
+participant "AppUserSettingsService" as Settings
+participant "EmailService" as Email
+
+Controller -> UserService : register(dto)
+UserService -> UserRepo : exists/findByEmail(dto.email)
+UserRepo --> UserService : free / exception
+UserService -> Mapper : toEntity(dto)
+Mapper --> UserService : AppUserEntity
+UserService -> Encoder : encode(dto.password)
+Encoder --> UserService : hashed password
+UserService -> UserRepo : save(user)
+UserRepo --> UserService : saved user
+UserService -> Settings : createDefaultSettingsForUser(user)
+UserService -> TokenRepo : save(verificationToken)
+UserService -> Email : send activation email
+UserService --> Controller : ok
+@enduml

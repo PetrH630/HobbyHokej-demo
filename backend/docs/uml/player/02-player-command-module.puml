@@ -1,0 +1,90 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title PlayerCommandService - změnové operace a vazby
+
+interface PlayerCommandService {
+  + createPlayer(dto: PlayerDTO) : PlayerDTO
+  + createPlayerForUser(dto: PlayerDTO, userEmail: String) : PlayerDTO
+  + updatePlayer(id: Long, dto: PlayerDTO) : PlayerDTO
+  + deletePlayer(id: Long) : SuccessResponseDTO
+  + approvePlayer(id: Long) : SuccessResponseDTO
+  + rejectPlayer(id: Long) : SuccessResponseDTO
+  + changePlayerUser(id: Long, newUserId: Long) : void
+  + setCurrentPlayerForUser(userEmail: String, playerId: Long) : SuccessResponseDTO
+  + autoSelectCurrentPlayerForUser(userEmail: String) : SuccessResponseDTO
+}
+
+class PlayerCommandServiceImpl {
+  - playerRepository : PlayerRepository
+  - playerMapper : PlayerMapper
+  - appUserRepository : AppUserRepository
+  - notificationService : NotificationService
+  - currentPlayerService : CurrentPlayerService
+  - appUserSettingsService : AppUserSettingsService
+  - playerSettingsService : PlayerSettingsService
+  .. public API ..
+  + createPlayer(dto: PlayerDTO) : PlayerDTO
+  + createPlayerForUser(dto: PlayerDTO, userEmail: String) : PlayerDTO
+  + updatePlayer(id: Long, dto: PlayerDTO) : PlayerDTO
+  + deletePlayer(id: Long) : SuccessResponseDTO
+  + approvePlayer(id: Long) : SuccessResponseDTO
+  + rejectPlayer(id: Long) : SuccessResponseDTO
+  + changePlayerUser(id: Long, newUserId: Long) : void
+  + setCurrentPlayerForUser(userEmail: String, playerId: Long) : SuccessResponseDTO
+  + autoSelectCurrentPlayerForUser(userEmail: String) : SuccessResponseDTO
+}
+
+class PlayerRepository
+class PlayerMapper
+class AppUserRepository
+class NotificationService
+interface CurrentPlayerService
+class AppUserSettingsService
+interface PlayerSettingsService
+class PlayerEntity
+class AppUserEntity
+class PlayerDTO
+class SuccessResponseDTO
+class NotificationType <<enum>>
+class PlayerSelectionMode <<enum>>
+class DuplicateNameSurnameException <<exception>>
+class InvalidPlayerStatusException <<exception>>
+class PlayerNotFoundException <<exception>>
+class ForbiddenPlayerAccessException <<exception>>
+class InvalidChangePlayerUserException <<exception>>
+class UserNotFoundException <<exception>>
+class DemoModeOperationNotAllowedException <<exception>>
+
+PlayerCommandServiceImpl ..|> PlayerCommandService
+
+PlayerCommandServiceImpl --> PlayerRepository : CRUD hráče
+PlayerCommandServiceImpl --> PlayerMapper : DTO <-> entita
+PlayerCommandServiceImpl --> AppUserRepository : vazba na uživatele
+PlayerCommandServiceImpl --> NotificationService : notifikace změn
+PlayerCommandServiceImpl --> CurrentPlayerService : volba current player
+PlayerCommandServiceImpl --> AppUserSettingsService : auto-select dle nastavení
+PlayerCommandServiceImpl --> PlayerSettingsService : default settings po approve
+
+PlayerCommandServiceImpl ..> PlayerEntity
+PlayerCommandServiceImpl ..> AppUserEntity
+PlayerCommandServiceImpl ..> NotificationType
+PlayerCommandServiceImpl ..> PlayerSelectionMode
+PlayerCommandServiceImpl ..> DuplicateNameSurnameException
+PlayerCommandServiceImpl ..> InvalidPlayerStatusException
+PlayerCommandServiceImpl ..> PlayerNotFoundException
+PlayerCommandServiceImpl ..> ForbiddenPlayerAccessException
+PlayerCommandServiceImpl ..> InvalidChangePlayerUserException
+PlayerCommandServiceImpl ..> UserNotFoundException
+PlayerCommandServiceImpl ..> DemoModeOperationNotAllowedException
+
+note right of PlayerCommandServiceImpl
+Centrální write model pro modul hráčů.
+Kromě CRUD řeší i změnu uživatele,
+statusy hráče, current-player kontext
+a vedlejší efekty typu notifikace.
+end note
+@enduml

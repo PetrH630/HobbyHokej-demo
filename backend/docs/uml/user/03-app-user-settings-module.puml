@@ -1,0 +1,37 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+left to right direction
+
+title AppUserSettingsService - správa nastavení uživatele
+
+interface AppUserSettingsService {
+  + getSettingsForUser(userEmail: String) : AppUserSettingsDTO
+  + updateSettingsForUser(userEmail: String, dto: AppUserSettingsDTO) : AppUserSettingsDTO
+  + createDefaultSettingsForUser(user: AppUserEntity) : AppUserSettingsEntity
+}
+
+class AppUserSettingsServiceImpl {
+  - appUserRepository : AppUserRepository
+  - appUserSettingsRepository : AppUserSettingsRepository
+  - mapper : AppUserSettingsMapper
+}
+
+class AppUserRepository
+class AppUserSettingsRepository
+class AppUserSettingsMapper
+class AppUserEntity
+class AppUserSettingsEntity
+class AppUserSettingsDTO
+class UserNotFoundException <<exception>>
+
+AppUserSettingsServiceImpl ..|> AppUserSettingsService
+AppUserSettingsServiceImpl --> AppUserRepository : ověření uživatele
+AppUserSettingsServiceImpl --> AppUserSettingsRepository : persistence nastavení
+AppUserSettingsServiceImpl --> AppUserSettingsMapper : DTO <-> entita
+AppUserSettingsServiceImpl ..> AppUserEntity
+AppUserSettingsServiceImpl ..> AppUserSettingsEntity
+AppUserSettingsServiceImpl ..> AppUserSettingsDTO
+AppUserSettingsServiceImpl ..> UserNotFoundException
+@enduml

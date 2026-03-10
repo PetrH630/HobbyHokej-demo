@@ -1,0 +1,29 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - send special notification
+
+actor Controller
+participant "SpecialNotificationServiceImpl" as Special
+participant "PlayerRepository" as PlayerRepo
+participant "AppUserRepository" as UserRepo
+participant "PlayerSettingsRepository" as SettingsRepo
+participant "InAppNotificationService" as InApp
+participant "EmailService" as Email
+participant "SmsService" as Sms
+
+Controller -> Special : sendSpecialNotification(request)
+Special -> PlayerRepo : resolve target players
+Special -> UserRepo : resolve target users
+Special -> SettingsRepo : resolve allowed channels
+loop each target
+  Special -> InApp : storeSpecialMessage(...)
+  alt email allowed
+    Special -> Email : send(...)
+  end
+  alt sms allowed
+    Special -> Sms : send(...)
+  end
+end
+Special --> Controller : ok
+@enduml

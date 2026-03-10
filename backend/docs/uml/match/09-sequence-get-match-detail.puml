@@ -1,0 +1,25 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - get match detail
+
+actor Controller
+participant "MatchServiceImpl" as Facade
+participant "MatchQueryServiceImpl" as Query
+participant "MatchRepository" as MatchRepo
+participant "MatchRegistrationService" as Registration
+participant "PlayerRepository" as PlayerRepo
+participant "MatchMapper" as Mapper
+
+Controller -> Facade : getMatchDetail(id)
+Facade -> Query : getMatchDetail(id)
+Query -> MatchRepo : findById(id)
+MatchRepo --> Query : MatchEntity / exception
+Query -> Registration : getRegistrationsForMatch(id)
+Registration --> Query : List<MatchRegistrationDTO>
+Query -> PlayerRepo : enrich player data
+Query -> Mapper : compose detail DTO
+Mapper --> Query : MatchDetailDTO
+Query --> Facade : MatchDetailDTO
+Facade --> Controller : MatchDetailDTO
+@enduml

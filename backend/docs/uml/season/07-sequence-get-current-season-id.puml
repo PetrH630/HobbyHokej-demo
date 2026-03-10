@@ -1,0 +1,20 @@
+@startuml
+skinparam shadowing false
+
+title Sequence - get current season id or default
+
+actor Caller
+participant "CurrentSeasonServiceImpl" as CurrentSeason
+participant "HttpSession" as Session
+participant "SeasonService" as SeasonService
+
+Caller -> CurrentSeason : getCurrentSeasonIdOrDefault()
+CurrentSeason -> Session : getAttribute(CURRENT_SEASON_ID)
+alt id found in session
+  Session --> CurrentSeason : seasonId
+else no season in session
+  CurrentSeason -> SeasonService : getActiveSeason()
+  SeasonService --> CurrentSeason : active season
+end
+CurrentSeason --> Caller : seasonId
+@enduml

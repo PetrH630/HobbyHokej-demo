@@ -1,0 +1,112 @@
+@startuml
+skinparam linetype ortho
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam classAttributeIconSize 0
+left to right direction
+
+title Player services - architektonicky prehled
+
+package "Controller / vyšší aplikační vrstva" {
+  interface PlayerService
+  class PlayerServiceImpl <<facade>>
+}
+
+package "CQRS a podpůrné služby" {
+  interface PlayerCommandService
+  class PlayerCommandServiceImpl <<command>>
+
+  interface PlayerQueryService
+  class PlayerQueryServiceImpl <<query>>
+
+  interface CurrentPlayerService
+  class CurrentPlayerServiceImpl <<session-context>>
+
+  interface PlayerSettingsService
+  class PlayerSettingsServiceImpl <<settings>>
+
+  interface PlayerInactivityPeriodService
+  class PlayerInactivityPeriodServiceImpl <<availability>>
+
+  interface PlayerHistoryService
+  class PlayerHistoryServiceImpl <<history>>
+
+  interface PlayerStatsService
+  class PlayerStatsServiceImpl <<statistics>>
+}
+
+package "Persistence / mapování / externí moduly" {
+  interface PlayerRepository
+  interface AppUserRepository
+  interface PlayerHistoryRepository
+  interface PlayerInactivityPeriodRepository
+  interface PlayerSettingsRepository
+  class PlayerMapper
+  class PlayerHistoryMapper
+  class PlayerInactivityPeriodMapper
+  class PlayerSettingsMapper
+  class NotificationService
+  interface HttpSession
+  class AppUserSettingsService
+  class MatchRegistrationService
+  class CurrentSeasonService
+  class SeasonService
+  class MatchRepository
+}
+
+PlayerServiceImpl ..|> PlayerService
+PlayerCommandServiceImpl ..|> PlayerCommandService
+PlayerQueryServiceImpl ..|> PlayerQueryService
+CurrentPlayerServiceImpl ..|> CurrentPlayerService
+PlayerSettingsServiceImpl ..|> PlayerSettingsService
+PlayerInactivityPeriodServiceImpl ..|> PlayerInactivityPeriodService
+PlayerHistoryServiceImpl ..|> PlayerHistoryService
+PlayerStatsServiceImpl ..|> PlayerStatsService
+
+PlayerServiceImpl --> PlayerCommandService : změnové operace
+PlayerServiceImpl --> PlayerQueryService : čtecí operace
+
+PlayerCommandServiceImpl --> PlayerRepository
+PlayerCommandServiceImpl --> PlayerMapper
+PlayerCommandServiceImpl --> AppUserRepository
+PlayerCommandServiceImpl --> NotificationService
+PlayerCommandServiceImpl --> CurrentPlayerService
+PlayerCommandServiceImpl --> AppUserSettingsService
+PlayerCommandServiceImpl --> PlayerSettingsService
+
+PlayerQueryServiceImpl --> PlayerRepository
+PlayerQueryServiceImpl --> PlayerMapper
+
+CurrentPlayerServiceImpl --> HttpSession
+CurrentPlayerServiceImpl --> PlayerRepository
+
+PlayerSettingsServiceImpl --> PlayerRepository
+PlayerSettingsServiceImpl --> PlayerSettingsRepository
+PlayerSettingsServiceImpl --> PlayerSettingsMapper
+
+PlayerInactivityPeriodServiceImpl --> PlayerInactivityPeriodRepository
+PlayerInactivityPeriodServiceImpl --> PlayerRepository
+PlayerInactivityPeriodServiceImpl --> PlayerInactivityPeriodMapper
+
+PlayerHistoryServiceImpl --> PlayerHistoryRepository
+PlayerHistoryServiceImpl --> PlayerHistoryMapper
+
+PlayerStatsServiceImpl --> PlayerRepository
+PlayerStatsServiceImpl --> MatchRepository
+PlayerStatsServiceImpl --> CurrentSeasonService
+PlayerStatsServiceImpl --> SeasonService
+PlayerStatsServiceImpl --> PlayerInactivityPeriodService
+PlayerStatsServiceImpl --> MatchRegistrationService
+
+note right of PlayerServiceImpl
+Aplikační fasáda pro controller vrstvu.
+Deleguje zápis na command service
+a čtení na query service.
+end note
+
+note bottom of PlayerStatsServiceImpl
+Statistiky hráče skládají data
+z více modulů: hráči, sezóny,
+zápasy, registrace a neaktivita.
+end note
+@enduml
