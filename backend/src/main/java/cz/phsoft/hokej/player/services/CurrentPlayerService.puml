@@ -1,0 +1,52 @@
+@startuml
+
+interface CurrentPlayerService {
+  + getCurrentPlayerId() : Long
+  + setCurrentPlayerId(playerId : Long) : void
+  + requireCurrentPlayer() : void
+  + clear() : void
+}
+
+class CurrentPlayerServiceImpl {
+  - session : HttpSession
+  - playerRepository : PlayerRepository
+
+  + CurrentPlayerServiceImpl(session : HttpSession, playerRepository : PlayerRepository)
+  + getCurrentPlayerId() : Long
+  + setCurrentPlayerId(playerId : Long) : void
+  + requireCurrentPlayer() : void
+  + clear() : void
+
+  - findPlayerOrThrow(playerId : Long) : PlayerEntity
+  - validatePlayerSelectable(player : PlayerEntity) : void
+}
+
+class PlayerEntity {
+  + getPlayerStatus() : PlayerStatus
+}
+
+interface PlayerRepository {
+  + findById(playerId : Long) : Optional<PlayerEntity>
+}
+
+enum PlayerStatus {
+  APPROVED
+}
+
+class CurrentPlayerNotSelectedException
+class InvalidPlayerStatusException
+class PlayerNotFoundException
+class SessionKeys
+interface HttpSession
+
+CurrentPlayerServiceImpl ..|> CurrentPlayerService
+CurrentPlayerServiceImpl --> HttpSession : uses
+CurrentPlayerServiceImpl --> PlayerRepository : uses
+CurrentPlayerServiceImpl --> PlayerEntity : validates
+CurrentPlayerServiceImpl --> PlayerStatus : checks
+CurrentPlayerServiceImpl ..> CurrentPlayerNotSelectedException : throws
+CurrentPlayerServiceImpl ..> InvalidPlayerStatusException : throws
+CurrentPlayerServiceImpl ..> PlayerNotFoundException : throws
+CurrentPlayerServiceImpl ..> SessionKeys : uses constant
+
+@enduml
