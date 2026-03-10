@@ -64,19 +64,20 @@ const PlayerHomePage = () => {
 
     const ActionCard = ({ title, desc, to, icon }) => (
         <div className="col-12 col-md-6 col-xl-3">
-            <Link
-                to={to}
-                className="card h-100 shadow-sm text-decoration-none text-reset py-1"
-            >
+            <div className="card h-100 shadow-sm">
                 <div className="card-body d-flex flex-column">
                     <div className="d-flex align-items-center gap-2 mb-2">
                         <span className="fs-4">{icon}</span>
                         <h5 className="card-title mb-0">{title}</h5>
                     </div>
-
-                    <p className="text-muted small mb-0">{desc}</p>
+                    <p className="text-muted small mb-3">{desc}</p>
+                    <div className="mt-auto">
+                        <Link to={to} className="btn btn-outline-primary w-100">
+                            Otevřít
+                        </Link>
+                    </div>
                 </div>
-            </Link>
+            </div>
         </div>
     );
 

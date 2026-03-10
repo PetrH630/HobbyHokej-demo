@@ -23,6 +23,7 @@ import AdminNotificationPage from "./pages/AdminNotificationPage";
 import "./App.css";
 import "./styles/theme.css";
 import "./styles/icons.css";
+import AnalyticsTracker from "./analytics/AnalyticsTracker";
 
 // ADMIN PAGES
 import HomeDecider from "./pages/HomeDecider";
@@ -59,6 +60,7 @@ import HelpPage from "./pages/HelpPage";
 const App = () => (
   <AppModeProvider>
     <BrowserRouter>
+      <AnalyticsTracker />
       <ScrollToTop resetPrefixes={["/"]} />
 
       <Routes>

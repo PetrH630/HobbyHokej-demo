@@ -16,7 +16,7 @@ import { tryClearDemoNotifications } from "../api/demoApi";
 import MatchRegistrationHelpModal from "../components/help/MatchRegistrationHelpModal";
 
 import ExcuseModal from "../components/matchRegistration/ExcuseModal";
-
+import { trackEvent } from "../utils/analytics";
 /**
  * MatchDetailPage
  *
@@ -266,6 +266,10 @@ const MatchDetailPage = () => {
         setShowExcuseModal(false);
         setIsUnregisterFlow(false);
     };
+
+    trackEvent("match_detail_opened", {
+        match_id: match.id,
+    });
  
     return (
         <>

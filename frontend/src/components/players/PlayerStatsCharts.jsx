@@ -85,7 +85,7 @@ const PlayerStatsCharts = ({ totals, loading }) => {
         return (
             <div className="row g-3 mb-3">
                 <div className="col-12 col-lg-6">
-                    <div className="card shadow-sm h-100">
+                    <div className="card shadow-sm h-100 ">
                         <div className="card-header bg-white fw-semibold">
                             Moje registrace na zápasy
                         </div>
@@ -117,7 +117,7 @@ const PlayerStatsCharts = ({ totals, loading }) => {
         <div className="row g-3 mb-3">
             {/* Donut */}
             <div className="col-12 col-lg-6">
-                <div className="card shadow-sm h-100 py-1">
+                <div className="card shadow-sm h-100">
                     <div className="card-header bg-white fw-semibold">
                         Moje registrace na zápasy
                     </div>

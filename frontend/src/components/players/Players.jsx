@@ -23,7 +23,7 @@ const Players = () => {
     const { currentPlayer, refreshCurrentPlayer } = useCurrentPlayer();
 
     const [showHelp, setShowHelp] = useState(false);
-
+ 
     const handleSelectPlayer = async (playerId) => {
         try {
             await setCurrentPlayer(playerId);
