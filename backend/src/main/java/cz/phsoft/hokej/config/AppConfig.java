@@ -21,7 +21,7 @@ public class AppConfig {
      * Spring kontejneru a není vyžadována žádná vlastní logika.
      */
     public AppConfig() {
-        // bez vlastní logiky
+
     }
 
     /**

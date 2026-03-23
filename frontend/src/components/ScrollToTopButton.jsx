@@ -3,10 +3,6 @@ import "./ScrollToTopButton.css";
 
 /**
  * ScrollToTopButton
- *
- * React komponenta používaná ve frontend aplikaci.
- *
- * @param {Object} props vstupní hodnoty komponenty.
  */
 const ScrollToTopButton = () => {
     const [visible, setVisible] = useState(false);
