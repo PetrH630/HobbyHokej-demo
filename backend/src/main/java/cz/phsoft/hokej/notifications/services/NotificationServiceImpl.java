@@ -160,7 +160,7 @@ public class NotificationServiceImpl implements NotificationService {
                 smsTo = decision.getPlayerPhone().trim();
             }
 
-            // 2) In-app notifikace s informací o kanálech
+            // In-app notifikace s informací o kanálech
             try {
                 inAppNotificationService.storeForPlayer(player, type, context, emailTo, smsTo);
             } catch (Exception ex) {
@@ -168,7 +168,7 @@ public class NotificationServiceImpl implements NotificationService {
                         type, player.getId(), ex);
             }
 
-            // 3) E-maily / SMS – vlastní odeslání (beze změn, jen použijeme decision)
+            // E-maily / SMS – vlastní odeslání (beze změn, jen použijeme decision)
             // E-mail pro uživatele
             if (decision.isSendEmailToUser() && decision.getUserEmail() != null) {
                 sendEmailToUser(decision.getUserEmail(), player, type, context);

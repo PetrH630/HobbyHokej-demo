@@ -1,0 +1,21 @@
+CREATE TABLE `notification_delivery` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `message_id` varchar(36) NOT NULL,
+  `channel` enum('EMAIL','SMS') NOT NULL,
+  `notification_type` varchar(64) NOT NULL,
+  `status` enum('PENDING','SENT','FAILED') NOT NULL,
+  `user_id` bigint(20) DEFAULT NULL,
+  `player_id` bigint(20) DEFAULT NULL,
+  `match_id` bigint(20) DEFAULT NULL,
+  `registration_id` bigint(20) DEFAULT NULL,
+  `recipient` varchar(255) DEFAULT NULL,
+  `subject` varchar(255) DEFAULT NULL,
+  `payload_preview` varchar(1000) DEFAULT NULL,
+  `demo_mode` bit(1) NOT NULL,
+  `error_message` varchar(1000) DEFAULT NULL,
+  `retry_count` int(11) NOT NULL DEFAULT 0,
+  `created_at` datetime(6) NOT NULL,
+  `sent_at` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_notification_delivery_message_id` (`message_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
