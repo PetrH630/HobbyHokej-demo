@@ -64,6 +64,14 @@ const MatchDetailPage = () => {
         }
     }, [currentPlayer, initialPlayerId, navigate]);
 
+    useEffect(() => {
+        if (!match?.id) return;
+
+        trackEvent("match_detail_opened", {
+            match_id: match.id,
+        });
+    }, [match?.id]);
+    
     const isPast = location.state?.isPast === true;
 
     const playerMatchStatus = match?.playerMatchStatus ?? "NO_RESPONSE";
@@ -267,9 +275,7 @@ const MatchDetailPage = () => {
         setIsUnregisterFlow(false);
     };
 
-    trackEvent("match_detail_opened", {
-        match_id: match.id,
-    });
+    
  
     return (
         <>

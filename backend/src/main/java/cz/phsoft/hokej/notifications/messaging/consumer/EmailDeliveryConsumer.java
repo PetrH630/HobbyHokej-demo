@@ -32,6 +32,9 @@ public class EmailDeliveryConsumer {
 
     @RabbitListener(queues = "${app.rabbitmq.notification.email-queue}")
     public void handle(EmailNotificationMessage message) {
+        log.info("Zpracování email delivery začíná, messageId={}, recipient={}",
+                message.messageId(), message.recipientEmail());
+
         try {
             notificationDeliveryService.incrementRetryCount(message.messageId());
 
@@ -46,17 +49,35 @@ public class EmailDeliveryConsumer {
                 );
             } else {
                 if (message.html()) {
-                    emailService.sendHtmlEmail(message.recipientEmail(), message.subject(), message.body());
+                    emailService.sendHtmlEmailOrThrow(
+                            message.recipientEmail(),
+                            message.subject(),
+                            message.body()
+                    );
                 } else {
-                    emailService.sendSimpleEmail(message.recipientEmail(), message.subject(), message.body());
+                    emailService.sendSimpleEmailOrThrow(
+                            message.recipientEmail(),
+                            message.subject(),
+                            message.body()
+                    );
                 }
             }
 
+            log.info("Email byl odeslán, nastavuje se SENT, messageId={}", message.messageId());
             notificationDeliveryService.markAsSent(message.messageId());
+            log.info("Delivery označeno jako SENT, messageId={}", message.messageId());
 
         } catch (Exception ex) {
-            log.error("Chyba při zpracování email delivery messageId={}", message.messageId(), ex);
-            notificationDeliveryService.markAsFailed(message.messageId(), ex.getMessage());
+            log.error("Chyba při zpracování email delivery, messageId={}", message.messageId(), ex);
+
+            try {
+                notificationDeliveryService.markAsFailed(message.messageId(), ex.getMessage());
+                log.info("Delivery označeno jako FAILED, messageId={}", message.messageId());
+            } catch (Exception markFailedEx) {
+                log.error("Nepodařilo se označit delivery jako FAILED, messageId={}",
+                        message.messageId(), markFailedEx);
+            }
+
             throw ex;
         }
     }

@@ -15,4 +15,19 @@ public interface SmsService {
      * @param message text SMS zprávy
      */
     void sendSms(String phoneNumber, String message);
+
+    /**
+     * Odesílá SMS zprávu a při technickém selhání propaguje výjimku.
+     *
+     * Tato varianta se používá interně pro RabbitMQ consumer,
+     * který musí správně označit delivery stav.
+     * Výchozí implementace deleguje na best-effort variantu.
+     *
+     * @param phoneNumber telefonní číslo příjemce
+     * @param message text SMS zprávy
+     */
+    default void sendSmsOrThrow(String phoneNumber, String message) {
+        sendSms(phoneNumber, message);
+    }
+
 }

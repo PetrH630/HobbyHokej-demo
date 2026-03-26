@@ -16,15 +16,13 @@ import java.util.Map;
 /**
  * Implementace SmsService využívající externí službu TextBee.
  *
- * Třída zapouzdřuje HTTP komunikaci s SMS API
- * a zajišťuje, že případné chyby při odesílání
- * neovlivní chod business vrstvy.
+ * Třída poskytuje best-effort variantu pro business vrstvu
+ * a variantu propagující chybu pro RabbitMQ consumery.
  */
 @Service
 public class SmsTextBeeService implements SmsService {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(SmsTextBeeService.class);
+    private static final Logger log = LoggerFactory.getLogger(SmsTextBeeService.class);
 
     @Value("${sms.enabled:true}")
     private boolean smsEnabled;
@@ -39,7 +37,15 @@ public class SmsTextBeeService implements SmsService {
 
     @Override
     public void sendSms(String phoneNumber, String message) {
+        try {
+            sendSmsOrThrow(phoneNumber, message);
+        } catch (Exception e) {
+            log.error("Chyba při odesílání SMS na {}: {}", phoneNumber, e.getMessage(), e);
+        }
+    }
 
+    @Override
+    public void sendSmsOrThrow(String phoneNumber, String message) {
         if (!smsEnabled) {
             log.info("SMS jsou vypnuté. Zpráva nebyla odeslána na {}", phoneNumber);
             return;
@@ -54,17 +60,8 @@ public class SmsTextBeeService implements SmsService {
                 "message", message
         );
 
-        HttpEntity<Map<String, Object>> request =
-                new HttpEntity<>(body, headers);
-
-        try {
-            ResponseEntity<String> response =
-                    restTemplate.postForEntity(apiUrl, request, String.class);
-
-            log.info("SMS odeslána na {}, response: {}", phoneNumber, response.getBody());
-
-        } catch (Exception e) {
-            log.error("Chyba při odesílání SMS na {}: {}", phoneNumber, e.getMessage(), e);
-        }
+        HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(apiUrl, request, String.class);
+        log.info("SMS odeslána na {}, response: {}", phoneNumber, response.getBody());
     }
 }

@@ -31,6 +31,36 @@ public interface EmailService {
     void sendHtmlEmail(String to, String subject, String htmlContent);
 
     /**
+     * Odešle jednoduchý textový e-mail a při technickém selhání propaguje výjimku.
+     *
+     * Tato varianta se používá interně pro RabbitMQ consumer,
+     * který musí rozlišit úspěšné a neúspěšné doručení.
+     * Výchozí implementace deleguje na best-effort variantu.
+     *
+     * @param to e-mailová adresa příjemce
+     * @param subject předmět zprávy
+     * @param text textový obsah zprávy
+     */
+    default void sendSimpleEmailOrThrow(String to, String subject, String text) {
+        sendSimpleEmail(to, subject, text);
+    }
+
+    /**
+     * Odešle HTML e-mail a při technickém selhání propaguje výjimku.
+     *
+     * Tato varianta se používá interně pro RabbitMQ consumer,
+     * který musí rozlišit úspěšné a neúspěšné doručení.
+     * Výchozí implementace deleguje na best-effort variantu.
+     *
+     * @param to e-mailová adresa příjemce
+     * @param subject předmět zprávy
+     * @param htmlContent HTML obsah zprávy
+     */
+    default void sendHtmlEmailOrThrow(String to, String subject, String htmlContent) {
+        sendHtmlEmail(to, subject, htmlContent);
+    }
+
+    /**
      * Odešle aktivační e-mail v textové podobě.
      */
     void sendActivationEmail(String to, String greetings, String activationLink);

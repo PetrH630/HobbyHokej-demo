@@ -42,7 +42,7 @@ public class SmsDeliveryConsumer {
                         message.notificationType()
                 );
             } else {
-                smsService.sendSms(message.recipientPhone(), message.text());
+                smsService.sendSmsOrThrow(message.recipientPhone(), message.text());
             }
 
             notificationDeliveryService.markAsSent(message.messageId());
