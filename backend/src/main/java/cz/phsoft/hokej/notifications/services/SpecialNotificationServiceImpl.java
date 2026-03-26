@@ -1,44 +1,49 @@
 package cz.phsoft.hokej.notifications.services;
 
-import cz.phsoft.hokej.user.entities.AppUserEntity;
+import cz.phsoft.hokej.notifications.dto.SpecialNotificationRequestDTO;
+import cz.phsoft.hokej.notifications.dto.SpecialNotificationTargetDTO;
+import cz.phsoft.hokej.notifications.email.EmailMessageBuilder;
+import cz.phsoft.hokej.notifications.entities.NotificationDeliveryEntity;
+import cz.phsoft.hokej.notifications.enums.NotificationType;
+import cz.phsoft.hokej.notifications.events.NotificationDeliveryCreatedEvent;
+import cz.phsoft.hokej.notifications.messaging.dto.EmailNotificationMessage;
+import cz.phsoft.hokej.notifications.messaging.dto.SmsNotificationMessage;
+import cz.phsoft.hokej.notifications.sms.SmsMessageBuilder;
 import cz.phsoft.hokej.player.entities.PlayerEntity;
 import cz.phsoft.hokej.player.entities.PlayerSettingsEntity;
-import cz.phsoft.hokej.notifications.enums.NotificationType;
-import cz.phsoft.hokej.user.repositories.AppUserRepository;
+import cz.phsoft.hokej.player.exceptions.PlayerNotFoundException;
 import cz.phsoft.hokej.player.repositories.PlayerRepository;
 import cz.phsoft.hokej.player.repositories.PlayerSettingsRepository;
-import cz.phsoft.hokej.player.exceptions.PlayerNotFoundException;
+import cz.phsoft.hokej.user.entities.AppUserEntity;
 import cz.phsoft.hokej.user.exceptions.UserNotFoundException;
-import cz.phsoft.hokej.notifications.dto.SpecialNotificationTargetDTO;
-import cz.phsoft.hokej.notifications.dto.SpecialNotificationRequestDTO;
-import cz.phsoft.hokej.notifications.email.EmailMessageBuilder;
-import cz.phsoft.hokej.notifications.email.EmailService;
-import cz.phsoft.hokej.notifications.sms.SmsMessageBuilder;
-import cz.phsoft.hokej.notifications.sms.SmsService;
+import cz.phsoft.hokej.user.repositories.AppUserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * Implementace služby pro odesílání speciálních zpráv administrátorem.
  *
  * Odpovědnost třídy spočívá v orkestraci více komunikačních kanálů
  * pro speciální administrátorské zprávy. Pro definované příjemce
- * se vytvářejí in-app notifikace a podle požadavku se odesílají
- * e-maily a SMS zprávy.
+ * se vytvářejí in-app notifikace a podle požadavku se zakládají
+ * delivery joby pro e-mail a SMS, které se následně zpracují přes RabbitMQ.
  *
  * Všechny akce se provádějí bez ohledu na uživatelská notifikační
  * nastavení, protože speciální zprávy představují nadřazenou,
  * administrativní nebo systémovou komunikaci.
  *
- * V DEMO režimu se e-maily a SMS fyzicky neodesílají. Jsou ukládány
- * do DemoNotificationStore a zpřístupňovány na frontendu přes
- * speciální demo endpointy.
+ * V DEMO režimu se e-maily a SMS fyzicky neodesílají. Informace o DEMO režimu
+ * se přenáší v delivery zprávě a consumer je následně uloží do DemoNotificationStore.
  */
 @Service
 public class SpecialNotificationServiceImpl implements SpecialNotificationService {
@@ -49,54 +54,43 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
     private final PlayerRepository playerRepository;
     private final PlayerSettingsRepository playerSettingsRepository;
     private final InAppNotificationService inAppNotificationService;
-    private final EmailService emailService;
-    private final SmsService smsService;
     private final EmailMessageBuilder emailMessageBuilder;
     private final SmsMessageBuilder smsMessageBuilder;
-
-    // DEMO režim
+    private final NotificationDeliveryService notificationDeliveryService;
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final DemoModeService demoModeService;
-    private final DemoNotificationStore demoNotificationStore;
 
     /**
      * Vytváří instanci služby pro speciální notifikace.
-     *
-     * Závislosti na repository, službách a message builder utilitách
-     * jsou předávány konstruktorem, aby bylo možné službu snadno
-     * testovat a spravovat v rámci Spring kontextu a konfigurovat
-     * chování DEMO režimu.
      *
      * @param appUserRepository repository pro práci s entitami uživatelů
      * @param playerRepository repository pro práci s entitami hráčů
      * @param playerSettingsRepository repository pro nastavení hráčů
      * @param inAppNotificationService služba pro ukládání in-app notifikací
-     * @param emailService služba pro fyzické odeslání e-mailů
-     * @param smsService služba pro fyzické odeslání SMS zpráv
      * @param emailMessageBuilder builder pro sestavení obsahu e-mailů
      * @param smsMessageBuilder builder pro sestavení textu SMS zpráv
+     * @param notificationDeliveryService služba pro vytvoření pending delivery záznamů
+     * @param applicationEventPublisher publisher pro vyvolání delivery eventů
      * @param demoModeService služba určující, zda je aplikace v DEMO režimu
-     * @param demoNotificationStore úložiště pro e-maily a SMS v DEMO režimu
      */
     public SpecialNotificationServiceImpl(AppUserRepository appUserRepository,
                                           PlayerRepository playerRepository,
                                           PlayerSettingsRepository playerSettingsRepository,
                                           InAppNotificationService inAppNotificationService,
-                                          EmailService emailService,
-                                          SmsService smsService,
                                           EmailMessageBuilder emailMessageBuilder,
                                           SmsMessageBuilder smsMessageBuilder,
-                                          DemoModeService demoModeService,
-                                          DemoNotificationStore demoNotificationStore) {
+                                          NotificationDeliveryService notificationDeliveryService,
+                                          ApplicationEventPublisher applicationEventPublisher,
+                                          DemoModeService demoModeService) {
         this.appUserRepository = appUserRepository;
         this.playerRepository = playerRepository;
         this.playerSettingsRepository = playerSettingsRepository;
         this.inAppNotificationService = inAppNotificationService;
-        this.emailService = emailService;
-        this.smsService = smsService;
         this.emailMessageBuilder = emailMessageBuilder;
         this.smsMessageBuilder = smsMessageBuilder;
+        this.notificationDeliveryService = notificationDeliveryService;
+        this.applicationEventPublisher = applicationEventPublisher;
         this.demoModeService = demoModeService;
-        this.demoNotificationStore = demoNotificationStore;
     }
 
     /**
@@ -104,14 +98,12 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
      *
      * Pro každý cíl definovaný ve vstupním DTO se provádí:
      * vytvoření in-app notifikace typu SPECIAL_MESSAGE a podle
-     * nastavení také odeslání e-mailu a SMS zprávy. E-mail i SMS
-     * jsou získávány z preferencí uživatele a případných nastavení
-     * hráče, přičemž se ignorují běžná uživatelská notifikační
-     * nastavení.
+     * nastavení také vytvoření delivery jobu pro e-mail a SMS zprávu.
      *
-     * Selhání odeslání e-mailu nebo SMS neblokuje uložení in-app
-     * notifikace. V DEMO režimu se zprávy ukládají do
-     * DemoNotificationStore místo fyzického odeslání.
+     * E-mail i SMS jsou získávány z preferencí uživatele a případných
+     * nastavení hráče, přičemž se ignorují běžná uživatelská notifikační nastavení.
+     *
+     * Selhání jednoho cíle neblokuje zpracování ostatních cílů.
      *
      * @param request definice zprávy a seznam cílů pro speciální notifikaci
      * @throws NullPointerException pokud je request null
@@ -119,6 +111,7 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
      * @throws PlayerNotFoundException pokud některý z cílových hráčů neexistuje
      */
     @Override
+    @Transactional
     public void sendSpecialNotification(SpecialNotificationRequestDTO request) {
         Objects.requireNonNull(request, "request must not be null");
 
@@ -145,11 +138,10 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
             String emailTo = null;
             String smsTo = null;
 
-            // EMAIL
             if (request.isSendEmail()) {
                 emailTo = resolveEmail(user, playerSettings);
-                if (emailTo != null && !emailTo.isBlank()) {
-                    sendSpecialEmail(emailTo, user, player, request);
+                if (hasText(emailTo)) {
+                    enqueueSpecialEmail(emailTo.trim(), user, player, request);
                 } else {
                     log.debug(
                             "SpecialNotificationService.sendSpecialNotification: není k dispozici email pro playerId={} (userId={})",
@@ -160,11 +152,10 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
                 }
             }
 
-            // SMS
             if (request.isSendSms() && playerSettings != null) {
                 smsTo = resolvePhoneNumber(playerSettings);
-                if (smsTo != null && !smsTo.isBlank()) {
-                    sendSpecialSms(smsTo, player, request);
+                if (hasText(smsTo)) {
+                    enqueueSpecialSms(smsTo.trim(), user, player, request);
                 } else {
                     log.debug(
                             "SpecialNotificationService.sendSpecialNotification: chybí telefonní číslo pro playerId={} (userId={})",
@@ -175,7 +166,6 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
                 }
             }
 
-            // IN-APP – SPECIAL_MESSAGE + audit kanálů
             inAppNotificationService.storeSpecialMessage(
                     user,
                     player,
@@ -187,40 +177,19 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
         });
     }
 
-    /**
-     * Načítá možné cíle pro speciální notifikaci.
-     *
-     * Zahrnuti jsou:
-     * hráči s přiřazeným aktivním uživatelem a dále aktivní
-     * uživatelé bez přiřazených hráčů. Seznam je složen do DTO
-     * určeného pro výběr v uživatelském rozhraní a následně
-     * setříděn podle zobrazovaného jména.
-     *
-     * Aktuálně se neschvaluje podle statusu hráče. Filtrování
-     * podle stavu, například PlayerStatus.APPROVED, může být
-     * doplněno v budoucnu po doplnění vlastnosti do PlayerEntity.
-     *
-     * @return seznam cílů pro speciální notifikaci připravený pro UI
-     */
     @Override
     public List<SpecialNotificationTargetDTO> getSpecialNotificationTargets() {
 
         List<SpecialNotificationTargetDTO> result = new ArrayList<>();
 
-        // 1) Hráči s přiřazeným aktivním uživatelem
         List<PlayerEntity> allPlayers = playerRepository.findAll();
 
         for (PlayerEntity player : allPlayers) {
 
             AppUserEntity user = player.getUser();
             if (user == null || !user.isEnabled()) {
-                // hráč bez uživatele nebo uživatel není aktivní – přeskočit
                 continue;
             }
-
-            // Pokud budeš mít na PlayerEntity něco jako getStatus() == PlayerStatus.APPROVED,
-            // můžeš tady přidat filtr:
-            // if (player.getStatus() != PlayerStatus.APPROVED) continue;
 
             String userName = buildUserFullName(user);
             String displayName = player.getFullName() + " (" + userName + ", " + user.getEmail() + ")";
@@ -234,7 +203,6 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
             result.add(dto);
         }
 
-        // 2) Aktivní uživatelé bez hráčů
         List<AppUserEntity> allUsers = appUserRepository.findAll();
 
         allUsers.stream()
@@ -253,7 +221,6 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
                     result.add(dto);
                 });
 
-        // setřídit podle displayName
         result.sort(Comparator.comparing(
                 SpecialNotificationTargetDTO::getDisplayName,
                 String.CASE_INSENSITIVE_ORDER
@@ -265,27 +232,20 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
     }
 
     /**
-     * Odesílá e-mail se speciální zprávou na zadanou adresu.
-     *
-     * Obsah e-mailu se sestavuje pomocí EmailMessageBuilder
-     * tak, aby byl v souladu s jednotným formátováním systému.
-     * Odeslání se provádí prostřednictvím EmailService, přičemž
-     * se ignorují individuální notifikační preference uživatelů.
-     *
-     * V DEMO režimu není e-mail fyzicky odeslán, ale je uložen
-     * do DemoNotificationStore pro zobrazení v demo rozhraní.
+     * Vytvoří pending delivery pro speciální e-mail a vyvolá aplikační event,
+     * který bude po commitu publikován do RabbitMQ.
      *
      * @param to cílová e-mailová adresa
      * @param user uživatel, kterému je zpráva určena
      * @param player hráč, pokud je zpráva vázána na konkrétního hráče; může být null
      * @param request definice speciální zprávy včetně titulku a textu
      */
-    private void sendSpecialEmail(String to,
-                                  AppUserEntity user,
-                                  PlayerEntity player,
-                                  SpecialNotificationRequestDTO request) {
+    private void enqueueSpecialEmail(String to,
+                                     AppUserEntity user,
+                                     PlayerEntity player,
+                                     SpecialNotificationRequestDTO request) {
 
-        if (to == null || to.isBlank()) {
+        if (!hasText(to)) {
             return;
         }
 
@@ -298,46 +258,114 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
                 );
 
         if (content == null) {
-            log.debug("SpecialNotificationService.sendSpecialEmail: EmailContent je null, nic se neodesílá");
+            log.debug("SpecialNotificationService.enqueueSpecialEmail: EmailContent je null, nic se neodesílá");
             return;
         }
 
-        // DEMO režim – uložit do demo úložiště a nevolat SMTP
-        if (demoModeService.isDemoMode()) {
-            demoNotificationStore.addEmail(
-                    to,
-                    content.subject(),
-                    content.body(),
-                    content.html(),
-                    NotificationType.SPECIAL_MESSAGE,
-                    "SPECIAL"
-            );
-            log.debug("DEMO MODE: speciální e-mail uložen do DemoNotificationStore, nic se neodesílá (to={})", to);
-            return;
-        }
+        String messageId = UUID.randomUUID().toString();
+        Long userId = user != null ? user.getId() : null;
+        Long playerId = player != null ? player.getId() : null;
+        boolean demoMode = demoModeService.isDemoMode();
 
-        try {
-            if (content.html()) {
-                emailService.sendHtmlEmail(to, content.subject(), content.body());
-            } else {
-                emailService.sendSimpleEmail(to, content.subject(), content.body());
-            }
-        } catch (Exception ex) {
-            log.warn("Nepodařilo se odeslat speciální email na {}: {}", to, ex.getMessage());
-        }
+        NotificationDeliveryEntity entity = notificationDeliveryService.createPendingEmail(
+                messageId,
+                NotificationType.SPECIAL_MESSAGE,
+                userId,
+                playerId,
+                null,
+                null,
+                to,
+                content.subject(),
+                shorten(content.body(), 1000),
+                demoMode
+        );
+
+        log.debug("SpecialNotificationService.enqueueSpecialEmail: vytvořen PENDING email delivery id={} messageId={} to={}",
+                entity.getId(), messageId, to);
+
+        EmailNotificationMessage message = new EmailNotificationMessage(
+                messageId,
+                NotificationType.SPECIAL_MESSAGE,
+                userId,
+                playerId,
+                null,
+                null,
+                to,
+                content.subject(),
+                content.body(),
+                content.html(),
+                demoMode,
+                player != null ? "PLAYER" : "USER",
+                LocalDateTime.now()
+        );
+
+        applicationEventPublisher.publishEvent(NotificationDeliveryCreatedEvent.forEmail(message));
     }
 
     /**
-     * Určuje telefonní číslo použití pro odeslání SMS.
+     * Vytvoří pending delivery pro speciální SMS a vyvolá aplikační event,
+     * který bude po commitu publikován do RabbitMQ.
      *
-     * Telefonní číslo se získává z PlayerSettingsEntity.contactPhone.
-     * Nastavení smsEnabled se pro speciální zprávy ignoruje, protože
-     * speciální komunikace má být doručena bez ohledu na běžné
-     * SMS preference.
-     *
-     * @param playerSettings nastavení hráče, ze kterého se telefonní číslo čte
-     * @return telefonní číslo připravené k použití nebo null, pokud není dostupné
+     * @param phoneNumber cílové telefonní číslo
+     * @param user uživatel, kterému je zpráva určena
+     * @param player hráč, kterého se zpráva týká; může být null
+     * @param request definice speciální zprávy včetně titulku a textu
      */
+    private void enqueueSpecialSms(String phoneNumber,
+                                   AppUserEntity user,
+                                   PlayerEntity player,
+                                   SpecialNotificationRequestDTO request) {
+        if (!hasText(phoneNumber)) {
+            return;
+        }
+
+        String text = smsMessageBuilder.buildSpecialMessage(
+                request.getTitle(),
+                request.getMessage(),
+                player
+        );
+
+        if (!hasText(text)) {
+            log.debug("SpecialNotificationService.enqueueSpecialSms: prázdný text SMS, nic se neodesílá");
+            return;
+        }
+
+        String messageId = UUID.randomUUID().toString();
+        Long userId = user != null ? user.getId() : null;
+        Long playerId = player != null ? player.getId() : null;
+        boolean demoMode = demoModeService.isDemoMode();
+
+        NotificationDeliveryEntity entity = notificationDeliveryService.createPendingSms(
+                messageId,
+                NotificationType.SPECIAL_MESSAGE,
+                userId,
+                playerId,
+                null,
+                null,
+                phoneNumber,
+                shorten(text, 1000),
+                demoMode
+        );
+
+        log.debug("SpecialNotificationService.enqueueSpecialSms: vytvořen PENDING sms delivery id={} messageId={} phone={}",
+                entity.getId(), messageId, phoneNumber);
+
+        SmsNotificationMessage message = new SmsNotificationMessage(
+                messageId,
+                NotificationType.SPECIAL_MESSAGE,
+                userId,
+                playerId,
+                null,
+                null,
+                phoneNumber,
+                text,
+                demoMode,
+                LocalDateTime.now()
+        );
+
+        applicationEventPublisher.publishEvent(NotificationDeliveryCreatedEvent.forSms(message));
+    }
+
     private String resolvePhoneNumber(PlayerSettingsEntity playerSettings) {
         if (playerSettings == null) {
             return null;
@@ -350,72 +378,6 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
         return null;
     }
 
-    /**
-     * Odesílá SMS se speciální zprávou na zadané telefonní číslo.
-     *
-     * Text zprávy se sestavuje pomocí SmsMessageBuilder tak,
-     * aby odpovídal jednotnému formátu používanému v aplikaci.
-     * V případě prázdného nebo chybějícího textu se zpráva neodesílá.
-     *
-     * V DEMO režimu není SMS fyzicky odeslána. Místo toho je
-     * uložena do DemoNotificationStore a dostupná v rámci
-     * demo funkčností.
-     *
-     * @param phoneNumber cílové telefonní číslo
-     * @param player hráč, kterého se zpráva týká; může být null
-     * @param request definice speciální zprávy včetně titulku a textu
-     */
-    private void sendSpecialSms(String phoneNumber,
-                                PlayerEntity player,
-                                SpecialNotificationRequestDTO request) {
-        if (phoneNumber == null || phoneNumber.isBlank()) {
-            return;
-        }
-
-        String text = smsMessageBuilder.buildSpecialMessage(
-                request.getTitle(),
-                request.getMessage(),
-                player
-        );
-
-        if (text == null || text.isBlank()) {
-            log.debug("SpecialNotificationService.sendSpecialSms: prázdný text SMS, nic se neodesílá");
-            return;
-        }
-
-        // DEMO režim – uložit do demo úložiště
-        if (demoModeService.isDemoMode()) {
-            demoNotificationStore.addSms(
-                    phoneNumber,
-                    text,
-                    NotificationType.SPECIAL_MESSAGE
-            );
-            log.debug("DEMO MODE: speciální SMS uložena do DemoNotificationStore, nic se neodesílá (phone={})", phoneNumber);
-            return;
-        }
-
-        try {
-            smsService.sendSms(phoneNumber, text);
-        } catch (Exception ex) {
-            log.warn("Nepodařilo se odeslat speciální SMS na {}: {}", phoneNumber, ex.getMessage());
-        }
-    }
-
-    /**
-     * Určuje preferovaný e-mail pro odeslání speciální zprávy.
-     *
-     * Pravidla:
-     * pokud hráč nemá vlastní e-mail, použije se e-mail uživatele;
-     * pokud hráčův e-mail existuje a je shodný s e-mailem uživatele
-     * (bez ohledu na velikost písmen), použije se e-mail uživatele;
-     * pokud je hráčův e-mail odlišný, použije se hráčský e-mail.
-     *
-     * Pokud není k dispozici žádný nepustý e-mail, vrací se null.
-     *
-     * @param user uživatel, ke kterému je hráč přiřazen
-     * @param playerSettings nastavení hráče, ze kterého se čte případný hráčský e-mail
-     * @return vybraný e-mail pro speciální notifikaci nebo null, pokud není k dispozici
-     */
     private String resolveEmail(AppUserEntity user, PlayerSettingsEntity playerSettings) {
         String userEmail = (user != null && user.getEmail() != null && !user.getEmail().isBlank())
                 ? user.getEmail()
@@ -427,34 +389,32 @@ public class SpecialNotificationServiceImpl implements SpecialNotificationServic
                 ? playerSettings.getContactEmail()
                 : null;
 
-        // Hráč nemá vlastní email → použije se email uživatele
         if (playerEmail == null) {
             return userEmail;
         }
 
-        // Hráč má email, ale je stejný jako uživatel → použije se email uživatele
         if (userEmail != null && userEmail.equalsIgnoreCase(playerEmail)) {
             return userEmail;
         }
 
-        // Hráč má vlastní odlišný email → použije se hráčský email
         return playerEmail;
     }
 
-    /**
-     * Sestavuje celé jméno uživatele pro zobrazovací účely.
-     *
-     * Jméno je vytvořeno spojením jména a příjmení, případně
-     * je použita pouze jedna z hodnot. Pokud jsou obě hodnoty
-     * prázdné, použije se e-mail uživatele jako zástupná hodnota.
-     *
-     * @param user uživatel, jehož zobrazované jméno se sestavuje
-     * @return celé jméno uživatele nebo jeho e-mail, pokud jméno není k dispozici
-     */
     private String buildUserFullName(AppUserEntity user) {
         String name = user.getName() != null ? user.getName() : "";
         String surname = user.getSurname() != null ? user.getSurname() : "";
         String fullName = (name + " " + surname).trim();
         return fullName.isEmpty() ? user.getEmail() : fullName;
+    }
+
+    private boolean hasText(String text) {
+        return text != null && !text.isBlank();
+    }
+
+    private String shorten(String text, int maxLength) {
+        if (text == null) {
+            return null;
+        }
+        return text.length() <= maxLength ? text : text.substring(0, maxLength);
     }
 }

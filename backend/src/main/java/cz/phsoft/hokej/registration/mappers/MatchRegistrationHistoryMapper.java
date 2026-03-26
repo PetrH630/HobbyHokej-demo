@@ -3,6 +3,7 @@ package cz.phsoft.hokej.registration.mappers;
 import cz.phsoft.hokej.registration.entities.MatchRegistrationHistoryEntity;
 import cz.phsoft.hokej.registration.dto.MatchRegistrationHistoryDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
@@ -13,7 +14,8 @@ import java.util.List;
  * Slouží k oddělení databázové vrstvy od prezentační vrstvy.
  * Mapování je generováno nástrojem MapStruct.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface MatchRegistrationHistoryMapper {
 
     /**

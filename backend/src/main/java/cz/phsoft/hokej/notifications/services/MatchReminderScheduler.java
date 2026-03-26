@@ -47,7 +47,7 @@ public class MatchReminderScheduler {
 
     /**
      * Repository pro práci se zápasy.
-     *
+     * <p>
      * Používá se pro načítání zápasů v definovaném časovém okně,
      * nad nimiž se vyhodnocují připomínky.
      */
@@ -55,7 +55,7 @@ public class MatchReminderScheduler {
 
     /**
      * Repository pro práci s registracemi hráčů na zápasy.
-     *
+     * <p>
      * Používá se pro vyhledání přihlášených hráčů, kterým ještě
      * nebyla odeslána připomínka.
      */
@@ -63,7 +63,7 @@ public class MatchReminderScheduler {
 
     /**
      * Služba pro odesílání notifikací hráčům.
-     *
+     * <p>
      * Zajišťuje vyhodnocení preferencí kanálů (email, SMS) a
      * skutečné doručení notifikace.
      */
@@ -71,7 +71,7 @@ public class MatchReminderScheduler {
 
     /**
      * Hodiny používané pro získání aktuálního času.
-     *
+     * <p>
      * Umožňují přesně definovat čas odeslání připomínek a usnadňují
      * testování pomocí fixního času.
      */
@@ -80,7 +80,7 @@ public class MatchReminderScheduler {
     /**
      * Maximální horizont, ve kterém se hledají zápasy pro připomínky.
      * Hodnota udává počet hodin od aktuálního času směrem do budoucnosti.
-     *
+     * <p>
      * Příklad: 48 znamená, že plánovač zpracuje všechny zápasy v
      * následujících 48 hodinách.
      */
@@ -89,7 +89,7 @@ public class MatchReminderScheduler {
     /**
      * Globální hodnota, kolik hodin před začátkem zápasu
      * se má připomínka posílat.
-     *
+     * <p>
      * Konkrétní kanály a to, zda hráč připomínky chce (notifyReminders),
      * rozhoduje NotificationPreferencesService.
      */
@@ -98,11 +98,11 @@ public class MatchReminderScheduler {
     /**
      * Velikost časového okna (v minutách), ve kterém se připomínka
      * považuje za „aktuální“.
-     *
+     * <p>
      * Příklad: pokud je reminderHoursBefore = 24 a toleranceMinutes = 5,
      * pak se připomínka odešle v intervalu
      * <24 h - 5 min, 24 h> před začátkem zápasu.
-     *
+     * <p>
      * Tato tolerance slouží k tomu, aby plánovač běžící např. každých 5 minut
      * nepřeskočil přesný čas.
      */
@@ -110,18 +110,18 @@ public class MatchReminderScheduler {
 
     /**
      * Vytváří instanci plánovače připomínek zápasů.
-     *
+     * <p>
      * Všechny závislosti jsou injektovány konstruktorovou injekcí.
      * Konfigurační hodnoty pro horizont, čas před zápasem a toleranci
      * se načítají z application properties s uvedenými výchozími hodnotami.
      *
-     * @param matchRepository              repository pro práci se zápasy
-     * @param matchRegistrationRepository  repository pro práci s registracemi na zápasy
-     * @param notificationService          služba pro odesílání notifikací hráčům
-     * @param clock                        hodiny používané pro získání aktuálního času
-     * @param horizonHours                 počet hodin do budoucna, ve kterém se zápasy zpracovávají
-     * @param reminderHoursBefore          počet hodin před začátkem zápasu, kdy se posílá připomínka
-     * @param toleranceMinutes             tolerance v minutách pro vyhodnocení připomínkového okna
+     * @param matchRepository             repository pro práci se zápasy
+     * @param matchRegistrationRepository repository pro práci s registracemi na zápasy
+     * @param notificationService         služba pro odesílání notifikací hráčům
+     * @param clock                       hodiny používané pro získání aktuálního času
+     * @param horizonHours                počet hodin do budoucna, ve kterém se zápasy zpracovávají
+     * @param reminderHoursBefore         počet hodin před začátkem zápasu, kdy se posílá připomínka
+     * @param toleranceMinutes            tolerance v minutách pro vyhodnocení připomínkového okna
      */
     public MatchReminderScheduler(MatchRepository matchRepository,
                                   MatchRegistrationRepository matchRegistrationRepository,
@@ -131,7 +131,7 @@ public class MatchReminderScheduler {
                                   int horizonHours,
                                   @Value("${app.notifications.reminder.hours-before:24}")
                                   int reminderHoursBefore,
-                                  @Value("${app.notifications.reminder.tolerance-minutes:5}")
+                                  @Value("${app.notifications.reminder.tolerance-minutes:15}")
                                   int toleranceMinutes) {
         this.matchRepository = matchRepository;
         this.matchRegistrationRepository = matchRegistrationRepository;
@@ -144,19 +144,19 @@ public class MatchReminderScheduler {
 
     /**
      * Hlavní plánovací metoda.
-     *
+     * <p>
      * Metoda se spouští periodicky podle cron výrazu nebo fixedDelay.
      * Četnost spouštění by měla odpovídat hodnotě toleranceMinutes tak,
      * aby nedocházelo k opakovanému odesílání připomínek.
-     *
+     * <p>
      * V implementaci se:
      * - načtou všechny budoucí zápasy v horizontu horizonHours,
      * - odfiltrují se zrušené zápasy,
      * - pro každý zápas se najdou registrace se statusem REGISTERED,
-     *   u kterých ještě nebyl odeslán reminder,
+     * u kterých ještě nebyl odeslán reminder,
      * - pro každého přihlášeného hráče se vyhodnotí, zda nastal čas připomínky,
-     *   a případně se odešle notifikace MATCH_REMINDER.
-     *
+     * a případně se odešle notifikace MATCH_REMINDER.
+     * <p>
      * Konkrétní to, zda a jak se notifikace doručí (email/SMS),
      * určuje NotificationPreferencesService.
      */
@@ -193,14 +193,14 @@ public class MatchReminderScheduler {
 
     /**
      * Zpracuje jeden konkrétní zápas.
-     *
+     * <p>
      * Provede:
      * - ověření, zda je zápas v reminder okně,
      * - načtení registrací se statusem REGISTERED, u kterých ještě
-     *   nebyl odeslán reminder,
+     * nebyl odeslán reminder,
      * - pro každou registraci odeslání notifikace MATCH_REMINDER
-     *   a nastavení příznaku reminderAlreadySent = true.
-     *
+     * a nastavení příznaku reminderAlreadySent = true.
+     * <p>
      * Nastavení hráče (notifyReminders, kanály) neřeší – rozhoduje
      * o nich NotificationPreferencesService uvnitř NotificationService.
      *
@@ -258,26 +258,22 @@ public class MatchReminderScheduler {
 
     /**
      * Rozhodne, zda má být v daném okamžiku odeslána připomínka pro zápas.
-     *
+     * <p>
      * Připomínka se odešle, pokud:
-     * - rozdíl mezi aktuálním časem a časem zápasu je kladný
-     *   (zápas je v budoucnosti),
-     * - čas do začátku zápasu je menší nebo rovný reminderHoursBefore,
-     * - zároveň je větší než reminderHoursBefore mínus toleranceMinutes.
-     *
-     * Tím se vytvoří úzké okno, ve kterém je připomínka aktivní. Pokud
-     * plánovač běží např. každých 5 minut a toleranceMinutes = 5,
-     * připomínka se odešle maximálně jednou.
+     * - zápas je stále v budoucnosti,
+     * - čas do začátku zápasu je menší nebo rovný reminderHoursBefore.
+     * <p>
+     * Tím se vytvoří interval od okamžiku dosažení hranice reminderHoursBefore
+     * až do začátku zápasu. Opakovanému odeslání se brání příznakem
+     * reminderAlreadySent na registraci.
      *
      * @param now           aktuální čas
      * @param matchDateTime datum a čas zápasu
      * @return true, pokud má být připomínka odeslána
      */
-    private boolean shouldSendReminder(LocalDateTime now,
-                                       LocalDateTime matchDateTime) {
+    private boolean shouldSendReminder(LocalDateTime now, LocalDateTime matchDateTime) {
 
-        if (matchDateTime.isBefore(now)) {
-            // Zápas je v minulosti – nemá smysl odesílat.
+        if (!matchDateTime.isAfter(now)) {
             return false;
         }
 
@@ -285,25 +281,17 @@ public class MatchReminderScheduler {
         long diffMinutes = diff.toMinutes();
         long reminderMinutes = reminderHoursBefore * 60L;
 
-        long lowerBound = reminderMinutes - toleranceMinutes;
-        long upperBound = reminderMinutes;
-
-        // ochrana proti záporným dolním mezím
-        if (lowerBound < 0) {
-            lowerBound = 0;
-        }
-
-        boolean inWindow = diffMinutes <= upperBound && diffMinutes > lowerBound;
+        boolean inWindow = diffMinutes <= reminderMinutes;
 
         if (inWindow) {
             log.debug(
-                    "MatchReminderScheduler: zápas za {} minut, okno ({}, {}] minut – připomínka ANO",
-                    diffMinutes, lowerBound, upperBound
+                    "MatchReminderScheduler: zápas za {} minut, hranice reminderu je {} minut – připomínka ANO",
+                    diffMinutes, reminderMinutes
             );
         } else {
             log.trace(
-                    "MatchReminderScheduler: zápas za {} minut, mimo okno ({}, {}] minut – připomínka NE",
-                    diffMinutes, lowerBound, upperBound
+                    "MatchReminderScheduler: zápas za {} minut, hranice reminderu je {} minut – připomínka NE",
+                    diffMinutes, reminderMinutes
             );
         }
 

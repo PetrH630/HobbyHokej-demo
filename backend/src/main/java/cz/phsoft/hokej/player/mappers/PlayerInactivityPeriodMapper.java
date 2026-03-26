@@ -16,7 +16,8 @@ import org.mapstruct.*;
  * aktualizaci a načítání období neaktivity hráče.
  * Vazba na hráče je předávána prostřednictvím kontextového parametru.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PlayerInactivityPeriodMapper {
 
     /**

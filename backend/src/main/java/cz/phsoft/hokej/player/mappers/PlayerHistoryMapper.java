@@ -3,6 +3,7 @@ package cz.phsoft.hokej.player.mappers;
 import cz.phsoft.hokej.player.entities.PlayerHistoryEntity;
 import cz.phsoft.hokej.player.dto.PlayerHistoryDTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
 
@@ -18,7 +19,8 @@ import java.util.List;
  * historických záznamů hráče z databáze a jejich převodu
  * na DTO objekty vracené controllerem.
  */
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        unmappedTargetPolicy = ReportingPolicy.ERROR)
 public interface PlayerHistoryMapper {
 
     /**
