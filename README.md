@@ -182,6 +182,7 @@ Backend také automaticky řeší:
 -   Flyway
 -   MapStruct
 -   Maven
+-   RabbitMQ
 
 ## Frontend
 
@@ -276,8 +277,8 @@ Principy:
 Podporované kanály:
 
 -   In-App notifikace
--   Email
--   SMS
+-   Email (RabbitMQ)
+-   SMS (RabbitMQ)
 
 Notifikace se odesílají například při:
 

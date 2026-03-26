@@ -15,7 +15,7 @@ Aplikace zajišťuje:
 
 Aplikace je navržena jako modulární webový systém s oddělením doménové logiky, servisní vrstvy a REST API.
 
-Tento README popisuje **backendovou část projektu** (Spring Boot + Maven).  
+Tento README popisuje **backendovou část projektu** (Spring Boot + Maven + RabbitMQ (email a sms notifikace)).  
 Frontend aplikace (React + Vite) je umístěn v samostatné složce projektu.
 
 ---
@@ -88,7 +88,7 @@ Backend poskytuje REST API pro:
 ## Notifikace
 
 - e-mail (aktivace účtu, reset hesla, změny zápasu, registrace)
-- SMS (registrace, připomínky, změny zápasu)
+- SMS (registrace, připomínky, změny zápasu - RabbitMQ)
 - interní aplikační notifikace (badge)
 - globální i individuální úroveň notifikací
 
@@ -200,6 +200,7 @@ Podrobnosti viz:
 - SMS integrace (TextBee)
 - Spring Scheduler
 - InAppNotifikace
+- Email a SMS - RabbitMQ
 
 ---
 
