@@ -7,9 +7,10 @@ Boot](https://img.shields.io/badge/SpringBoot-3.x-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 ![Status](https://img.shields.io/badge/status-active-success)
 
-Webová aplikace pro správu hobby hokejových zápasů, registrací hráčů,
-sezón, statistik a notifikační komunikace mezi organizátory a hráči.
+Webová aplikace pro organizaci hobby hokejových zápasů.
+Hráči se registrují na zápasy, vybírají si pozice a systém spravuje kapacitu, náhradníky a notifikace.
 
+🚀 Tech Stack
 Projekt je implementován jako **full‑stack webová aplikace** postavená
 na technologickém stacku:
 
@@ -21,9 +22,8 @@ registrací, evidenci výsledků a výpočet statistik.
 Projekt slouží jako **ukázka návrhu plnohodnotné vícevrstvé webové
 aplikace**.
 
-# Demo
-Live demo aplikace je dostupné zde:
-https://hobbyhokej.phsoft.cz
+🌐 Live Demo
+👉 https://hokej.phsoft.cz
 
 Testovací účty:
 
@@ -329,6 +329,11 @@ Frontend běží typicky na:
 ------------------------------------------------------------------------
 
 # Link na demo aplikaci
+Aplikace běží na VPS serveru pomocí:
+
+Docker + Docker Compose
+Nginx (reverse proxy)
+HTTPS (Let's Encrypt)
 
 http://hokej.phsoft.cz
 
@@ -373,14 +378,30 @@ Databázový model:
 -   export statistik
 -   rozšíření týmu a soutěží (případně i sportu)
 -   integrace plateb za zápasy
--   plánování sezón
 -   integrace externích sportovních API
 
 ------------------------------------------------------------------------
+🧠 What I learned
 
-# Autor
+Při vývoji tohoto projektu jsem získal zkušenosti s:
 
-**Petr Hlista**
+návrhem REST API v Spring Boot
+návrhem databázového modelu a práci s JPA/Hibernate
+implementací autentizace a autorizace (Spring Security)
+řešením asynchronní komunikace pomocí RabbitMQ
+plánováním úloh (scheduler) a práci s časem
+návrhem notifikačního systému (email / SMS / in-app)
+nasazením aplikace pomocí Docker a Docker Compose
+konfigurací Nginx jako reverse proxy
+řešením problémů s časovými zónami v backendu
+
+Tento projekt mi pomohl pochopit, jak funguje reálná backendová aplikace od návrhu až po nasazení.
+
+------------------------------------------------------------------------
+
+👨‍💻 Autor
+
+Petr Hlista – Junior Java Backend Developer
 
 ------------------------------------------------------------------------
 
