@@ -378,7 +378,6 @@ Databázový model:
 -   export statistik
 -   rozšíření týmu a soutěží (případně i sportu)
 -   integrace plateb za zápasy
--   plánování sezón
 -   integrace externích sportovních API
 
 ------------------------------------------------------------------------
