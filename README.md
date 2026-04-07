@@ -381,6 +381,23 @@ Databázový model:
 -   integrace externích sportovních API
 
 ------------------------------------------------------------------------
+🧠 What I learned
+
+Při vývoji tohoto projektu jsem získal zkušenosti s:
+
+návrhem REST API v Spring Boot
+návrhem databázového modelu a práci s JPA/Hibernate
+implementací autentizace a autorizace (Spring Security)
+řešením asynchronní komunikace pomocí RabbitMQ
+plánováním úloh (scheduler) a práci s časem
+návrhem notifikačního systému (email / SMS / in-app)
+nasazením aplikace pomocí Docker a Docker Compose
+konfigurací Nginx jako reverse proxy
+řešením problémů s časovými zónami v backendu
+
+Tento projekt mi pomohl pochopit, jak funguje reálná backendová aplikace od návrhu až po nasazení.
+
+------------------------------------------------------------------------
 
 👨‍💻 Autor
 
