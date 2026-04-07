@@ -183,6 +183,7 @@ Backend také automaticky řeší:
 -   MapStruct
 -   Maven
 -   RabbitMQ
+-   Docker
 
 ## Frontend
 
@@ -208,6 +209,7 @@ Backend také automaticky řeší:
     │
     ├── backend
     │   ├── src/main/java/cz/phsoft/hokej
+    │   ├── src/test/java/cz/phsoft/hokej
     │   ├── src/main/resources
     │   ├── docs
     │   │   └── Javadoc
