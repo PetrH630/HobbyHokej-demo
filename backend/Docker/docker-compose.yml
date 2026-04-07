@@ -1,40 +1,107 @@
 services:
   mariadb:
     image: mariadb:10.6.25
-    container_name: hobbyhokej-mariadb
-    restart: always
-    environment:
-      MARIADB_DATABASE: ${DB_NAME}
-      MARIADB_USER: ${DB_USER}
-      MARIADB_PASSWORD: ${DB_PASSWORD}
-      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-    volumes:
-      - mariadb_data:/var/lib/mysql
-    networks:
-      - hobby
-    healthcheck:
-      test: ["CMD-SHELL", "mariadb-admin ping -h 127.0.0.1 -u$$MARIADB_USER -p$$MARIADB_PASSWORD --silent"]
-      interval: 10s
-      timeout: 5s
-      retries: 12
-
-  backend:
-    build:
-      context: ./backend
-    container_name: hobbyhokej-backend
-    restart: always
+    container_name: shared-mariadb
+    restart: unless-stopped
     env_file:
       - .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      TZ: Europe/Prague
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --innodb-buffer-pool-size=128M
+    ports:
+      - "127.0.0.1:3306:3306"
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - apps_net
+
+  rabbitmq:
+    image: rabbitmq:4-management
+    container_name: shared-rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      TZ: Europe/Prague
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - apps_net
+
+  hobbyhokej-backend:
+    build:
+      context: /opt/hobbyhokej/backend
+      dockerfile: Dockerfile
+    container_name: hobbyhokej-backend
+    restart: unless-stopped
+    env_file:
+      - /opt/hobbyhokej/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: ${HOBBYHOKEJ_SPRING_PROFILE}
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/${HOBBYHOKEJ_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${HOBBYHOKEJ_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${HOBBYHOKEJ_DB_PASSWORD}
+      TZ: Europe/Prague
+      JAVA_TOOL_OPTIONS: -Duser.timezone=Europe/Prague
+      JAVA_OPTS: ${HOBBYHOKEJ_JAVA_OPTS}
     depends_on:
       mariadb:
+        condition: service_healthy
+      rabbitmq:
         condition: service_healthy
     ports:
       - "8080:8080"
     networks:
-      - hobby
+      - apps_net
+
+  advisor-backend:
+    build:
+      context: /opt/advisor/backend
+      dockerfile: Dockerfile
+    container_name: advisor-backend
+    restart: unless-stopped
+    env_file:
+      - /opt/advisor/.env
+    environment:
+      SPRING_PROFILES_ACTIVE: ${ADVISOR_SPRING_PROFILE}
+      SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/${ADVISOR_DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${ADVISOR_DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${ADVISOR_DB_PASSWORD}
+      TZ: Europe/Prague
+      JAVA_TOOL_OPTIONS: -Duser.timezone=Europe/Prague
+      JAVA_OPTS: ${ADVISOR_JAVA_OPTS}
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    ports:
+      - "8081:8080"
+    networks:
+      - apps_net
 
 volumes:
   mariadb_data:
+  rabbitmq_data:
 
 networks:
-  hobby:
+  apps_net:
+    driver: bridge
+root@localhost:/opt/infra#
