@@ -7,9 +7,10 @@ Boot](https://img.shields.io/badge/SpringBoot-3.x-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey)
 ![Status](https://img.shields.io/badge/status-active-success)
 
-Webová aplikace pro správu hobby hokejových zápasů, registrací hráčů,
-sezón, statistik a notifikační komunikace mezi organizátory a hráči.
+Webová aplikace pro organizaci hobby hokejových zápasů.
+Hráči se registrují na zápasy, vybírají si pozice a systém spravuje kapacitu, náhradníky a notifikace.
 
+🚀 Tech Stack
 Projekt je implementován jako **full‑stack webová aplikace** postavená
 na technologickém stacku:
 
@@ -21,9 +22,8 @@ registrací, evidenci výsledků a výpočet statistik.
 Projekt slouží jako **ukázka návrhu plnohodnotné vícevrstvé webové
 aplikace**.
 
-# Demo
-Live demo aplikace je dostupné zde:
-https://hobbyhokej.phsoft.cz
+🌐 Live Demo
+👉 https://hokej.phsoft.cz
 
 Testovací účty:
 
@@ -329,6 +329,11 @@ Frontend běží typicky na:
 ------------------------------------------------------------------------
 
 # Link na demo aplikaci
+Aplikace běží na VPS serveru pomocí:
+
+Docker + Docker Compose
+Nginx (reverse proxy)
+HTTPS (Let's Encrypt)
 
 http://hokej.phsoft.cz
 
@@ -378,9 +383,9 @@ Databázový model:
 
 ------------------------------------------------------------------------
 
-# Autor
+👨‍💻 Autor
 
-**Petr Hlista**
+Petr Hlista – Junior Java Backend Developer
 
 ------------------------------------------------------------------------
 
