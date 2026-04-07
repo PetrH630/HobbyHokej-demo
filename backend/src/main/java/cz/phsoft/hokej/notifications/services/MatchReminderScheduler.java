@@ -258,11 +258,11 @@ public class MatchReminderScheduler {
 
     /**
      * Rozhodne, zda má být v daném okamžiku odeslána připomínka pro zápas.
-     * <p>
+     *
      * Připomínka se odešle, pokud:
      * - zápas je stále v budoucnosti,
      * - čas do začátku zápasu je menší nebo rovný reminderHoursBefore.
-     * <p>
+     *
      * Tím se vytvoří interval od okamžiku dosažení hranice reminderHoursBefore
      * až do začátku zápasu. Opakovanému odeslání se brání příznakem
      * reminderAlreadySent na registraci.

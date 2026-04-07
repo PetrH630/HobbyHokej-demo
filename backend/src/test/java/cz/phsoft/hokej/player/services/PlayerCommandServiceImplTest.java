@@ -53,6 +53,7 @@ class PlayerCommandServiceImplTest {
     @InjectMocks
     private PlayerCommandServiceImpl playerCommandService;
 
+    // test vytvoření hráče
     @Test
     void createPlayer_shouldCreateAndReturnPlayer() {
         PlayerDTO inputDto = new PlayerDTO();
@@ -126,11 +127,12 @@ class PlayerCommandServiceImplTest {
         verify(playerMapper).toDTO(savedEntity);
     }
 
+    // test vytvoření duplicitního hráče
     @Test
     void createPlayer_shouldThrowDuplicateNameSurnameException_whenPlayerAlreadyExists() {
         PlayerDTO inputDto = new PlayerDTO();
         inputDto.setName("Jan");
-        inputDto.setSurname("NOVAK");
+        inputDto.setSurname("Novak");
 
         PlayerEntity existingPlayer = new PlayerEntity();
         existingPlayer.setId(99L);
@@ -151,6 +153,7 @@ class PlayerCommandServiceImplTest {
         verify(playerMapper, never()).toDTO(any(PlayerEntity.class));
     }
 
+    // vytvoření hráče uživateli
     @Test
     void createPlayerForUser_shouldCreatePlayerAssignUserAndReturnPlayer() {
         PlayerDTO inputDto = new PlayerDTO();
@@ -236,6 +239,7 @@ class PlayerCommandServiceImplTest {
         verify(playerMapper).toDTO(savedEntity);
     }
 
+    // update hráče
     @Test
     void updatePlayer_shouldUpdateExistingPlayerAndReturnUpdatedPlayer() {
         Long playerId = 1L;
