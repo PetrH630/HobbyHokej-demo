@@ -49,7 +49,7 @@ import java.time.Instant;
 public class AppUserServiceImpl implements AppUserService {
 
     @Value("${app.frontend-base-url}")
-    private String frontendBasUrl;
+    private String frontendBaseUrl;
     @Value("${app.demo-mode:false}")
     private boolean isDemoMode;
 
@@ -566,7 +566,7 @@ public class AppUserServiceImpl implements AppUserService {
      * @return URL aktivačního odkazu
      */
     private String buildActivationLink(EmailVerificationTokenEntity token) {
-        return frontendBasUrl + "/verify?token=" + token.getToken();
+        return frontendBaseUrl + "/verify?token=" + token.getToken();
     }
 
     /**

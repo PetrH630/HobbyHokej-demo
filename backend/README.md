@@ -241,7 +241,11 @@ backend/
 │   │   └── resources/
 │   │       ├── application.properties
 │   │       └── db/migration
-│   └── test/
+│   └── test/cz/phsoft/hokej/
+│           ├── match
+│           ├── player
+│           ├── registration
+│           └── user
 ├── docs/
 │   ├── ARCHITECTURE.md
 │   ├── API.md

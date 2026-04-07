@@ -1,18 +1,20 @@
 package cz.phsoft.hokej.system.controllers;
 
-import cz.phsoft.hokej.user.dto.AppUserDTO;
 import cz.phsoft.hokej.notifications.dto.EmailDTO;
+import cz.phsoft.hokej.user.dto.AppUserDTO;
 import cz.phsoft.hokej.user.dto.ForgottenPasswordResetDTO;
 import cz.phsoft.hokej.user.dto.RegisterUserDTO;
 import cz.phsoft.hokej.user.services.AppUserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 /**
@@ -93,13 +95,18 @@ public class AuthController {
     public ResponseEntity<String> verifyEmail(@RequestParam String token) {
         boolean activated = appUserService.activateUser(token);
 
+        MediaType utf8Text = new MediaType("text", "plain", StandardCharsets.UTF_8);
+
         if (!activated) {
             return ResponseEntity
                     .badRequest()
+                    .contentType(utf8Text)
                     .body("Neplatný nebo expirovaný aktivační odkaz.");
         }
 
-        return ResponseEntity.ok("Účet byl úspěšně aktivován.");
+        return ResponseEntity.ok()
+                .contentType(utf8Text)
+                .body("Účet byl úspěšně aktivován.");
     }
 
     /**
