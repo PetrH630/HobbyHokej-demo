@@ -1,6 +1,6 @@
 # Hobby Hokej – Backend
 
-Backendová aplikace v **Java 17 + Spring Boot 3** pro správu hobby hokejových zápasů.
+Backendová aplikace v **Java 17 + Spring Boot 3**, kontejnerizovaná pomocí **Dockeru a Docker Compose**, pro správu hobby hokejových zápasů.
 
 Aplikace poskytuje REST API pro organizaci zápasů mezi dvěma týmy, kdy se hráči samostatně 
 registrují na konkrétní termín a vybírají si dostupnou herní pozici v jednom ze dvou týmů.
@@ -17,6 +17,7 @@ Aplikace je navržena jako modulární webový systém s oddělením doménové 
 
 Tento README popisuje **backendovou část projektu** (Spring Boot + Maven + RabbitMQ (email a sms notifikace)).  
 Frontend aplikace (React + Vite) je umístěn v samostatné složce projektu.
+
 
 ---
 
@@ -175,6 +176,8 @@ Podrobnosti viz:
 - Java 17
 - Spring Boot 3.x
 - Maven
+- Docker
+- Docker Compose
 
 ## Persistence
 
